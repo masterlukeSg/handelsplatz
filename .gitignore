@@ -1,0 +1,6 @@
+*.log
+*.vscode/
+*.DS_Store
+*build/
+CMakeLists.txt
+extra/__pycache__
