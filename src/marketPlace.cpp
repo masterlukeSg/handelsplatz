@@ -6,12 +6,14 @@
 using namespace std;
 namespace handel
 {
-    handelsplatz::handelsplatz(){
+    handelsplatz::market(){
 
         
 
     }
-    bool handelsplatz::neuerNutzer(string newName, string newPassword){
+
+    
+    bool handelsplatz::newUser(string newName, string newPassword){
         for (string [name, password] : localUser)
             if (name == newName)
                 return false;

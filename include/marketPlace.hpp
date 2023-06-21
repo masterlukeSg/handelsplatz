@@ -2,9 +2,9 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-namespace handel{
+namespace market{
 
-    class handelsplatz
+    class marketPlace
     {
     private:
         std::map<string, string> localUser;
@@ -12,18 +12,18 @@ namespace handel{
         //TODO: Wenn Aichas klasse fertig ist, wird das ausgeklammert
         //std:std::vector<Nutzer> nutzersKlasse;
 
-        // TODO: void preisAnpassung(); in Struct reintun
-        
+        // TODO: void preisAnpassung(); in Struct reintun, da wo die Objekte
+
 
     public:
-        handelsplatz();
-        bool kaufen();
-        bool verkaufen();
+        marketPlace();
+        bool buy();
+        bool sell();
         bool login(string name, string password);
-        bool neuerNutzer(string name, int password);
-        int handelswerteAbrufen();
+        bool newUser(string name, int password);
 
-        int aktuellerHandelswert();
+
+        int getPrice();
 
     };
     
