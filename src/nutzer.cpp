@@ -4,17 +4,17 @@
 #include "../include/nutzer.hpp"
 
 using namespace std;
-namespace market{
+using namespace market;
 
-    int nutzer::getKontonummer() const{
-        return kontonummer;
+    int nutzer::getKontostand(){
+        return kontostand;
     }
 
-    std::string nutzer::getBenutzername() const{
-        return benutzername:
+    std::string nutzer::getBenutzername(){
+        return benutzername;
     }
 
-    std::string nutzer::getPasswort() cosnt{
+    std::string nutzer::getPasswort(){
         return passwort;
     }
  
@@ -22,4 +22,4 @@ namespace market{
 
 
 
-}
+

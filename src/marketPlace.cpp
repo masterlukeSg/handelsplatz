@@ -2,43 +2,43 @@
 #include <string>
 #include <map>
 #include "../include/marketPlace.hpp"
+#include "../include/nutzer.hpp"
 
 using namespace std;
-namespace market
-{
-    handelsplatz::marketPlace(){
+using namespace market;
 
-        
+    MarketPlace::MarketPlace(){
 
     }
 
-
-    bool handelsplatz::newUser(string newName, string newPassword){
-        for (string [name, password] : localUser)
+     bool MarketPlace::newUser(string newName, string newPassword){
+        for (const auto& [name, password] : localUser)
             if (name == newName)
                 return false;
 
         localUser[newName] = newPassword;
 
-        // TODO: Wenn aichas Klasse fertig ist, auskommentieren
-        //handel::Nutzer newUser = handel::Nutzer(newName, newPassword);
-        //nutzersKlasse.push_back(newUser);
+        
+        nutzer newUser = nutzer(newName, newPassword);
+        nutzersClasse.push_back(newUser);
         return true;
     }
 
-    bool handelsplatz::login(string userName, string userPassword){
-       for (string [name, password] : localUser)
+
+
+   
+
+    nutzer MarketPlace::login(string userName, string userPassword){
+        bool found = false;
+        for (const auto& [name, password] : localUser)
             if (name == userName && password == userPassword)
                 // Wenn Aicha: Nutzer anstatt bool zurückgeben
-                return true;
-
-        return false;
+                found = true;
+        if(found)
+            for (nutzer n : nutzersClasse)
+                if (n.getBenutzername() == userName)
+                    return n;
+        
+        nutzer nullUSER = nutzer("NULL", "NUll");
+        return nullUSER;
     }
-
-
-
-    bool handelsplatz::kaufen()
-    {
-    }
-
-};

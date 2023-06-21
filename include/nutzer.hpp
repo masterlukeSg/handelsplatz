@@ -4,29 +4,26 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
-namespace market{
-class Nutzer{
+namespace market
+{
+  class nutzer
+  {
 
-private:
-  int kontonummer;
-  vector<string> guetervorrat;
-  std::string benutzername;
-  std::string passwort;
+  private:
+    int kontostand;
+    vector<string> guetervorrat;
+    std::string benutzername;
+    std::string passwort;
 
-public:
-  Nutzer(int kontonummer_, std::string benutzername_, std::string passwort_)
-  : kontonummer(kontonummer_), benutzername(benutzername_), passwort(passwort_)
-  {}
-    
-  int getKontonummer();
-  vector<string> getGuetervorrat();
-  std::string getBenutzername();
-  std::string getPasswort();
+  public:
+    nutzer(std::string benutzername_, std::string passwort_)
+        : kontostand(0), benutzername(benutzername_), passwort(passwort_){};
 
+    int getKontostand();
+    vector<string> getGuetervorrat();
+    std::string getBenutzername();
+    std::string getPasswort();
+  };
 
-
-
-}
 }

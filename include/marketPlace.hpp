@@ -1,32 +1,33 @@
+#pragma once
+
 #include <string>
 #include <iostream>
+#include <map>
 #include <vector>
-using namespace std;
-namespace market{
+#include "nutzer.hpp"
 
-    class marketPlace
+// cmake -S . -B build && cmake --build build && --install build
+using namespace std;
+namespace market
+{
+
+    class MarketPlace
     {
     private:
-        std::map<string, string> localUser;
-        
-        //TODO: Wenn Aichas klasse fertig ist, wird das ausgeklammert
-        //std:std::vector<Nutzer> nutzersKlasse;
+        map<string, string> localUser;
+
+        vector<nutzer> nutzersClasse;
 
         // TODO: void preisAnpassung(); in Struct reintun, da wo die Objekte
 
-
     public:
-        marketPlace();
+        MarketPlace();
         bool buy();
         bool sell();
-        bool login(string name, string password);
-        bool newUser(string name, int password);
-
+        nutzer login(string name, string password);
+        bool newUser(string name, string password);
 
         int getPrice();
-
     };
-    
-  
 
 }
