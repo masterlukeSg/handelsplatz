@@ -1,18 +1,18 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "../include/handelsplatz.hpp"
+#include "../include/marketPlace.hpp"
 
 using namespace std;
-namespace handel
+namespace market
 {
-    handelsplatz::market(){
+    handelsplatz::marketPlace(){
 
         
 
     }
 
-    
+
     bool handelsplatz::newUser(string newName, string newPassword){
         for (string [name, password] : localUser)
             if (name == newName)
