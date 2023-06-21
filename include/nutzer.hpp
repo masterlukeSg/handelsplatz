@@ -6,7 +6,7 @@
 
 
 using namespace std;
-namespace handelsPlatz{
+namespace market{
 class Nutzer{
 
 private:
