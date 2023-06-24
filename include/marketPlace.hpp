@@ -14,12 +14,18 @@ namespace market
     class MarketPlace
     {
     private:
-        map<string, string> localUser;
+        // zweiter string = strucct, wo password und nutzerClass Objekt
+        struct passwordAndUser
+        {
+            string password;
+            nutzer user;
+        };
+        passwordAndUser pwu;
 
-        vector<nutzer> nutzersClasse;
+        map<string, struct passwordAndUser> localUser;
+        // vector<nutzer> nutzersClasse;
 
-        // TODO: void preisAnpassung(); in Struct reintun, da wo die Objekte
-
+        // TODO: void preisAnpassung();
     public:
         MarketPlace();
         bool buy();
