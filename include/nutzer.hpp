@@ -1,7 +1,6 @@
 #pragma once
-
-#include <iostream>
 #include <string>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -12,7 +11,7 @@ namespace market
 
   private:
     int kontostand;
-    vector<string> guetervorrat;
+    vector<string,int> guetervorrat;
     std::string benutzername;
     std::string passwort;
 
@@ -21,7 +20,7 @@ namespace market
         : kontostand(0), benutzername(benutzername_), passwort(passwort_){};
 
     int getKontostand();
-    vector<string> getGuetervorrat();
+    vector<string,int> getGuetervorrat();
     std::string getBenutzername();
     std::string getPasswort();
   };
