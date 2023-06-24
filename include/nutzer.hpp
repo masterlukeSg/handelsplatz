@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <map>
 
 using namespace std;
 namespace market
@@ -11,16 +12,15 @@ namespace market
 
   private:
     int kontostand;
-    vector<string,int> guetervorrat;
+    //map<string, int> guetervorrat;
     std::string benutzername;
     std::string passwort;
 
   public:
-    nutzer(std::string benutzername_, std::string passwort_)
-        : kontostand(0), benutzername(benutzername_), passwort(passwort_){};
-
+    nutzer(std::string benutzername_, std::string passwort_);
+        
     int getKontostand();
-    vector<string,int> getGuetervorrat();
+    //map<string, int> getGuetervorrat();
     std::string getBenutzername();
     std::string getPasswort();
   };

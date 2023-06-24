@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include "nutzer.hpp"
+#include "handelsgueter.hpp"
 
 // cmake -S . -B build && cmake --build build && --install build
 using namespace std;
@@ -14,16 +15,18 @@ namespace market
     class MarketPlace
     {
     private:
-        // zweiter string = strucct, wo password und nutzerClass Objekt
+        
         struct passwordAndUser
         {
             string password;
-            nutzer user;
+            nutzer user = nutzer("NULL", "NULL");
         };
-        passwordAndUser pwu;
+        struct passwordAndUser pwu;
+        
 
-        map<string, struct passwordAndUser> localUser;
-        // vector<nutzer> nutzersClasse;
+        vector<Handelsgueter> handelsObjekt;
+        map<string, passwordAndUser> usersInformation;
+     
 
         // TODO: void preisAnpassung();
     public:
@@ -34,6 +37,8 @@ namespace market
         bool newUser(string name, string password);
 
         int getPrice();
+
+        
     };
 
 }
