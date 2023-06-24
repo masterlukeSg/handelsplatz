@@ -37,7 +37,6 @@ bool MarketPlace::newUser(string newName, string newPassword)
 
 nutzer MarketPlace::login(string userName, string userPassword)
 {
-    bool found = false;
     for (const auto &[name, passwordAndUser] : usersInformation)
         if (name == userName && passwordAndUser.password == userPassword)
             return passwordAndUser.user;

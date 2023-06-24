@@ -24,4 +24,6 @@ std::string nutzer::getPasswort()
     return passwort;
 }
 
+
+
 // getGuetervorrat fkt noch machen
