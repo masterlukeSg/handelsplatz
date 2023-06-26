@@ -30,8 +30,9 @@ namespace market
         {
             int preis = 0;
             Handelsgueter handelsgut = Handelsgueter("NULL", 1);
+
         };
-        struct handelsgutUngdPreis hUp;
+        struct handelsgutUndPreis hUp;
 
         /**
          * @brief String als name (Key), struct preis und vector
