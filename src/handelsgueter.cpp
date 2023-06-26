@@ -6,7 +6,7 @@ using namespace std;
 using namespace market;
 Handelsgueter::Handelsgueter(std::string name_, int anzahl_) : name(name_), anzahl(anzahl_){};
 
-std::string Handelsgueter::getName()
+std::string Handelsgueter::getName() const
 {
     return name;
 }

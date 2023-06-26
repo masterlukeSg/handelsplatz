@@ -24,8 +24,8 @@ MarketPlace::MarketPlace()
 
     for (int i = 0; i < nameDerverkaufendeProdukte.size(); i++)
     {
-        Handelsgueter neu = Handelsgueter(nameDerverkaufendeProdukte[i], wertDerverkaufendeProdukte[i]);
-        handelsObjekt.push_back(neu);
+        Handelsgueter neu = Handelsgueter(nameDerverkaufendeProdukte[i], 1);
+        angebotVomStaat[neu] = wertDerverkaufendeProdukte[i];
     }
 }
 
@@ -112,4 +112,36 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     this->removeHandeslguterVorrat(handelsgut, anzahl);
 
     return true;
+}
+
+vector<string> MarketPlace::getAllStaatOffers()
+{
+    vector<string> returnVecotr;
+    for (const auto &[objekt, preis] : angebotVomStaat)
+    {
+        returnVecotr.push_back(objekt.getName());
+        returnVecotr.push_back(to_string(preis));
+        returnVecotr.push_back("unendlich");
+    }
+
+    return returnVecotr;
+}
+
+vector<string> MarketPlace::getAllNutzerOffers()
+{
+
+    vector<string> returnVecotr;
+    for (const auto &[nutzer, alleInfos] : angeboteVonNutzern)
+    {
+        returnVecotr.push_back("NEWUSER");
+        returnVecotr.push_back(nutzer.getBenutzername());
+        for (int i = 0; i < alleInfos.angebote.size(); i++)
+        {
+            returnVecotr.push_back(alleInfos.angebote[i].getName());
+            returnVecotr.push_back(to_string(alleInfos.preis[i]));
+            returnVecotr.push_back(to_string(alleInfos.anzahl[i]));
+        }
+    }
+
+    return returnVecotr;
 }

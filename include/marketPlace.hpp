@@ -5,6 +5,7 @@
 #include <variant>
 #include <map>
 #include <vector>
+#include <vector>
 #include "nutzer.hpp"
 #include "handelsgueter.hpp"
 
@@ -23,7 +24,10 @@ namespace market
         };
         struct passwordAndUser pwu;
 
-        vector<Handelsgueter> handelsObjekt;
+        /**
+         * @brief Handelsgüter als Key, int ist der Preis
+         */
+        map<Handelsgueter, int> angebotVomStaat;
         map<string, passwordAndUser> usersInformation;
 
         struct alleInfos
@@ -92,16 +96,26 @@ namespace market
 
         // Lukas
         /**
-         * @brief Get the All Offers object von Nutzern und vom Staat
-         *
+         * @brief gibt alle Staatsangebote wieder
+         * @return vector: Staatsangebote
          */
-        void getAllOffers();
-
+        vector<string> getAllStaatOffers();
+        
+        /**
+         * @brief gibt alle Nutzerangebote wieder
+         * @return vector: Nutzerangebote
+         */
+        vector<string> getAllNutzerOffers();
         // Lukas
         int getPriceOfMarketPlace(Handelsgueter h);
 
         // Imene
         int getPriceOfUser(string Handelsgut, nutzer verkaufer);
+        
+        // Imene
+        // angebotVomStaat müssen die Werte angepasst werden, durch Formel
+        void preisanpassung();
+
 
         nutzer login(string name, string password);
 

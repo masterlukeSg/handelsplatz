@@ -17,7 +17,7 @@ namespace market
     Handelsgueter(std::string name_, int anzahl_);
 
     int getAnzahl();
-    std::string getName();
+    std::string getName() const;
     //int getHandelswert();
     void setAnzahl(int);
   };
