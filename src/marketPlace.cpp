@@ -6,10 +6,6 @@
 #include "../include/nutzer.hpp"
 #include "../include/handelsgueter.hpp"
 
-#include <map>
-
-#include <ctime>
-#include <cctype>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -23,10 +19,13 @@ MarketPlace::MarketPlace()
     vector<string> nameDerverkaufendeProdukte = {"Koelsch", "Helles", "Kamera", "Aktien", "Film", "Spiele", "Buecher", "Maus", "ColorTheme", "Wolle"};
     vector<int> wertDerverkaufendeProdukte = {3, 2, 30, 75, 13, 28, 16, 35, 5, 2};
 
-    for (int i = 0; i < nameDerverkaufendeProdukte.size(); i++)
+    for (int i = 0; i < 10; i++)
     {
         Handelsgueter neu = Handelsgueter(nameDerverkaufendeProdukte[i], 1);
-        angebotVomStaat[neu] = wertDerverkaufendeProdukte[i];
+        hUp.handelsgut = neu;
+        hUp.preis = wertDerverkaufendeProdukte[i];
+
+        angebotVomStaat[neu.getName()] = hUp;
     }
 }
 
@@ -118,17 +117,17 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
 bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
 {
     // durch Iterration durch die Angebote vom Staat
-    for (const auto &[objekt, preis] : angebotVomStaat)
+    for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
     {
         // wenn das zuverkaufenden Handelsgut vorhanden ist
-        if (objekt.getName() == handelsgut)
+        if (name == handelsgut)
         {
             // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
             if (this->handelsgutAnzahl(handelsgut) < anzahl)
                 return false;
 
             // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
-            int erloes = anzahl * preis;
+            int erloes = anzahl * handelsgutUndPreis.preis;
             int kontostand = this->getKontostand();
             this->setKontostand(kontostand + erloes);
 
@@ -143,10 +142,10 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
 vector<string> MarketPlace::getAllStaatOffers()
 {
     vector<string> returnVecotr;
-    for (const auto &[objekt, preis] : angebotVomStaat)
+    for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
     {
-        returnVecotr.push_back(objekt.getName());
-        returnVecotr.push_back(to_string(preis));
+        returnVecotr.push_back(name);
+        returnVecotr.push_back(to_string(handelsgutUndPreis.preis));
         returnVecotr.push_back("unendlich");
     }
 

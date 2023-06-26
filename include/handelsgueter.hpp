@@ -14,11 +14,11 @@ namespace market
     int anzahl;
 
   public:
-    Handelsgueter(std::string name_, int anzahl_);
-
+    Handelsgueter(std::string name_, int anzahl_) : name(name_), anzahl(anzahl_){};
+    Handelsgueter(){};
     int getAnzahl();
     std::string getName() const;
-    //int getHandelswert();
+    // int getHandelswert();
     void setAnzahl(int);
   };
 

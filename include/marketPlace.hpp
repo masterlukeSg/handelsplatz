@@ -24,11 +24,19 @@ namespace market
         };
         struct passwordAndUser pwu;
 
-        /**
-         * @brief Handelsgüter als Key, int ist der Preis
-         */
-        map<Handelsgueter, int> angebotVomStaat;
         map<string, passwordAndUser> usersInformation;
+
+        struct handelsgutUndPreis
+        {
+            int preis = 0;
+            Handelsgueter handelsgut = Handelsgueter("NULL", 1);
+        };
+        struct handelsgutUngdPreis hUp;
+
+        /**
+         * @brief String als name (Key), struct preis und vector
+         */
+        map<string, handelsgutUndPreis> angebotVomStaat;
 
         struct alleInfos
         {
@@ -69,7 +77,6 @@ namespace market
          */
         bool buyFromUser(string handelsgut, string verkaufer, int anzahl);
 
-        // Lukas
         /**
          * @brief Zum MarketPlace Preis, wird das angegeben Produkt verkaut und Anzahl vom Nutzer entfernt
          * Überprüfung: Hat der Nutzer noch soviele Handelsgueter, oder hat der die schon verkauft.
