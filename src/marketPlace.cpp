@@ -170,3 +170,14 @@ vector<string> MarketPlace::getAllNutzerOffers()
 
     return returnVecotr;
 }
+
+int MarketPlace::getPriceOfMarketPlace(string handelsgut)
+{
+
+    for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
+        if (name == handelsgut)
+            return handelsgutUndPreis.preis;
+
+    return 0;
+}
+

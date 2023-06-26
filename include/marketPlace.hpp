@@ -113,8 +113,13 @@ namespace market
          */
         vector<string> getAllNutzerOffers();
 
-        // Lukas
-        int getPriceOfMarketPlace(Handelsgueter h);
+        /**
+         * @brief Get the Price Of Market Place object
+         * 
+         * @param handelsgut 
+         * @return int 
+         */
+        int getPriceOfMarketPlace(string handelsgut);
 
         // Imene
         int getPriceOfUser(string Handelsgut, nutzer verkaufer);
