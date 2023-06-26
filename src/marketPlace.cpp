@@ -9,6 +9,7 @@
 #include <map>
 
 #include <ctime>
+#include <cctype>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -19,7 +20,7 @@ using namespace market;
 
 MarketPlace::MarketPlace()
 {
-    vector<string> nameDerverkaufendeProdukte = {"Kölsch", "Helles", "Kamera", "Aktien", "Film", "Spiele", "Bücher", "Maus", "ColorTheme", "Wolle"};
+    vector<string> nameDerverkaufendeProdukte = {"Koelsch", "Helles", "Kamera", "Aktien", "Film", "Spiele", "Buecher", "Maus", "ColorTheme", "Wolle"};
     vector<int> wertDerverkaufendeProdukte = {3, 2, 30, 75, 13, 28, 16, 35, 5, 2};
 
     for (int i = 0; i < nameDerverkaufendeProdukte.size(); i++)
@@ -112,6 +113,27 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     this->removeHandeslguterVorrat(handelsgut, anzahl);
 
     return true;
+}
+
+bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
+{
+    for (const auto &[objekt, preis] : angebotVomStaat)
+    {
+
+        if (objekt.getName() == handelsgut)
+        {
+            if (this->handelsgutAnzahl(handelsgut) < anzahl)
+                return false;
+
+            int erloes = anzahl * preis;
+            int kontostand = this->getKontostand();
+            this->setKontostand(kontostand + erloes);
+
+            this->removeHandeslguterVorrat(handelsgut, anzahl);
+            return true;
+        }
+    }
+    return false;
 }
 
 vector<string> MarketPlace::getAllStaatOffers()

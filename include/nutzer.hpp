@@ -29,6 +29,10 @@ namespace market
         bool hatHandelsgut(string name){return true;};
         
 
+        //TODO: erst hatHandelsgut aufrufen UND {return 0;} löschen
+        // dann checken, wie viele Handelsgüter es gibt
+        int handelsgutAnzahl(string handelsgut){return 0;};
+
         // erst überprüfen, ob hatHandeslgut, dann anzahl erhöhen, sonst neu erstellen und guetervorrat adden
         // TODO: {return true;} entfernen, weil fkt soll ja neu geschrieben werden
         bool addHandeslguterVorrat(string name, int anzahl){return true;};

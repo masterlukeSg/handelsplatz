@@ -14,7 +14,7 @@ using namespace std;
 namespace market
 {
 
-    class MarketPlace: public nutzer
+    class MarketPlace : public nutzer
     {
     private:
         struct passwordAndUser
@@ -59,11 +59,10 @@ namespace market
          */
         bool buyFromMarketPlace(string handelsgut, int anzahl);
 
-        
         /**
-         * @brief Käufer bekommt Handelsgut und der Kontostand wird angepasst. 
+         * @brief Käufer bekommt Handelsgut und der Kontostand wird angepasst.
          * Verkäufer bekommt Handeslgut abgezogen und der Kontostand wird angepasst
-         * 
+         *
          * @param h
          * @param verkaufer
          * @return true: wenn Transaktion durch gegangen ist
@@ -79,7 +78,7 @@ namespace market
          * @return true
          * @return false
          */
-        bool sellToMarketPlace(Handelsgueter h, int anzahl);
+        bool sellToMarketPlace(string Handelsgut, int anzahl);
 
         // Imene
         /**
@@ -94,28 +93,27 @@ namespace market
          */
         bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis);
 
-        // Lukas
         /**
          * @brief gibt alle Staatsangebote wieder
          * @return vector: Staatsangebote
          */
         vector<string> getAllStaatOffers();
-        
+
         /**
          * @brief gibt alle Nutzerangebote wieder
          * @return vector: Nutzerangebote
          */
         vector<string> getAllNutzerOffers();
+
         // Lukas
         int getPriceOfMarketPlace(Handelsgueter h);
 
         // Imene
         int getPriceOfUser(string Handelsgut, nutzer verkaufer);
-        
+
         // Imene
         // angebotVomStaat müssen die Werte angepasst werden, durch Formel
         void preisanpassung();
-
 
         nutzer login(string name, string password);
 
