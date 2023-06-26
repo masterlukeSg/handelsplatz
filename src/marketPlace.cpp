@@ -117,18 +117,22 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
 
 bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
 {
+    // durch Iterration durch die Angebote vom Staat
     for (const auto &[objekt, preis] : angebotVomStaat)
     {
-
+        // wenn das zuverkaufenden Handelsgut vorhanden ist
         if (objekt.getName() == handelsgut)
         {
+            // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
             if (this->handelsgutAnzahl(handelsgut) < anzahl)
                 return false;
 
+            // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
             int erloes = anzahl * preis;
             int kontostand = this->getKontostand();
             this->setKontostand(kontostand + erloes);
 
+            // Entfertn die Vorräte vom Verkäufer
             this->removeHandeslguterVorrat(handelsgut, anzahl);
             return true;
         }
