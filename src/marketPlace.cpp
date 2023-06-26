@@ -59,16 +59,23 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     nutzer n;
     int preis = 0;
 
+    // iterriert durch angebote von Nutzern map
     for (auto [verKauferNutzer, alleInfos] : angeboteVonNutzern)
 
+        // wenn der verkäufer, dem übergbenen verkäufer übereinstimmt
         if (verKauferNutzer.getBenutzername() == verkaufer)
 
+            // iterriert durch den struct alle Infos (vector: preis, anzahl, Handelsgueter)
             for (int i = 0; i < alleInfos.angebote.size(); i++)
 
+                // wenn das Handelsgut dem zukaufenden Handelsgut übereinstimmt
                 if (alleInfos.angebote[i].getName() == handelsgut)
                 {
+                    // wenn zu viele Handelsgüter gekauft werden sollen, return
                     if (alleInfos.anzahl[i] < anzahl)
                         return false;
+
+                    // wenn der Käufer zu wenig Geld hat, um den Preis für das Handelsgut zu bezahlen, return
                     if (this->getKontostand() < alleInfos.preis[i])
                         return false;
 
@@ -76,20 +83,23 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
                     preis = alleInfos.preis[i];
                     n = verKauferNutzer;
 
-                    // Preis wird vom käufer abgezogen
+                    // Käufer wird dem Preis vom Konto abgezogen
                     int kontostand = this->getKontostand();
                     kontostand = kontostand - preis;
                     this->setKontostand(kontostand);
 
-                    // Handelsgut wird dem Käufer zugeschrieben
+                    // Käufer bekommt das Handelsgut zugeschrieben
                     this->addHandeslguterVorrat(handelsgut, anzahl);
 
+                    // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
+                    // da alles aufgekauft wurde
                     if (alleInfos.anzahl[i] - anzahl == 0)
                     {
                         alleInfos.anzahl.erase(alleInfos.anzahl.begin() + i);
                         alleInfos.preis.erase(alleInfos.preis.begin() + i);
                         alleInfos.angebote.erase(alleInfos.angebote.begin() + i);
                     }
+                    // wenn nur ein Teil der Handelsgueter gekauft werden, wird die anzahl angepasst
                     else
                         alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
                 }
@@ -100,6 +110,6 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
 
     // Verkäufer bekommt Handelsgut abgezogen
     this->removeHandeslguterVorrat(handelsgut, anzahl);
-    
+
     return true;
 }

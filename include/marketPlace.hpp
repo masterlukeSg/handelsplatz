@@ -55,14 +55,14 @@ namespace market
          */
         bool buyFromMarketPlace(string handelsgut, int anzahl);
 
-        // Lukas
+        
         /**
-         * @brief überprüfut, ob der nutzer dieses Angebot überhaupt hat und wenn ja, wird anzahl aus map: "angeboteVonNutzern" subtrahiert
-         * und nutzer wird dementsprechend auch die anzahl abgezogen
-         *
+         * @brief Käufer bekommt Handelsgut und der Kontostand wird angepasst. 
+         * Verkäufer bekommt Handeslgut abgezogen und der Kontostand wird angepasst
+         * 
          * @param h
          * @param verkaufer
-         * @return Handelsgueter
+         * @return true: wenn Transaktion durch gegangen ist
          */
         bool buyFromUser(string handelsgut, string verkaufer, int anzahl);
 
