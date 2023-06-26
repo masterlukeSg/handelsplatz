@@ -5,25 +5,25 @@
 
 using namespace std;
 using namespace market;
-nutzer::nutzer(std::string benutzername_, std::string passwort_) : kontostand(0), benutzername(benutzername_), passwort(passwort_){
 
-                                                                                                               };
+void nutzer::setKontostand(int neu)
+{
+   kontostand = neu;
+}
 
-int nutzer::getKontostand()
+int nutzer::getKontostand() const
 {
     return kontostand;
 }
 
-std::string nutzer::getBenutzername()
+std::string nutzer::getBenutzername() const
 {
     return benutzername;
 }
 
-std::string nutzer::getPasswort()
+std::string nutzer::getPasswort() const
 {
     return passwort;
 }
-
-
 
 // getGuetervorrat fkt noch machen

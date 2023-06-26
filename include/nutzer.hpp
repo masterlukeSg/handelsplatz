@@ -17,16 +17,29 @@ namespace market
         std::string passwort;
 
     public:
-        nutzer(std::string benutzername_, std::string passwort_);
+        nutzer(std::string benutzername_, std::string passwort_, int kontostand_) : benutzername(benutzername_),passwort(passwort_),kontostand(kontostand_){};
+        nutzer(){};
+        
+        int getKontostand() const;
+        void setKontostand(int neu);
 
-        int getKontostand();
 
         // TODO: alles auf den vector: guetervorrat bezogen
-        bool hatHandelsgut(string name);
-        void setHandeslguterVorrat(string name, int anzahl);
+        // TODO: {return true;} entfernen
+        bool hatHandelsgut(string name){return true;};
+        
 
-        std::string getBenutzername();
-        std::string getPasswort();
+        // erst überprüfen, ob hatHandeslgut, dann anzahl erhöhen, sonst neu erstellen und guetervorrat adden
+        // TODO: {return true;} entfernen, weil fkt soll ja neu geschrieben werden
+        bool addHandeslguterVorrat(string name, int anzahl){return true;};
+    
+
+        // Überprüfen, gibt es Handelsgut überhaupt.
+        // Wenn ja, dann abziehen und wenn anzahl == 0, dann auch löschen
+        bool removeHandeslguterVorrat(string name, int anzahl){return true;};
+
+        std::string getBenutzername() const;
+        std::string getPasswort() const; 
     };
 
 }

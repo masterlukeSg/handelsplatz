@@ -13,13 +13,13 @@ using namespace std;
 namespace market
 {
 
-    class MarketPlace
+    class MarketPlace: public nutzer
     {
     private:
         struct passwordAndUser
         {
             string password;
-            nutzer user = nutzer("NULL", "NULL");
+            nutzer user = nutzer("NULL", "NULL", 0);
         };
         struct passwordAndUser pwu;
 
@@ -28,9 +28,9 @@ namespace market
 
         struct alleInfos
         {
-            int preis = 0;
-            int anzahl = 0;
-            Handelsgueter produkt = Handelsgueter("NULL", 0);
+            vector<int> preis;
+            vector<int> anzahl;
+            vector<Handelsgueter> angebote;
         };
         struct alleInfos aI;
 
@@ -38,12 +38,11 @@ namespace market
          * @brief Nutzer, alleInfos: Preis, Anzahl, Handeslguter
          * Durch mutlimap, kann ein Nutzer mehrere Angebote haben (mehrere Keys möglich)
          */
-        multimap<nutzer, alleInfos> angeboteVonNutzern;
+        map<nutzer, alleInfos> angeboteVonNutzern;
 
         // TODO: void preisAnpassung();
     public:
         MarketPlace();
-
 
         // Imene
         /**
@@ -65,7 +64,7 @@ namespace market
          * @param verkaufer
          * @return Handelsgueter
          */
-        bool buyFromUser(string handelsgut, nutzer verkaufer, int anzahl);
+        bool buyFromUser(string handelsgut, string verkaufer, int anzahl);
 
         // Lukas
         /**
@@ -77,7 +76,6 @@ namespace market
          * @return false
          */
         bool sellToMarketPlace(Handelsgueter h, int anzahl);
-
 
         // Imene
         /**
@@ -95,13 +93,13 @@ namespace market
         // Lukas
         /**
          * @brief Get the All Offers object von Nutzern und vom Staat
-         * 
+         *
          */
         void getAllOffers();
-        
+
         // Lukas
-        int getPriceOfMarketPlace(Handelsgueter h); 
-    
+        int getPriceOfMarketPlace(Handelsgueter h);
+
         // Imene
         int getPriceOfUser(string Handelsgut, nutzer verkaufer);
 
