@@ -22,11 +22,9 @@ namespace market
             nutzer user = nutzer("NULL", "NULL");
         };
         struct passwordAndUser pwu;
-    
+
         vector<Handelsgueter> handelsObjekt;
         map<string, passwordAndUser> usersInformation;
-
-
 
         struct alleInfos
         {
@@ -46,6 +44,8 @@ namespace market
     public:
         MarketPlace();
 
+
+        // Imene
         /**
          * @brief Überprüft ob der Käufer ein vorhandes Angebot kaufen will und für das auch genug Geld hat
          *
@@ -56,6 +56,7 @@ namespace market
          */
         bool buyFromMarketPlace(string handelsgut, int anzahl);
 
+        // Lukas
         /**
          * @brief überprüfut, ob der nutzer dieses Angebot überhaupt hat und wenn ja, wird anzahl aus map: "angeboteVonNutzern" subtrahiert
          * und nutzer wird dementsprechend auch die anzahl abgezogen
@@ -64,8 +65,9 @@ namespace market
          * @param verkaufer
          * @return Handelsgueter
          */
-        Handelsgueter buyFromUser(Handelsgueter h, nutzer verkaufer);
+        bool buyFromUser(string handelsgut, nutzer verkaufer, int anzahl);
 
+        // Lukas
         /**
          * @brief Zum MarketPlace Preis, wird das angegeben Produkt verkaut und Anzahl vom Nutzer entfernt
          * Überprüfung: Hat der Nutzer noch soviele Handelsgueter, oder hat der die schon verkauft.
@@ -76,6 +78,8 @@ namespace market
          */
         bool sellToMarketPlace(Handelsgueter h, int anzahl);
 
+
+        // Imene
         /**
          * @brief Angebot kommt in map: "angeboteVonNutzern" rein
          * Überprüfen, hat der Nutzer schon ein Angebot, mit solchen Gütern -> map: "angeboteVonNutzern" aktualisieren (erhöhren, verringern), um Anzahl oder Preis
@@ -88,10 +92,18 @@ namespace market
          */
         bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis);
 
+        // Lukas
+        /**
+         * @brief Get the All Offers object von Nutzern und vom Staat
+         * 
+         */
         void getAllOffers();
-
-        int getPriceOfMarketPlace(Handelsgueter h);
-        int getPriceOfUser(Handelsgueter h, nutzer verkaufer);
+        
+        // Lukas
+        int getPriceOfMarketPlace(Handelsgueter h); 
+    
+        // Imene
+        int getPriceOfUser(string Handelsgut, nutzer verkaufer);
 
         nutzer login(string name, string password);
 
