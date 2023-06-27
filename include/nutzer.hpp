@@ -26,11 +26,23 @@ namespace market
 
         // TODO: alles auf den vector: guetervorrat bezogen
         // TODO: {return true;} entfernen
-        bool hatHandelsgut(string name){return true;};
+        //iteriert durch den vector guettervorrat und guckt ob name drin ist wenn ja dann returnt er true
+        //sonst false
+        bool hatHandelsgut(string name){
+          for(i=0, i<=guetervorrat.size(),i++){
+            if(i==name){
+              return true;
+            }
+            else{ return false;}
+          }
+        };
         
 
         //TODO: erst hatHandelsgut aufrufen UND {return 0;} löschen
         // dann checken, wie viele Handelsgüter es gibt
+        //ruft die funktion hatHandelsgut auf, es wird geguckt ob wir den handelsgut haben, wenn nicht 
+        // returnt er null, in dieser funktion wird geguckt wie viele von dem handelsgut es gibt man nimmt 
+        // handelsgut getanzahl, sonst null
         int handelsgutAnzahl(string handelsgut){return 0;};
 
         // erst überprüfen, ob hatHandeslgut, dann anzahl erhöhen, sonst neu erstellen und guetervorrat adden
