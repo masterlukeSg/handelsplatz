@@ -43,11 +43,26 @@ namespace market
         //ruft die funktion hatHandelsgut auf, es wird geguckt ob wir den handelsgut haben, wenn nicht 
         // returnt er null, in dieser funktion wird geguckt wie viele von dem handelsgut es gibt man nimmt 
         // handelsgut getanzahl, sonst null
-        int handelsgutAnzahl(string handelsgut){return 0;};
+        int handelsgutAnzahl(string handelsgut){
+          hatHandelsgut();
+          if(true){
+            handelsgut.getAnzahl();
+          }
+          else{return null;}
+        };
 
         // erst überprüfen, ob hatHandeslgut, dann anzahl erhöhen, sonst neu erstellen und guetervorrat adden
         // TODO: {return true;} entfernen, weil fkt soll ja neu geschrieben werden
-        bool addHandeslguterVorrat(string name, int anzahl){return true;};
+        bool addHandeslguterVorrat(string name, int anzahl){
+          hatHandelsgut();
+          if(true){
+            name.setAnzahl();
+          }
+          else{
+            name_=name;
+            anzahl_=anzahl;
+          }
+        };
     
 
         // Überprüfen, gibt es Handelsgut überhaupt.
