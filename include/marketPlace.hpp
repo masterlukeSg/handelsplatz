@@ -17,9 +17,7 @@ namespace market
     class MarketPlace : public nutzer
     {
     private:
-
-        // speichert nutzer(benutzername, passwort, kontostand) 
-        //+ passwort variable 
+        nutzer aktuellerNutzer = nutzer("Null", "Null", 0);
         struct passwordAndUser
         {
             string password;
@@ -36,7 +34,6 @@ namespace market
         {
             int preis = 0;
             Handelsgueter handelsgut = Handelsgueter("NULL", 1);
-
         };
         struct handelsgutUndPreis hUp;
 
@@ -121,9 +118,9 @@ namespace market
 
         /**
          * @brief Get the Price Of Market Place object
-         * 
-         * @param handelsgut 
-         * @return int 
+         *
+         * @param handelsgut
+         * @return int
          */
         int getPriceOfMarketPlace(string handelsgut);
 
@@ -135,6 +132,9 @@ namespace market
         void preisanpassung();
 
         nutzer login(string name, string password);
+
+        void setNutzer(nutzer n);
+        nutzer getNutzer();
 
         bool newUser(string name, string password);
     };
