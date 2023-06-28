@@ -64,6 +64,48 @@ nutzer MarketPlace::login(string userName, string userPassword)
     return nullUSER;
 }
 
+bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl)
+{
+    
+
+    // guckt, ob Angebot von Staat vorhanden ist
+    for ( auto [angebot, hUp] : angebotVomStaat)
+    {
+        if (angebot == handelsgut)
+        {
+            // guckt, ob genügend handelsgüter da sind
+            if (hUp.handelsgut.getAnzahl() < anzahl)
+                return false;
+
+            // guckt , ob der Käufer genug Geld hat
+            if (getNutzer().getKontostand() < hUp.preis)
+                return false;
+
+            
+           
+
+            // Betrag vom Konto des Käufers abziehen
+            int kontostand = getNutzer().getKontostand();
+            kontostand = kontostand - hUp.preis;
+            getNutzer().setKontostand(kontostand);
+
+            // Käufer erhält das Handelsgut
+            getNutzer().addHandelsgut(handelsgut, anzahl);
+
+            // Anzahl des Handelsguts beim Staat aktualisieren
+            handelsgutUndPreis updatedHUp = hUp;
+            updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
+            angebotVomStaat[angebot] = updatedHUp;
+
+            return true;
+        }
+    }
+
+    return false; 
+}
+
+
+
 bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
 {
     nutzer n;
