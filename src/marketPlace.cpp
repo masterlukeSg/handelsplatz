@@ -89,7 +89,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
                     this->setKontostand(kontostand);
 
                     // Käufer bekommt das Handelsgut zugeschrieben
-                    this->addHandeslguterVorrat(handelsgut, anzahl);
+                    this->addHandelsgut(handelsgut, anzahl);
 
                     // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
                     // da alles aufgekauft wurde
@@ -109,7 +109,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     n.setKontostand(kontostand + preis);
 
     // Verkäufer bekommt Handelsgut abgezogen
-    this->removeHandeslguterVorrat(handelsgut, anzahl);
+    this->removeHandelsgut(handelsgut, anzahl);
 
     return true;
 }
@@ -132,7 +132,7 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
             this->setKontostand(kontostand + erloes);
 
             // Entfertn die Vorräte vom Verkäufer
-            this->removeHandeslguterVorrat(handelsgut, anzahl);
+            this->removeHandelsgut(handelsgut, anzahl);
             return true;
         }
     }
