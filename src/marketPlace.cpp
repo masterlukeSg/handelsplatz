@@ -191,6 +191,36 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
     return false;
 }
 
+bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis)
+{
+    for ( auto [nutzer, alleInfos] : angeboteVonNutzern)
+    {
+        if (nutzer.getBenutzername() == getNutzer().getBenutzername())
+        {
+            for (int i = 0; i < alleInfos.angebote.size(); i++)
+            {
+                if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt.getName())
+                {
+                    // Anzahl und Preis aktualisieren
+                    alleInfos.anzahl[i] = anzahl;
+                    alleInfos.preis[i] = preis;
+                    return true;
+                }
+            }
+
+            // Neues Angebot erstellen
+            alleInfos.angebote.push_back(zuverkaufendesProdukt);
+            alleInfos.preis.push_back(preis);
+            alleInfos.anzahl.push_back(anzahl);
+
+            return true;
+        }
+    }
+    
+}
+
+
+
 vector<string> MarketPlace::getAllStaatOffers()
 {
     std::cout << getNutzer().getBenutzername() << std::endl;
