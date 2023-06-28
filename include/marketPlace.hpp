@@ -17,13 +17,19 @@ namespace market
     class MarketPlace : public nutzer
     {
     private:
+
+        // speichert nutzer(benutzername, passwort, kontostand) 
+        //+ passwort variable 
         struct passwordAndUser
         {
             string password;
             nutzer user = nutzer("NULL", "NULL", 0);
+        //erstellt eine instanz vom passwordAndUser struct
         };
-        struct passwordAndUser pwu;
+        struct passwordAndUser pwu; 
 
+
+        
         map<string, passwordAndUser> usersInformation;
 
         struct handelsgutUndPreis

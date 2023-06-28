@@ -16,11 +16,17 @@ using namespace market;
 
 MarketPlace::MarketPlace()
 {
+
+    //the constructor provides our trade goods that we want to sell
     vector<string> nameDerverkaufendeProdukte = {"Koelsch", "Helles", "Kamera", "Aktien", "Film", "Spiele", "Buecher", "Maus", "ColorTheme", "Wolle"};
     vector<int> wertDerverkaufendeProdukte = {3, 2, 30, 75, 13, 28, 16, 35, 5, 2};
 
+
+    //the for loop creates the given goods in the vertor as instances 
+    //of the class Handelsgueter 
     for (int i = 0; i < 10; i++)
     {
+        
         Handelsgueter neu = Handelsgueter(nameDerverkaufendeProdukte[i], 1);
         hUp.handelsgut = neu;
         hUp.preis = wertDerverkaufendeProdukte[i];
