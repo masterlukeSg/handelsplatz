@@ -35,7 +35,7 @@ bool MarketPlace::newUser(string newName, string newPassword)
         if (name == newName)
             return false;
 
-    nutzer newUser = nutzer(newName, newPassword, 100);
+    nutzer newUser = nutzer(newName, newPassword, 1000);
 
     pwu.password = newPassword;
     pwu.user = newUser;
@@ -46,9 +46,13 @@ bool MarketPlace::newUser(string newName, string newPassword)
 
 nutzer MarketPlace::login(string userName, string userPassword)
 {
+
     for (const auto &[name, passwordAndUser] : usersInformation)
         if (name == userName && passwordAndUser.password == userPassword)
+        {
+            setNutzer(passwordAndUser.user);
             return passwordAndUser.user;
+        }
 
     nutzer nullUSER = nutzer("NULL", "NUll", 0);
     return nullUSER;
@@ -76,7 +80,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
                         return false;
 
                     // wenn der Käufer zu wenig Geld hat, um den Preis für das Handelsgut zu bezahlen, return
-                    if (this->getKontostand() < alleInfos.preis[i])
+                    if (getNutzer().getKontostand() < alleInfos.preis[i])
                         return false;
 
                     // Preis und verkäufer (nutzer) zwischen speichern, um const zu umgehen
@@ -84,12 +88,12 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
                     n = verKauferNutzer;
 
                     // Käufer wird dem Preis vom Konto abgezogen
-                    int kontostand = this->getKontostand();
+                    int kontostand = getNutzer().getKontostand();
                     kontostand = kontostand - preis;
-                    this->setKontostand(kontostand);
+                    getNutzer().setKontostand(kontostand);
 
                     // Käufer bekommt das Handelsgut zugeschrieben
-                    this->addHandelsgut(handelsgut, anzahl);
+                    getNutzer().addHandelsgut(handelsgut, anzahl);
 
                     // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
                     // da alles aufgekauft wurde
@@ -109,7 +113,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     n.setKontostand(kontostand + preis);
 
     // Verkäufer bekommt Handelsgut abgezogen
-    this->removeHandelsgut(handelsgut, anzahl);
+    getNutzer().removeHandelsgut(handelsgut, anzahl);
 
     return true;
 }
@@ -123,16 +127,16 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
         if (name == handelsgut)
         {
             // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
-            if (this->handelsgutAnzahl(handelsgut) < anzahl)
+            if (getNutzer().handelsgutAnzahl(handelsgut) < anzahl)
                 return false;
 
             // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
             int erloes = anzahl * handelsgutUndPreis.preis;
-            int kontostand = this->getKontostand();
-            this->setKontostand(kontostand + erloes);
+            int kontostand = getNutzer().getKontostand();
+            getNutzer().setKontostand(kontostand + erloes);
 
             // Entfertn die Vorräte vom Verkäufer
-            this->removeHandelsgut(handelsgut, anzahl);
+            getNutzer().removeHandelsgut(handelsgut, anzahl);
             return true;
         }
     }
@@ -141,6 +145,8 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
 
 vector<string> MarketPlace::getAllStaatOffers()
 {
+    std::cout << getNutzer().getBenutzername() << std::endl;
+
     vector<string> returnVecotr;
     for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
     {
@@ -181,3 +187,11 @@ int MarketPlace::getPriceOfMarketPlace(string handelsgut)
     return 0;
 }
 
+void MarketPlace::setNutzer(nutzer n)
+{
+    aktuellerNutzer = n;
+}
+nutzer MarketPlace::getNutzer()
+{
+    return aktuellerNutzer;
+}
