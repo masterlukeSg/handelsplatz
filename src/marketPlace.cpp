@@ -11,6 +11,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 using namespace market;
@@ -288,8 +289,20 @@ int MarketPlace::getPriceOfUser(string handelsgut, string verkaufer)
     return 0;
 }
 
-void preisanpassung()
+void MarketPlace::preisanpassung()
 {
+
+   for ( auto [name, hUp]: angebotVomStaat){
+
+        int startpreis= hUp.preis;
+        int min= 1;
+        int max= 100;
+        double zeit= 0.2;
+        double tend= 0.3*(rand() % 100);
+        int y = rand() % max;
+        hUp.preis= startpreis + (1.0 + tend * zeit + 0.8 * sqrt(zeit) *y);
+
+   }
 }
 
 nutzer MarketPlace::getNutzer(int id)

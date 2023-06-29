@@ -24,7 +24,7 @@ namespace market
             int id;
             nutzer user = nutzer("NULL", "NULL", 0);
 
-            // erstellt eine instanz vom passwordAndUser struct
+            // erstellt eine instanz vom passwordAndUser struct 
         };
         struct passwordAndUser pwu;
 
