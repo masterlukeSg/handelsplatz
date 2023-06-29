@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include <iterator>
+
+#include <iostream>
 #include <map>
 #include "../include/marketPlace.hpp"
 #include "../include/nutzer.hpp"
@@ -44,6 +45,7 @@ bool MarketPlace::newUser(string newName, string newPassword)
 
     pwu.password = newPassword;
     pwu.user = newUser;
+    pwu.id = rand() % 10000;
     usersInformation[newName] = pwu;
 
     return true;
@@ -54,17 +56,16 @@ nutzer MarketPlace::login(string userName, string userPassword)
 
     for (const auto &[name, passwordAndUser] : usersInformation)
         if (name == userName && passwordAndUser.password == userPassword)
-        {
-            setNutzer(passwordAndUser.user);
             return passwordAndUser.user;
-        }
 
     nutzer nullUSER = nutzer("NULL", "NUll", 0);
     return nullUSER;
 }
 
-bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl)
+bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
 {
+    if (getNutzer(id).getBenutzername() == "NULL")
+        return false;
 
     // guckt, ob Angebot von Staat vorhanden ist
     for (auto [angebot, hUp] : angebotVomStaat)
@@ -76,16 +77,16 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl)
                 return false;
 
             // guckt , ob der Käufer genug Geld hat
-            if (getNutzer().getKontostand() < hUp.preis)
+            if (getNutzer(id).getKontostand() < hUp.preis)
                 return false;
 
             // Betrag vom Konto des Käufers abziehen
-            int kontostand = getNutzer().getKontostand();
+            int kontostand = getNutzer(id).getKontostand();
             kontostand = kontostand - hUp.preis;
-            getNutzer().setKontostand(kontostand);
+            getNutzer(id).setKontostand(kontostand);
 
             // Käufer erhält das Handelsgut
-            getNutzer().addHandelsgut(handelsgut, anzahl);
+            getNutzer(id).addHandelsgut(handelsgut, anzahl);
 
             // Anzahl des Handelsguts beim Staat aktualisieren
             handelsgutUndPreis updatedHUp = hUp;
@@ -99,8 +100,11 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl)
     return false;
 }
 
-bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
+bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, int id)
 {
+    if (getNutzer(id).getBenutzername() == "NULL")
+        return false;
+
     nutzer n;
     int preis = 0;
 
@@ -108,7 +112,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     for (auto [verKauferNutzer, alleInfos] : angeboteVonNutzern)
 
         // wenn der verkäufer, dem übergbenen verkäufer übereinstimmt
-        if (verKauferNutzer.getBenutzername() == verkaufer)
+        if (verKauferNutzer == verkaufer)
 
             // iterriert durch den struct alle Infos (vector: preis, anzahl, Handelsgueter)
             for (int i = 0; i < alleInfos.angebote.size(); i++)
@@ -121,20 +125,21 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
                         return false;
 
                     // wenn der Käufer zu wenig Geld hat, um den Preis für das Handelsgut zu bezahlen, return
-                    if (getNutzer().getKontostand() < alleInfos.preis[i])
+                    if (getNutzer(id).getKontostand() < alleInfos.preis[i])
                         return false;
 
                     // Preis und verkäufer (nutzer) zwischen speichern, um const zu umgehen
                     preis = alleInfos.preis[i];
-                    n = verKauferNutzer;
+
+                    n = alleInfos.user;
 
                     // Käufer wird dem Preis vom Konto abgezogen
-                    int kontostand = getNutzer().getKontostand();
+                    int kontostand = getNutzer(id).getKontostand();
                     kontostand = kontostand - preis;
-                    getNutzer().setKontostand(kontostand);
+                    getNutzer(id).setKontostand(kontostand);
 
                     // Käufer bekommt das Handelsgut zugeschrieben
-                    getNutzer().addHandelsgut(handelsgut, anzahl);
+                    getNutzer(id).addHandelsgut(handelsgut, anzahl);
 
                     // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
                     // da alles aufgekauft wurde
@@ -154,13 +159,16 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl)
     n.setKontostand(kontostand + preis);
 
     // Verkäufer bekommt Handelsgut abgezogen
-    getNutzer().removeHandelsgut(handelsgut, anzahl);
+    getNutzer(id).removeHandelsgut(handelsgut, anzahl);
 
     return true;
 }
 
-bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
+bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
 {
+    if (getNutzer(id).getBenutzername() == "NULL")
+        return false;
+
     // durch Iterration durch die Angebote vom Staat
     for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
     {
@@ -168,27 +176,31 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl)
         if (name == handelsgut)
         {
             // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
-            if (getNutzer().handelsgutAnzahl(handelsgut) < anzahl)
+            if (getNutzer(id).handelsgutAnzahl(handelsgut) < anzahl)
                 return false;
 
             // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
             int erloes = anzahl * handelsgutUndPreis.preis;
-            int kontostand = getNutzer().getKontostand();
-            getNutzer().setKontostand(kontostand + erloes);
+            int kontostand = getNutzer(id).getKontostand();
+            getNutzer(id).setKontostand(kontostand + erloes);
 
             // Entfertn die Vorräte vom Verkäufer
-            getNutzer().removeHandelsgut(handelsgut, anzahl);
+            getNutzer(id).removeHandelsgut(handelsgut, anzahl);
             return true;
         }
     }
     return false;
 }
 
-bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis)
+bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis, int id)
 {
-    for (auto [nutzer, alleInfos] : angeboteVonNutzern)
+    if (getNutzer(id).getBenutzername() == "NULL")
+        return false;
+    // überprüft ob nutzer schon ein angebot hat
+    for (auto [nutzerName, alleInfos] : angeboteVonNutzern)
+
     {
-        if (nutzer.getBenutzername() == getNutzer().getBenutzername())
+        if (nutzerName == getNutzer(id).getBenutzername())
         {
             for (int i = 0; i < alleInfos.angebote.size(); i++)
             {
@@ -201,7 +213,7 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
                 }
             }
 
-            // Neues Angebot erstellen
+            // wenn kein Angebot vorhanden,Neues Angebot erstellen
             alleInfos.angebote.push_back(zuverkaufendesProdukt);
             alleInfos.preis.push_back(preis);
             alleInfos.anzahl.push_back(anzahl);
@@ -209,12 +221,16 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
             return true;
         }
     }
-    return false;
+
+    aI.angebote.push_back(zuverkaufendesProdukt);
+    aI.preis.push_back(preis);
+    aI.anzahl.push_back(anzahl);
+    angeboteVonNutzern.insert({getNutzer(id).getBenutzername(), aI});
+    return true;
 }
 
 vector<string> MarketPlace::getAllStaatOffers()
 {
-    std::cout << getNutzer().getBenutzername() << std::endl;
 
     vector<string> returnVecotr;
     for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
@@ -231,10 +247,10 @@ vector<string> MarketPlace::getAllNutzerOffers()
 {
 
     vector<string> returnVecotr;
-    for (const auto &[nutzer, alleInfos] : angeboteVonNutzern)
+    for (const auto &[nutzerName, alleInfos] : angeboteVonNutzern)
     {
         returnVecotr.push_back("NEWUSER");
-        returnVecotr.push_back(nutzer.getBenutzername());
+        returnVecotr.push_back(nutzerName);
         for (int i = 0; i < alleInfos.angebote.size(); i++)
         {
             returnVecotr.push_back(alleInfos.angebote[i].getName());
@@ -256,11 +272,12 @@ int MarketPlace::getPriceOfMarketPlace(string handelsgut)
     return 0;
 }
 
-int MarketPlace::getPriceOfUser(string handelsgut, nutzer verkaufer)
+int MarketPlace::getPriceOfUser(string handelsgut, string verkaufer)
 {
 
-    for (const auto &[nutzer, alleInfos] : angeboteVonNutzern)
-        if (nutzer.getBenutzername() == verkaufer.getBenutzername())
+    for (const auto &[nutzerName, alleInfos] : angeboteVonNutzern)
+        if (nutzerName == verkaufer)
+
         {
             for (int i = 0; i < alleInfos.angebote.size(); i++)
             {
@@ -275,11 +292,11 @@ void preisanpassung()
 {
 }
 
-void MarketPlace::setNutzer(nutzer n)
+nutzer MarketPlace::getNutzer(int id)
 {
-    aktuellerNutzer = n;
-}
-nutzer MarketPlace::getNutzer()
-{
+    for (auto [name, userInfos] : usersInformation)
+        if (userInfos.id == id)
+            return userInfos.user;
+
     return aktuellerNutzer;
 }
