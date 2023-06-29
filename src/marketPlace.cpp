@@ -281,6 +281,10 @@ int MarketPlace::getPriceOfUser(string handelsgut, nutzer verkaufer ){
     return 0;
 }
 
+void preisanpassung(){
+    
+}
+
 void MarketPlace::setNutzer(nutzer n)
 {
     aktuellerNutzer = n;
