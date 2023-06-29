@@ -288,7 +288,7 @@ int MarketPlace::getPriceOfUser(string handelsgut, string verkaufer)
     return 0;
 }
 
-void preisanpassung()
+void MarketPlace::preisanpassung()
 {
 }
 
