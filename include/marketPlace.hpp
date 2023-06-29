@@ -70,7 +70,7 @@ namespace market
          * @return true: Nutzer bekommt neues Handelsgut oder es wird auf vorhandenes drauf addiert
          * @return false -> etwas stimmte bei der Bestellung nicht
          */
-        bool buyFromMarketPlace(string handelsgut, int anzahl);
+        bool buyFromMarketPlace(string handelsgut, int anzahl) {return true;};
 
         /**
          * @brief Käufer bekommt Handelsgut und der Kontostand wird angepasst.
@@ -103,7 +103,7 @@ namespace market
          * @return true
          * @return false
          */
-        bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis);
+        bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis){return true;};
 
         /**
          * @brief gibt alle Staatsangebote wieder
@@ -130,7 +130,7 @@ namespace market
 
         // Imene
         // angebotVomStaat müssen die Werte angepasst werden, durch Formel
-        void preisanpassung();
+        void preisanpassung(){};
 
         nutzer login(string name, string password);
 
