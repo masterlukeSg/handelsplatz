@@ -216,7 +216,7 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
             return true;
         }
     }
-    
+    return false;
 }
 
 
@@ -262,6 +262,22 @@ int MarketPlace::getPriceOfMarketPlace(string handelsgut)
         if (name == handelsgut)
             return handelsgutUndPreis.preis;
 
+    return 0;
+}
+
+int MarketPlace::getPriceOfUser(string handelsgut, nutzer verkaufer ){
+
+
+    for (const auto &[nutzer, alleInfos]: angeboteVonNutzern)
+        if (nutzer.getBenutzername() == verkaufer.getBenutzername())
+        {
+            for (int i= 0; i < alleInfos.angebote.size(); i++)
+            {
+                if (alleInfos.angebote[i].getName() == handelsgut)
+                    return alleInfos.preis[i];
+
+            }
+        }
     return 0;
 }
 
