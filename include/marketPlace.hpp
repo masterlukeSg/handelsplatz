@@ -17,7 +17,7 @@ namespace market
     class MarketPlace : public nutzer
     {
     private:
-        nutzer aktuellerNutzer = nutzer("Null", "Null", 0);
+        nutzer aktuellerNutzer = nutzer("NULL", "NULL", 0);
         struct passwordAndUser
         {
             string password;
@@ -46,6 +46,7 @@ namespace market
         {
             vector<int> preis;
             vector<int> anzahl;
+            nutzer user = nutzer( "NULL", "NULL", 0);
             vector<Handelsgueter> angebote;
         };
         struct alleInfos aI;
@@ -54,7 +55,7 @@ namespace market
          * @brief Nutzer, alleInfos: Preis, Anzahl, Handeslguter
          * Durch mutlimap, kann ein Nutzer mehrere Angebote haben (mehrere Keys möglich)
          */
-        map<nutzer, alleInfos> angeboteVonNutzern;
+        map<string, alleInfos> angeboteVonNutzern;
 
         // TODO: void preisAnpassung();
     public:
@@ -125,7 +126,7 @@ namespace market
         int getPriceOfMarketPlace(string handelsgut);
 
         // Imene
-        int getPriceOfUser(string Handelsgut, nutzer verkaufer);
+        int getPriceOfUser(string Handelsgut, string verkaufer);
 
         // Imene
         // angebotVomStaat müssen die Werte angepasst werden, durch Formel
