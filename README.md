@@ -12,7 +12,7 @@
 
 ### Klassenbeschreibung
 
-Nutzerklasse
+## Nutzerklasse
 
 ```
 Die Klasse dient dazu den Benutzername, Kontostand und Passwort zurückzugeben.
