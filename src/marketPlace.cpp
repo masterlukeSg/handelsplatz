@@ -292,17 +292,19 @@ int MarketPlace::getPriceOfUser(string handelsgut, string verkaufer)
 void MarketPlace::preisanpassung()
 {
 
-   for ( auto [name, hUp]: angebotVomStaat){
+    for (auto [name, preisUndNutzer] : angebotVomStaat)
+    {
 
-        int startpreis= hUp.preis;
-        int min= 1;
-        int max= 100;
-        double zeit= 0.2;
-        double tend= 0.3*(rand() % 100);
+        int startpreis = preisUndNutzer.preis;
+        int min = 1;
+        int max = 100;
+        double zeit = 0.2;
+        double tend = 0.3 * (rand() % 100);
         int y = rand() % max;
-        hUp.preis= startpreis + (1.0 + tend * zeit + 0.8 * sqrt(zeit) *y);
 
-   }
+        preisUndNutzer.preis = startpreis + (1.0 + tend * zeit + 0.8 * sqrt(zeit) * y);
+        angebotVomStaat[name] = preisUndNutzer;
+    }
 }
 
 nutzer MarketPlace::getNutzer(int id)

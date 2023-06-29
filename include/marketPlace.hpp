@@ -129,7 +129,7 @@ namespace market
 
         // Imene
         // angebotVomStaat müssen die Werte angepasst werden, durch Formel
-        void preisanpassung(){};
+        void preisanpassung();
 
         nutzer login(string name, string password);
 
