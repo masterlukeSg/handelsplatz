@@ -22,9 +22,12 @@ namespace market
         {
             string password;
             nutzer user = nutzer("NULL", "NULL", 0);
+        //erstellt eine instanz vom passwordAndUser struct
         };
-        struct passwordAndUser pwu;
+        struct passwordAndUser pwu; 
 
+
+        
         map<string, passwordAndUser> usersInformation;
 
         struct handelsgutUndPreis
