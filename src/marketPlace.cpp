@@ -315,3 +315,4 @@ nutzer MarketPlace::getNutzer(int id)
 
     return aktuellerNutzer;
 }
+ 
