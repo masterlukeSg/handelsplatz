@@ -4,18 +4,6 @@
 
 int main()
 {
-    market::MarketPlace p;
-    p.newUser("Lukas", "1234");
+    std::cout << "was";
 
-    for (string s : p.getAllStaatOffers())
-    {
-        std::cout << s << std::endl;
-    }
-
-    p.preisanpassung();
-
-    for (string s : p.getAllStaatOffers())
-    {
-        std::cout << s << std::endl;
-    }
 }

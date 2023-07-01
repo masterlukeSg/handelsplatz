@@ -104,6 +104,8 @@ namespace market
          */
         bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis, int id);
 
+        int getID(string name);
+
         /**
          * @brief gibt alle Staatsangebote wieder
          * @return vector: Staatsangebote

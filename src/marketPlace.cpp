@@ -36,11 +36,23 @@ MarketPlace::MarketPlace()
     }
 }
 
+int MarketPlace::getID(string name_)
+{
+    for (const auto &[name, passwordAndUser] : usersInformation)
+        if (name_ == name)
+            return passwordAndUser.id;
+
+    return 0;
+}
+
 bool MarketPlace::newUser(string newName, string newPassword)
 {
     for (const auto &[name, passwordAndUser] : usersInformation)
         if (name == newName)
             return false;
+
+    if (newName == "NULL")
+        return false;
 
     nutzer newUser = nutzer(newName, newPassword, 1000);
 
@@ -315,4 +327,3 @@ nutzer MarketPlace::getNutzer(int id)
 
     return aktuellerNutzer;
 }
- 
