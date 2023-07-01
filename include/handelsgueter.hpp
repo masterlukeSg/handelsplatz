@@ -10,7 +10,7 @@ namespace market
   {
   private:
     std::string name;
-   // int handelswert;
+
     int anzahl;
 
   public:
@@ -18,7 +18,7 @@ namespace market
     Handelsgueter(){};
     int getAnzahl();
     std::string getName() const;
-    // int getHandelswert();
+
     void setAnzahl(int);
   };
 
