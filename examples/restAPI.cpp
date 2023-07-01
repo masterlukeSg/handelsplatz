@@ -8,7 +8,7 @@
 namespace py = pybind11;
 using namespace market;
 
-PYBIND11_MODULE(market, m)
+PYBIND11_MODULE(handelMitMarkt, m)
 {
 
     m.doc() = "Handelsplatz von Aicha, Imene und Lukas";
