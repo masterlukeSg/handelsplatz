@@ -35,6 +35,7 @@ async def login(request: Request):
         return {"nachricht": f"Willkommen zurück {name}",
                 "status": True}
     else:
+        id = 0
         return {"nachricht": "Dein Benutzername oder Passwort ist falsch. Versuche es erneut ",
                 "status": False}
 
@@ -52,12 +53,14 @@ async def register(request: Request):
         id = h.getID(name)
         return {"nachricht": f"Willkommen {name} auf unserem Handelsplatz.",
                 "statuts": True}
+
+    id = 0
     return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
             "statur": False}
 
 
 @app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}")
-async def login(request: Request, handelsgut: str, anzahl: int):
+async def login(handelsgut: str, anzahl: int):
 
     global idOfUser, user
 
@@ -70,3 +73,18 @@ async def login(request: Request, handelsgut: str, anzahl: int):
     else:
         return {"nachricht": "Leider ist etwas schief gelaufen. Überprüfe das ob du das Handelsgut richtig geschrieben hast und ob du genug Geld auf deinem Konto hast",
                 "status": False}
+
+
+@app.get("/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}{anzahl}")
+async def login(handelsgut: str, verkaufer: str, anzahl: int):
+
+    global idOfUser, user
+    if (id == 0):
+        return {"nachricht": "Bitte melde dich ersteinmal an",
+                "status": False}
+    if (h.buyFromUser(handelsgut, verkaufer, anzahl, id)):
+        return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} von {verkaufer} gekauft. Es wurde zu deinem Inventar hinzugefuegt", "status": True}
+
+    else:
+        return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ", "status": False}
+
