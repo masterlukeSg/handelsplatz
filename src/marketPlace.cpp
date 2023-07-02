@@ -47,12 +47,12 @@ int MarketPlace::getID(string name_)
 
 bool MarketPlace::newUser(string newName, string newPassword)
 {
+    if (newName == "NULL")
+        return false;
+
     for (const auto &[name, passwordAndUser] : usersInformation)
         if (name == newName)
             return false;
-
-    if (newName == "NULL")
-        return false;
 
     nutzer newUser = nutzer(newName, newPassword, 1000);
 

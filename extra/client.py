@@ -24,10 +24,11 @@ def menu():
         
         header = {"name": username, "passwort": passwort}
         
-        response = requests.get(base_api_url, headers=header).json()
+        response = requests.get(f"{base_api_url}/login", headers=header).json()
 
+          
     elif (auswahl == 1):
-        
+
 
 
 menu()
