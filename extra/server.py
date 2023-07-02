@@ -144,3 +144,18 @@ async def login(handelsgut: str, verkaufer:str):
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
+    
+
+
+@app.get("/getNutzer/{id}")
+async def login(id: int):
+
+    global idOfUser, user
+    if (id == 0):
+        return {"nachricht": "Bitte melde dich erst einmal an",
+                "status": False}
+    if (h.getNutzer(id)):
+        return {"nachricht": f"Der Nutzer mit der id: {id} wurde gefunden", "status": True}
+
+    else:
+        return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe die ID des Nutzers ", "status": False}
