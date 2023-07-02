@@ -24,9 +24,39 @@ def menu():
         
         header = {"name": username, "passwort": passwort}
         
-        response = requests.get(base_api_url, headers=header).json()
+        response = requests.get(f"{base_api_url}/login", headers=header).json()
+
+        while not response["status"]:
+
+            username = str(input("Bitt gib dein Username ein:"))
+            passwort = str(input("Bitt gib dein Passwort ein:"))  
+
+            header = {"name": username, "passwort": passwort}
+        
+            response = requests.get(f"{base_api_url}/login", headers=header).json()
 
     elif (auswahl == 1):
+         
+
+         
+         username = str(input("Bitt gib dein Username ein:"))
+         passwort = str(input("Bitt gib dein Passwort ein:"))  
+
+         header = {"name": username, "passwort": passwort}
+        
+         response = requests.get(f"{base_api_url}/register", headers=header).json()
+
+         while not response["status"]:
+            
+             username = str(input("Bitt gib dein Username ein:"))
+             passwort = str(input("Bitt gib dein Passwort ein:"))  
+
+             header = {"name": username, "passwort": passwort}
+        
+             response = requests.get(f"{base_api_url}/register", headers=header).json()
+         
+
+
         
 
 
