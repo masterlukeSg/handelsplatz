@@ -182,10 +182,20 @@ async def login():
     if (id == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.getAllStaatOffers()):
-        return {"status": True}
-
     else:
-        return {"status": False}
+        return {h.getAllStaatOffers()}
     
+    
+@app.get("/getAllNutzerOffers")
+async def login():
+
+    global idOfUser, user
+    if (id == 0):
+        return {"nachricht": "Bitte melde dich erst einmal an",
+                "status": False}
+    
+    else: return{ h.getAllNutzerOffers() }
+        
+
+   
     
