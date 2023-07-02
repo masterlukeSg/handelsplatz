@@ -173,3 +173,19 @@ async def login(handelsgut:str, preis:int):
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen.Uberpruefen sie ob der Name vom Handelsgut richtig geschrieben ist ", "status": False}
+    
+
+@app.get("/getAllStaatOffers")
+async def login():
+
+    global idOfUser, user
+    if (id == 0):
+        return {"nachricht": "Bitte melde dich erst einmal an",
+                "status": False}
+    if (h.getAllStaatOffers()):
+        return {"status": True}
+
+    else:
+        return {"status": False}
+    
+    
