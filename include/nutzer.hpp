@@ -16,7 +16,6 @@ namespace market
     std::string benutzername;
     std::string passwort;
 
-
   public:
     nutzer(std::string benutzername_, std::string passwort_, int kontostand_) : benutzername(benutzername_), passwort(passwort_), kontostand(kontostand_){};
     nutzer(){};

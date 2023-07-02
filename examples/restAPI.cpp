@@ -2,6 +2,7 @@
 #include "../include/nutzer.hpp"
 #include "../include/handelsgueter.hpp"
 
+#include <iostream>
 #include <string>
 #include <pybind11/pybind11.h>
 
@@ -13,7 +14,7 @@ PYBIND11_MODULE(market, m)
 
     m.doc() = "Handelsplatz von Aicha, Imene und Lukas";
 
-    py::class_<MarketPlace>(m, "MarketPlace")
+    py::class_<::MarketPlace>(m, "MarketPlace")
         .def(py::init<>())
         .def("buyFromMarketPlace", &MarketPlace::buyFromMarketPlace)
         .def("buyFromUser", &MarketPlace::buyFromUser)
@@ -28,8 +29,9 @@ PYBIND11_MODULE(market, m)
         .def("getNutzer", &MarketPlace::getNutzer)
         .def("newUser", &MarketPlace::newUser);
 
-    py::class_<nutzer>(m, "Nutzer")
+    py::class_<::nutzer>(m, "Nutzer")
         .def(py::init<std::string, std::string, int>())
+        .def(py::init<>())
         .def("getKontostand", &nutzer::getKontostand)
         .def("setKontostand", &nutzer::setKontostand)
         .def("hatHandelsgut", &nutzer::hatHandelsgut)
@@ -38,8 +40,9 @@ PYBIND11_MODULE(market, m)
         .def("getBenutzername", &nutzer::getBenutzername)
         .def("getPasswort", &nutzer::getPasswort);
 
-    py::class_<Handelsgueter>(m, "Handelsgueter")
+    py::class_<::Handelsgueter>(m, "Handelsgueter")
         .def(py::init<std::string, int>())
+        .def(py::init<>())
         .def("getAnzahl", &Handelsgueter::getAnzahl)
         .def("setAnzahl", &Handelsgueter::setAnzahl)
         .def("getName", &Handelsgueter::getName);
