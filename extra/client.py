@@ -22,6 +22,7 @@ def start():
     auswahl = m.show()
 
     if (auswahl == 0):
+        
         username = str(input("Bitt gib dein Username ein:"))
         passwort = str(input("Bitt gib dein Passwort ein:"))
 
