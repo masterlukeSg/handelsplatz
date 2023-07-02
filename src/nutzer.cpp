@@ -4,7 +4,7 @@
 #include "../include/nutzer.hpp"
 
 using namespace std;
-using namespace market;
+using namespace handelsplatz;
 
 void nutzer::setKontostand(int neu)
 {

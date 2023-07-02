@@ -14,7 +14,7 @@
 #include <math.h>
 
 using namespace std;
-using namespace market;
+using namespace handelsplatz;
 
 MarketPlace::MarketPlace()
 {

@@ -5,7 +5,7 @@
 #include <map>
 #include "handelsgueter.hpp"
 using namespace std;
-namespace market
+namespace handelsplatz
 {
   class nutzer
   {
