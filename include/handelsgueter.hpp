@@ -4,7 +4,7 @@
 #include <vector>
 
 using namespace std;
-namespace market
+namespace handelsplatz
 {
   class Handelsgueter
   {

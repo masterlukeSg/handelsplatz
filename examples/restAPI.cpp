@@ -2,14 +2,13 @@
 #include "../include/nutzer.hpp"
 #include "../include/handelsgueter.hpp"
 
-#include <iostream>
 #include <string>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
-using namespace market;
+using namespace handelsplatz;
 
-PYBIND11_MODULE(market, m)
+PYBIND11_MODULE(handelsplatz, m)
 {
 
     m.doc() = "Handelsplatz von Aicha, Imene und Lukas";
@@ -29,7 +28,7 @@ PYBIND11_MODULE(market, m)
         .def("getNutzer", &MarketPlace::getNutzer)
         .def("newUser", &MarketPlace::newUser);
 
-    py::class_<::nutzer>(m, "Nutzer")
+    py::class_<::nutzer>(m, "nutzer")
         .def(py::init<std::string, std::string, int>())
         .def(py::init<>())
         .def("getKontostand", &nutzer::getKontostand)

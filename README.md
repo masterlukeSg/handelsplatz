@@ -7,25 +7,41 @@
 - Handelsguter Klasse : Aicha
 - Marketplace: Imene & Lukas
 
-- Server
-- Client
+- Server: Aicha & Lukas
+- Client: Imene & Lukas
 
-### Klassenbeschreibung
+# Klassenbeschreibung
 
 ## Nutzerklasse
 
 ```
-Die Klasse dient dazu den Benutzername, Kontostand und Passwort zurückzugeben.
-Der Kontostand kann angepasst werden, es kann überprüft werden ob der Nutzer bestimmte Handelsgüter besitzt und kann vorhandene Handelsgüter hinzufügen und removen
+Die Klasse dient dazu den Benutzername, Kontostand und das Passwort zurückzugeben.
+Der Kontostand kann angepasst werden, es kann überprüft werden ob der Nutzer bestimmte Handelsgüter besitzt und kann vorhandene Handelsgüter hinzufügen und entfernen
+```
+
+## Handelsguter
+
+```
+Die Klasse ist dafür da, um einzelne Objekte zu erzeugen. Die bekommen beim erstellen einnen Namen, sowie die Anzahl an vorhandenen Handelsguteren.
+Man kann die Anzahl der Handelsguter bearbeiten und sich zurückzugeben lassen. Der Name des Handelsguts ist auch wiedergebbar. 
+```
+
+## Marketplace
+
+```
+Die Klasse ist das Herzstück für unser Handelsplatz. Die Klasse bietet alle Funktionen an, um mit dem Marketplace selber zu handel, oder auch angebote aufzugeben und angebote von anderen Nutzer anzunehmen. 
+Durch die login und register Funktionen hat jeder Nutzre sein eigenes Konto und kann nur auf sein Account zugreifen.
 ```
 
 
+## Start Projekt
 
-## Add your files
+1.  cmake -S . -B build && cmake --build build && --install build 
+2.  cd extra: uvicorn server:app --reload --port 8000
+3.  python3 client.py
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
+## Download Projekt
 ```
 cd existing_repo
 git remote add origin https://gitlab.informatik.uni-bonn.de/baumeisterl0/handelsplatz.git
