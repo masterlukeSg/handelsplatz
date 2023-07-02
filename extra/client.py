@@ -8,8 +8,26 @@ from fastapi import FastAPI
 
 import requests
 from pprint import pprint
-from simple_term_menu import TerminalMenu, ConsoleMenu
+from simple_term_menu import TerminalMenu
 
-#base_api_url = "http://127.0.0.1:8000"
-m = TerminalMenu(["Login 1", "Registrieren 2"], "Hauptmenü")
-auswahl = m.show()
+base_api_url = "http://127.0.0.1:8000"
+
+
+
+def menu():
+    m = TerminalMenu(["Login", "Registrieren"], title="Hauptmenü")
+    auswahl = m.show()
+
+    if (auswahl == 0):
+        username = str(input("Bitt gib dein Username ein:"))
+        passwort = str(input("Bitt gib dein Passwort ein:"))
+        
+        header = {"name": username, "passwort": passwort}
+        
+        response = requests.get(base_api_url, headers=header).json()
+
+    elif (auswahl == 1):
+        
+
+
+menu()
