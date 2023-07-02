@@ -159,3 +159,17 @@ async def login(id: int):
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe die ID des Nutzers ", "status": False}
+    
+
+@app.get("/preisanpassung/{handelsgut}/{preis}")
+async def login(handelsgut:str, preis:int):
+
+    global idOfUser, user
+    if (id == 0):
+        return {"nachricht": "Bitte melde dich erst einmal an",
+                "status": False}
+    if (h.preisanpassung(handelsgut,preis,id)):
+        return {"nachricht": f"Der Preis von {handelsgut} wurde angepasst", "status": True}
+
+    else:
+        return {"nachricht": "Leider ist etwas schief geagngen.Uberpruefen sie ob der Name vom Handelsgut richtig geschrieben ist ", "status": False}
