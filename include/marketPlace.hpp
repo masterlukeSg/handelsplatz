@@ -17,17 +17,17 @@ namespace market
     class MarketPlace : public nutzer
     {
     private:
-        nutzer aktuellerNutzer = nutzer("Null", "Null", 0);
+        nutzer aktuellerNutzer = nutzer("NULL", "NULL", 0);
         struct passwordAndUser
         {
             string password;
+            int id;
             nutzer user = nutzer("NULL", "NULL", 0);
-        //erstellt eine instanz vom passwordAndUser struct
+
+            // erstellt eine instanz vom passwordAndUser struct
         };
-        struct passwordAndUser pwu; 
+        struct passwordAndUser pwu;
 
-
-        
         map<string, passwordAndUser> usersInformation;
 
         struct handelsgutUndPreis
@@ -46,6 +46,7 @@ namespace market
         {
             vector<int> preis;
             vector<int> anzahl;
+            nutzer user = nutzer("NULL", "NULL", 0);
             vector<Handelsgueter> angebote;
         };
         struct alleInfos aI;
@@ -54,13 +55,12 @@ namespace market
          * @brief Nutzer, alleInfos: Preis, Anzahl, Handeslguter
          * Durch mutlimap, kann ein Nutzer mehrere Angebote haben (mehrere Keys möglich)
          */
-        map<nutzer, alleInfos> angeboteVonNutzern;
+        map<string, alleInfos> angeboteVonNutzern;
 
         // TODO: void preisAnpassung();
     public:
         MarketPlace();
 
-        // Imene
         /**
          * @brief Überprüft ob der Käufer ein vorhandes Angebot kaufen will und für das auch genug Geld hat
          *
@@ -69,7 +69,7 @@ namespace market
          * @return true: Nutzer bekommt neues Handelsgut oder es wird auf vorhandenes drauf addiert
          * @return false -> etwas stimmte bei der Bestellung nicht
          */
-        bool buyFromMarketPlace(string handelsgut, int anzahl);
+        bool buyFromMarketPlace(string handelsgut, int anzahl, int id);
 
         /**
          * @brief Käufer bekommt Handelsgut und der Kontostand wird angepasst.
@@ -79,7 +79,7 @@ namespace market
          * @param verkaufer
          * @return true: wenn Transaktion durch gegangen ist
          */
-        bool buyFromUser(string handelsgut, string verkaufer, int anzahl);
+        bool buyFromUser(string handelsgut, string verkaufer, int anzahl, int id);
 
         /**
          * @brief Zum MarketPlace Preis, wird das angegeben Produkt verkaut und Anzahl vom Nutzer entfernt
@@ -89,7 +89,7 @@ namespace market
          * @return true
          * @return false
          */
-        bool sellToMarketPlace(string Handelsgut, int anzahl);
+        bool sellToMarketPlace(string Handelsgut, int anzahl, int id);
 
         // Imene
         /**
@@ -102,7 +102,9 @@ namespace market
          * @return true
          * @return false
          */
-        bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis);
+        bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis, int id);
+
+        int getID(string name);
 
         /**
          * @brief gibt alle Staatsangebote wieder
@@ -125,7 +127,7 @@ namespace market
         int getPriceOfMarketPlace(string handelsgut);
 
         // Imene
-        int getPriceOfUser(string Handelsgut, nutzer verkaufer);
+        int getPriceOfUser(string Handelsgut, string verkaufer);
 
         // Imene
         // angebotVomStaat müssen die Werte angepasst werden, durch Formel
@@ -133,8 +135,7 @@ namespace market
 
         nutzer login(string name, string password);
 
-        void setNutzer(nutzer n);
-        nutzer getNutzer();
+        nutzer getNutzer(int id);
 
         bool newUser(string name, string password);
     };
