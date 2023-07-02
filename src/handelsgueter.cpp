@@ -3,7 +3,7 @@
 #include "../include/handelsgueter.hpp"
 
 using namespace std;
-using namespace market;
+using namespace handelsplatz;
 
 std::string Handelsgueter::getName() const
 {

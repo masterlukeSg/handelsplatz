@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 
-using namespace market;
+using namespace handelsplatz;
 // cmake -S . -B build && cmake --build build
 
 TEST(MarketPlace, buyFromMarketPlace)

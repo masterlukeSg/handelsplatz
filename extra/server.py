@@ -1,7 +1,7 @@
 # uvicorn server:app --reload --port 8000
 
-import market
-from market import MarketPlace
+import handelsplatz
+from handelsplatz import MarketPlace
 from typing import Union
 import os
 import random

@@ -11,7 +11,7 @@
 
 // cmake -S . -B build && cmake --build build && --install build
 using namespace std;
-namespace market
+namespace handelsplatz
 {
 
     class MarketPlace : public nutzer
