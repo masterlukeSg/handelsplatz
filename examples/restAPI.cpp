@@ -8,7 +8,7 @@
 namespace py = pybind11;
 using namespace handelsplatz;
 
-PYBIND11_MODULE(handelsplatz, m)
+PYBIND11_MODULE(market, m)
 {
 
     m.doc() = "Handelsplatz von Aicha, Imene und Lukas";
@@ -25,6 +25,7 @@ PYBIND11_MODULE(handelsplatz, m)
         .def("getPriceOfUser", &MarketPlace::getPriceOfUser)
         .def("preisanpassung", &MarketPlace::preisanpassung)
         .def("login", &MarketPlace::login)
+        .def ("getID", &MarketPlace::getID)
         .def("getNutzer", &MarketPlace::getNutzer)
         .def("newUser", &MarketPlace::newUser);
 

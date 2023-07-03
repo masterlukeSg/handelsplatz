@@ -1,7 +1,7 @@
 # uvicorn server:app --reload --port 8000
-
-import handelsplatz
-from handelsplatz import MarketPlace
+# cmake -S . -B build && cmake --build build && cmake  --install build
+import market
+from market import MarketPlace
 from typing import Union
 import os
 import random
@@ -15,7 +15,8 @@ h = MarketPlace()
 # TODO: preisanpassungs fkt aufrufen
 
 idOfUser = 0
-user
+user = None
+
 
 @app.get("/preisanpassung/")
 async def preisanpassung():
@@ -29,8 +30,6 @@ async def preisanpassung():
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen.Uberpruefen sie ob der Name vom Handelsgut richtig geschrieben ist ", "status": False}
-
-
 
 
 @app.get("/")
@@ -69,11 +68,11 @@ async def register(request: Request):
         user = h.login(name, passwort)
         id = h.getID(name)
         return {"nachricht": f"Willkommen {name} auf unserem Handelsplatz.",
-                "statuts": True}
+                "status": True}
 
     id = 0
     return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
-            "statur": False}
+            "status": False}
 
 
 @app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}")
@@ -145,7 +144,7 @@ async def getPriceOfMarketPlace(handelsgut: str):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
     if (h.getPriceOfMarketPlace(handelsgut, id)):
-        return {"nachricht": f"Der Preis von dem {handelsgut} wurde ausgegeben", "status": True}
+        return {"nachricht": h.getPriceOfMarketPlace(handelsgut, id), "status": True}
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
@@ -159,7 +158,7 @@ async def getPriceOfUser(handelsgut: str, verkaufer: str):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
     if (h.getPriceOfUser(handelsgut, verkaufer, id)):
-        return {"nachricht": f"Der Preis von dem {handelsgut} wurde ausgegeben", "status": True}
+        return {"nachricht": h.getPriceOfUser(handelsgut, verkaufer, id), "status": True}
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
@@ -173,7 +172,8 @@ async def getAllStaatOffers():
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
     else:
-        return {h.getAllStaatOffers()}
+        return {"nachricht": h.getAllStaatOffers(),
+                "status": True}
 
 
 @app.get("/getAllNutzerOffers")
@@ -185,4 +185,15 @@ async def getAllNutzerOffers():
                 "status": False}
 
     else:
-        return {h.getAllNutzerOffers()}
+        return {"nachricht": h.getAllNutzerOffers(),
+                "status": True}
+
+if __name__ == "__main__":
+    this_python_file = os.path.basename(__file__)[:-3]
+    instance = uvicorn.run(
+        f"{this_python_file}:app",
+        host="127.0.0.1",
+        port=8000,
+        log_level="info",
+        reload=True,
+    )
