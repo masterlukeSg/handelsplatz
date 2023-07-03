@@ -21,10 +21,27 @@ int main()
     marketplace.newUser("imene", "blubblub");
     int lol = marketplace.getID("imene");
 
+    //Handelsgueter wolle= Handelsgueter("wolle", 3 );
+
+    marketplace.getNutzer(lol).addHandelsgut("wolle", 3);
+
+    for (auto [name, handelsgut]: marketplace.getNutzer(lol).getGueterVorrat()){
+
+        std::cout<<name<<std::endl;
+    }
+
+
+
+
     marketplace.buyFromMarketPlace("Wolle", 2, lol);
 
     for( auto [name, structur] : marketplace.getNutzer(lol).getGueterVorrat())
         std::cout << name << std::endl;
+
+    
+
+
+
 
 
     

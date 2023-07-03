@@ -69,7 +69,7 @@ bool nutzer::hatHandelsgut(string name)
 // handelsgut getanzahl, sonst null
 int nutzer::handelsgutAnzahl(string name)
 {
-    if (!hatHandelsgut(name) == true)
+    if (hatHandelsgut(name) == false)
         return 0;
 
     for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
@@ -86,7 +86,7 @@ void nutzer::addHandelsgut(string name, int anzahl)
     {
         std::cout << "Die size (in False): " << guetervorrat.size() << std::endl;
         Handelsgueter h = Handelsgueter(name, anzahl);
-        guetervorrat[name] = (h);
+        guetervorrat[name] = {h};
     }
 
     for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
