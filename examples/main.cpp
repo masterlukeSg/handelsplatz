@@ -8,28 +8,42 @@
 using namespace handelsplatz;
 using namespace std;
 
+// uvicorn server:app --reload --port 8000
+// cmake -S . -B build && cmake --build build && cmake  --install build
+
+
+
 int main()
 {
 
- 
- MarketPlace marketplace;
+    MarketPlace marketplace;
 
- 
+    marketplace.newUser("imene", "blubblub");
+    int lol = marketplace.getID("imene");
 
- marketplace.newUser("imene", "blubblub");
- int lol= marketplace.getID("imene");
+    marketplace.buyFromMarketPlace("Wolle", 2, lol);
 
- marketplace.buyFromMarketPlace("Wolle", 23, lol);
+    for( auto [name, structur] : marketplace.getNutzer(lol).getGueterVorrat())
+        std::cout << name << std::endl;
 
- vector<string> neuervektor= marketplace.getNutzer(lol).getGuterVorratName();
 
- for (string s:  neuervektor){
-     cout<<s<<endl;
-     cout<<"bin drinnen"<<endl;
- }
+    
+    std::cout << marketplace.getNutzer(lol).hatHandelsgut("Wolle") << std::endl;
 
- 
 
+
+    vector<string> neuervektor = marketplace.getNutzer(lol).getGuterVorratName();
+
+    std::cout << "in der main: " << neuervektor.size() << std::endl;
+    
+    
+    for (string s : neuervektor)
+    {
+        cout << s << endl;
+        cout << "bin drinnen" << endl;
+    }
+
+    marketplace.print();
 
 
 }

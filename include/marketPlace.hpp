@@ -59,6 +59,9 @@ namespace handelsplatz
 
         // TODO: void preisAnpassung();
     public:
+
+        void print();
+
         MarketPlace();
 
         /**

@@ -1,20 +1,25 @@
 #include <iostream>
 #include <string>
-
 #include <iostream>
 #include <map>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+
 #include "../include/marketPlace.hpp"
 #include "../include/nutzer.hpp"
 #include "../include/handelsgueter.hpp"
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <math.h>
-
 using namespace std;
 using namespace handelsplatz;
+
+void MarketPlace::print()
+{
+    for (auto [name, structur] : usersInformation)
+    {
+        std::cout << name << std::endl;
+    }
+}
 
 MarketPlace::MarketPlace()
 {
@@ -58,7 +63,7 @@ bool MarketPlace::newUser(string newName, string newPassword)
 
     pwu.password = newPassword;
     pwu.user = newUser;
-    pwu.id = rand() % 10000;
+    pwu.id = rand() % 1000000;
     usersInformation[newName] = pwu;
 
     return true;
@@ -76,19 +81,18 @@ nutzer MarketPlace::login(string userName, string userPassword)
 }
 
 bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
-{   
+{
     if (getNutzer(id).getBenutzername() == "NULL")
         return false;
-    std::cout << angebotVomStaat.size() << std::endl;
 
     // guckt, ob Angebot von Staat vorhanden ist
-    for (auto [angebot, hUp] : angebotVomStaat)
+    for (const auto &[angebot, hUp] : angebotVomStaat)
     {
         if (angebot == handelsgut)
-        {   
+        {
 
             // guckt, ob genügend handelsgüter da sind
-            //if (hUp.handelsgut.getAnzahl() < anzahl)
+            // if (hUp.handelsgut.getAnzahl() < anzahl)
             //    return false;
 
             // guckt , ob der Käufer genug Geld hat
@@ -104,9 +108,9 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
             getNutzer(id).addHandelsgut(handelsgut, anzahl);
 
             // Anzahl des Handelsguts beim Staat aktualisieren
-            //handelsgutUndPreis updatedHUp = hUp;
-            //updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
-            //angebotVomStaat[angebot] = updatedHUp;
+            // handelsgutUndPreis updatedHUp = hUp;
+            // updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
+            // angebotVomStaat[angebot] = updatedHUp;
 
             return true;
         }
@@ -327,5 +331,5 @@ nutzer MarketPlace::getNutzer(int id)
         if (userInfos.id == id)
             return userInfos.user;
 
-    return aktuellerNutzer;
+    return nutzer("NULL", "NULL", 0);
 }
