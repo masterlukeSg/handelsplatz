@@ -6,6 +6,11 @@
 using namespace std;
 using namespace handelsplatz;
 
+vector<Handelsgueter> nutzer::getGuterVorrat()
+{
+    return guetervorrat;
+}
+
 void nutzer::setKontostand(int neu)
 {
     kontostand = neu;
@@ -86,7 +91,6 @@ bool nutzer::removeHandelsgut(string name, int anzahl)
         }
     }
     return false;
-    
 }
 
 /*vector<Handelsgueter> getHandelsgueter{

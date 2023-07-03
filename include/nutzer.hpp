@@ -22,6 +22,8 @@ namespace handelsplatz
 
     int getKontostand() const;
 
+    vector<Handelsgueter> getGuterVorrat();
+
     void setKontostand(int neu);
 
     bool hatHandelsgut(string name);

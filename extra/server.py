@@ -89,6 +89,7 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int):
     kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
     if (kauf):
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
+                "extraInfos": f"Du hast jetzt {user.get}",
                 "status": True}
     else:
         return {"nachricht": "Leider ist etwas schief gelaufen. Überprüfe das ob du das Handelsgut richtig geschrieben hast und ob du genug Geld auf deinem Konto hast",
