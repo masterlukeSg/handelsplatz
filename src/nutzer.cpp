@@ -88,10 +88,12 @@ void nutzer::addHandelsgut(string name, int anzahl)
 
     if (hatHandelsgut(name) == false)
     {
-        std::cout << "bin in False" << guetervorrat.size() << std::endl;
+        std::cout << "Die size (in False): " << guetervorrat.size() << std::endl;
+       
         Handelsgueter h = Handelsgueter(name, anzahl);
         guetervorrat.push_back(h);
-        std::cout << guetervorrat.size() << std::endl;
+       
+        std::cout << "Die size nach (False): "<<guetervorrat.size() << std::endl;
     }
 }
 
