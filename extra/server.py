@@ -12,6 +12,8 @@ app = FastAPI()
 
 h = MarketPlace()
 
+### TODO: preisanpassungs fkt aufrufen
+
 idOfUser = 0
 user
 
@@ -64,6 +66,7 @@ async def login(handelsgut: str, anzahl: int):
 
     global idOfUser, user
 
+    # id == 0: User ist nicht angemeldet
     if (id == 0):
         return {"nachricht": "Bitte melde dich ersteinmal an", "status": False}
 

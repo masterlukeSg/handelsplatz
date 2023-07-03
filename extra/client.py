@@ -15,10 +15,14 @@ base_api_url = "http://127.0.0.1:8000"
 login = False
 
 
+### 
+
+
+
 def start():
     global login
     
-    m = TerminalMenu(["Login", "Registrieren"], title="Hauptmenü")
+    m = TerminalMenu(["Login", "Registrieren", "Exit"], title="Hauptmenü")
     auswahl = m.show()
 
     if (auswahl == 0):
@@ -40,7 +44,7 @@ def start():
                 f"{base_api_url}/login", headers=header).json()
         login = True
         
-    elif (auswahl == 1):
+    elif (auswahl == 1):        
         username = str(input("Bitt gib dein Username ein:"))
         passwort = str(input("Bitt gib dein Passwort ein:"))
 
@@ -60,16 +64,19 @@ def start():
             response = requests.get(
                 f"{base_api_url}/register", headers=header).json()
         login = True
-        
+    
+    elif (auswahl == 2):
+        frage = input("willst du wirklich den Marktplatz verlassen?: [J/N]")
+        if (frage == "J"):
+            exit()
+            
         
         
         
 def handelsablaug():
     
-    m = TerminalMenu(["Kaufen", "Verkaufen", "Zurück"], title="Hauptmenü")
+    m = TerminalMenu(["Kaufen", "Verkaufen"], title="Hauptmenü")
     auswahl = m.show()
-
-    
     
            
 start()
