@@ -158,8 +158,11 @@ def staatKauf():
 
             response = requests.get(
                 f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+
         print(response["nachricht"])
         return
+
+
     else:
         return
 
@@ -167,27 +170,29 @@ def staatKauf():
 def nutzerVerkauf():
     print("In deinem Inventar befindet sich: ")
     response = requests.get(f"{base_api_url}/getMyInventar").json()
-    
-    ### TODO: Invenat durch response bekommen
+
+    # TODO: Invenat durch response bekommen
     print(" ... ")
-    
+
     if (response["nachricht"] != []):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
-        response = requests.get(f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
-    
+        response = requests.get(
+            f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+
         while response["status"] == False:
             print(response["nachricht"])
             item = str(input("Was willst du verkaufen?: "))
             anzahl = int(input("Wie viel willst du verkaufen?: "))
             preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
-        
-            response = requests.get(f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
-    
+
+            response = requests.get(
+                f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+
         print(response["nachricht"])
-         
+
     else:
         print("Leider hast du keine Handelsgüter zu verkaufen")
         return
@@ -196,52 +201,53 @@ def nutzerVerkauf():
 def staatVerkauf():
     print("In deinem Inventar befindet sich: ")
     response = requests.get(f"{base_api_url}/getMyInventar").json()
-    
-    ### TODO: Invenat durch response bekommen
+
+    # TODO: Invenat durch response bekommen
     print(" ... ")
-    
+
     if (response["nachricht"] != []):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
-        
-        response = requests.get(f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
-    
+
+        response = requests.get(
+            f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+
         while response["status"] == False:
             print(response["nachricht"])
             item = str(input("Was willst du verkaufen?: "))
             anzahl = int(input("Wie viel willst du verkaufen?: "))
-        
-            response = requests.get(f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
-       
-       
+
+            response = requests.get(
+                f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+
         print(response["nachricht"])
-         
+
     else:
         print("Leider hast du keine Handelsgüter zu verkaufen")
         return
-            
 
 
 def kaufen():
     kaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
-    auswahl = kaufen.show()
 
-    # EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
-    if (auswahl == 3):
-        willExit()
+    
+    while (True):
         auswahl = kaufen.show()
+        # EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
+        if (auswahl == 3):
+            willExit()
+            
+        # ZURÜCK: returnt
+        if (auswahl == 2):
+            return
 
-    # ZURÜCK: returnt
-    elif (auswahl == 2):
-        return
+        # NUTZER: nutzerKauf wird aufgerufen
+        if (auswahl == 1):
+            nutzerKauf()
 
-    # NUTZER: nutzerKauf wird aufgerufen
-    elif (auswahl == 1):
-        nutzerKauf()
-
-    # STAAT: staatKauf wird aufgerufen
-    elif (auswahl == 0):
-        staatKauf()
+        # STAAT: staatKauf wird aufgerufen
+        if (auswahl == 0):
+            staatKauf()
 
 
 def verkaufen():
