@@ -162,7 +162,6 @@ def staatKauf():
         print(response["nachricht"])
         return
 
-
     else:
         return
 
@@ -230,13 +229,12 @@ def staatVerkauf():
 def kaufen():
     kaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
 
-    
     while (True):
         auswahl = kaufen.show()
         # EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
         if (auswahl == 3):
             willExit()
-            
+
         # ZURÜCK: returnt
         if (auswahl == 2):
             return
@@ -252,43 +250,46 @@ def kaufen():
 
 def verkaufen():
     verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
-    auswahl = verkaufen.show()
+    while (True):
+        auswahl = verkaufen.show()
 
-    # EXIT: willExit fkt aufrufen
-    if (auswahl == 3):
-        willExit()
-    auswahl = verkaufen.show()
+        # EXIT: willExit fkt aufrufen
+        if (auswahl == 3):
+            willExit()
+        auswahl = verkaufen.show()
 
-    # ZURÜCK: returnt
-    if (auswahl == 2):
-        return
+        # ZURÜCK: returnt
+        if (auswahl == 2):
+            return
 
-    # NUTZER: nutzerVerkauf fkt wird aufgerufen
-    if (auswahl == 1):
-        nutzerVerkauf()
+        # NUTZER: nutzerVerkauf fkt wird aufgerufen
+        if (auswahl == 1):
+            nutzerVerkauf()
 
-    # STAAT: staatVerkauf fkt wird aufgerufen
-    if (auswahl == 0):
-        staatVerkauf()
+        # STAAT: staatVerkauf fkt wird aufgerufen
+        if (auswahl == 0):
+            staatVerkauf()
 
 
 def handelsablauf():
 
     m2 = TerminalMenu(["Kaufen", "Verkaufen", "Exit"])
-    auswahl = m2.show()
+    
+    while (True):
+        auswahl = m2.show()
 
-    # KAUFEN: Kaufen fkt wird aufgerufen
-    if (auswahl == 0):
-        kaufen()
-    auswahl = m2.show()
+        # KAUFEN: Kaufen fkt wird aufgerufen
+        if (auswahl == 0):
+            kaufen()
+        auswahl = m2.show()
 
-    # VERKAUFEN: verkaufen fkt wird aufgerufen
-    if (auswahl == 1):
-        verkaufen()
+        # VERKAUFEN: verkaufen fkt wird aufgerufen
+        if (auswahl == 1):
+            verkaufen()
 
-    # EXIT: willExit fkt wird aufgerufen
-    if (auswahl == 2):
-        willExit()
+        # EXIT: willExit fkt wird aufgerufen
+        if (auswahl == 2):
+            willExit()
 
 
 start()

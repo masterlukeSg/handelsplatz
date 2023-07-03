@@ -13,12 +13,19 @@
 using namespace std;
 using namespace handelsplatz;
 
-void MarketPlace::print()
+vector<string> MarketPlace::printAllYourItems(int id)
 {
+
     for (auto [name, structur] : usersInformation)
     {
-        std::cout << name << std::endl;
+        if (name == getNutzer(id).getBenutzername())
+        {
+            return structur.user.getGuterVorratName();
+        }
     }
+    vector<string> d = {"NULL"};
+
+    return d;
 }
 
 MarketPlace::MarketPlace()

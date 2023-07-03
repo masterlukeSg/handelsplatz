@@ -30,6 +30,7 @@ PYBIND11_MODULE(market, m)
         .def("getPriceOfUser", &MarketPlace::getPriceOfUser)
         .def("preisanpassung", &MarketPlace::preisanpassung)
         .def("login", &MarketPlace::login)
+        .def ("printAllYourItems", &MarketPlace::printAllYourItems)
         .def ("getID", &MarketPlace::getID)
         .def("getNutzer", &MarketPlace::getNutzer)
         .def("newUser", &MarketPlace::newUser);

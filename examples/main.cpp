@@ -11,8 +11,6 @@ using namespace std;
 // uvicorn server:app --reload --port 8000
 // cmake -S . -B build && cmake --build build && cmake  --install build
 
-
-
 int main()
 {
 
@@ -21,46 +19,31 @@ int main()
     marketplace.newUser("imene", "blubblub");
     int lol = marketplace.getID("imene");
 
-    //Handelsgueter wolle= Handelsgueter("wolle", 3 );
+    // Handelsgueter wolle= Handelsgueter("wolle", 3 );
 
     marketplace.getNutzer(lol).addHandelsgut("wolle", 3);
 
-    for (auto [name, handelsgut]: marketplace.getNutzer(lol).getGueterVorrat()){
+    for (auto [name, handelsgut] : marketplace.getNutzer(lol).getGueterVorrat())
+    {
 
-        std::cout<<name<<std::endl;
+        std::cout << name << std::endl;
     }
-
-
-
 
     marketplace.buyFromMarketPlace("Wolle", 2, lol);
 
-    for( auto [name, structur] : marketplace.getNutzer(lol).getGueterVorrat())
+    for (auto [name, structur] : marketplace.getNutzer(lol).getGueterVorrat())
         std::cout << name << std::endl;
 
-    
-
-
-
-
-
-    
     std::cout << marketplace.getNutzer(lol).getKontostand() << std::endl;
-
-
 
     vector<string> neuervektor = marketplace.getNutzer(lol).getGuterVorratName();
 
     std::cout << "in der main: " << neuervektor.size() << std::endl;
-    
-    
+
     for (string s : neuervektor)
     {
         cout << s << endl;
         cout << "bin drinnen" << endl;
     }
-
-    marketplace.print();
-
 
 }

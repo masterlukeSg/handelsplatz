@@ -60,7 +60,7 @@ namespace handelsplatz
         // TODO: void preisAnpassung();
     public:
 
-        void print();
+        vector<string> printAllYourItems(int id);
 
         MarketPlace();
 

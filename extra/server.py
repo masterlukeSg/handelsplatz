@@ -7,12 +7,21 @@ from market import MarketPlace
 from typing import Union
 import os
 import random
+from threading import Timer
 import uvicorn
 from fastapi import FastAPI, Request
 
 app = FastAPI()
 
 h = MarketPlace()
+
+
+def preisanpassung():
+    h.preisanpassung()
+
+
+t = Timer(100.0, preisanpassung)
+t.start()
 
 # TODO: preisanpassungs fkt aufrufen
 
@@ -85,13 +94,9 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int):
     # idOfUser == 0: User ist nicht angemeldet
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
-    
-    kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
-    print(h.getNutzer(idOfUser).getBenutzername())
-    if (kauf):
 
-        
-           
+    kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
+    if (kauf):
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
                 "status": True}
     else:
