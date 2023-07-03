@@ -111,8 +111,10 @@ def willExit():
 
 def nutzerKauf():
     response = requests.get(f"{base_api_url}/getAllNutzerOffers").json()
+
     print(response["nachricht"])
-    if (response["nachricht"] == []):
+
+    if (len(response["nachricht"]) == 0):
         print("Leider gibt es aktuell keine Angebote von Nutzern")
         return
 
@@ -139,8 +141,14 @@ def nutzerKauf():
 
 
 def staatKauf():
+    x = None
     response = requests.get(f"{base_api_url}/getAllStaatOffers").json()
-    print(response["nachricht"])
+    for i in range(len(response["nachricht"])):
+        if i%1 == 0:
+            x =+str( response["nachricht"][i])
+        if (x != None):
+            print(x)
+            x = None
 
     kaufen = input("willst du etwas kaufen? [J/N]: ")
 
@@ -173,7 +181,7 @@ def nutzerVerkauf():
     # TODO: Invenat durch response bekommen
     print(" ... ")
 
-    if (response["nachricht"] != []):
+    if (len(response["nachricht"]) > 0):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
@@ -204,7 +212,7 @@ def staatVerkauf():
     # TODO: Invenat durch response bekommen
     print(" ... ")
 
-    if (response["nachricht"] != []):
+    if (len(response["nachricht"]) > 0):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
 

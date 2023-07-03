@@ -17,10 +17,11 @@ h = MarketPlace()
 
 
 def preisanpassung():
+    print("aufgerufen")
     h.preisanpassung()
 
 
-t = Timer(100.0, preisanpassung)
+t = Timer(20.0, preisanpassung)
 t.start()
 
 # TODO: preisanpassungs fkt aufrufen
