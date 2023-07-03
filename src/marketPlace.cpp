@@ -82,7 +82,7 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
     std::cout << angebotVomStaat.size() << std::endl;
 
     // guckt, ob Angebot von Staat vorhanden ist
-    for (auto [angebot, hUp] : angebotVomStaat)
+    for (const auto & [angebot, hUp] : angebotVomStaat)
     {
         if (angebot == handelsgut)
         {   
