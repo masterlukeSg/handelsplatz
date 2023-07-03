@@ -299,7 +299,6 @@ vector<string> MarketPlace::getAllStaatOffers()
     {
         returnVecotr.push_back(name);
         returnVecotr.push_back(to_string(handelsgutUndPreis.preis));
-        returnVecotr.push_back("unendlich");
     }
 
     return returnVecotr;

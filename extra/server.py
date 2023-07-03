@@ -201,6 +201,17 @@ async def getAllNutzerOffers():
         return {"nachricht": h.getAllNutzerOffers(),
                 "status": True}
 
+
+@app.get("/getMyInventar")
+async def getMyInventar():
+
+    global idOfUser, user
+    if (idOfUser == 0):
+        return {"nachricht": "Bitte melde dich erstmal an", "status": False}
+
+    else:
+        return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
+
 if __name__ == "__main__":
     this_python_file = os.path.basename(__file__)[:-3]
     instance = uvicorn.run(
