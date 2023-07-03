@@ -144,7 +144,23 @@ def nutzerKauf():
         return
     
 def staatKauf():
-    None
+    response= requests.get("/getAllStaatOffers").json()
+    print(response["information"])
+    kaufen= input("willst du etwas kaufen? [J/N]")
+    if (kaufen== "J"):
+        handelsgut= input("Was willst du kaufen? :")
+        anzahl= int(input("Wie viele willst du kaufen:"))
+
+        response= requests.get("/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+
+        while not response["status"]
+        print(response["information"])
+        handelsgut= input("Was willst du kaufen? :")
+        anzahl= int(input("Wie viele willst du kaufen:"))
+
+        response= requests.get("/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+
+
 
 
 
