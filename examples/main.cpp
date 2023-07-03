@@ -28,7 +28,7 @@ int main()
 
 
     
-    std::cout << marketplace.getNutzer(lol).hatHandelsgut("Wolle") << std::endl;
+    std::cout << marketplace.getNutzer(lol).getKontostand() << std::endl;
 
 
 
