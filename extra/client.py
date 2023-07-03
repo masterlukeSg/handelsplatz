@@ -159,7 +159,7 @@ def staatKauf():
             response = requests.get(
                 f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
         print(response["nachricht"])
-        
+        return
     else:
         return
 
