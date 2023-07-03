@@ -108,35 +108,47 @@ def staatKauf():
 def kaufen():
     kaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
     auswahl = kaufen.show()
+    
+    ### EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
     if (auswahl == 3):
         willExit()
         auswahl = kaufen.show()
+    
+    ### ZURÜCK: returnt 
     elif (auswahl == 2):
         return
+    
+    ### NUTZER: nutzerKauf wird aufgerufen
     elif (auswahl == 1):
         nutzerKauf()
+    
+    ### STAAT: staatKauf wird aufgerufen
     elif (auswahl == 0):
         staatKauf()
 
-
+def verkaufen():
+    verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
+    auswahl = verkaufen.show()
+    if (auswahl == 3):
+        willExit()
 
 
 def handelsablauf():
 
     m = TerminalMenu(["Kaufen", "Verkaufen", "Exit"])
     auswahl = m.show()
+    
+    ### KAUFEN: Kaufen fkt wird aufgerufen
     if (auswahl == 0):
         kaufen()
-
     auswahl = m.show()
 
+    ### VERKAUFEN: verkaufen fkt wird aufgerufen
     if (auswahl == 1):
-        verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
-        auswahl = verkaufen.show()
-        if (auswahl == 3):
-            willExit()
+      verkaufen()
+    ### EXIT: willExit fkt wird aufgerufen
     if (auswahl == 2):
-        print("Oke")
+        willExit()
 
 
 start()
