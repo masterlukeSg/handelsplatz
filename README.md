@@ -22,7 +22,7 @@ Der Kontostand kann angepasst werden, es kann überprüft werden ob der Nutzer b
 ## Handelsguter
 
 ```
-Die Klsase ist dafür da, um einzelne Objekte zu erzeugen. Die bekommen beim erstellen einnen Namen, sowie die Anzahl an vorhandenen Handelsguteren.
+Die Klasse ist dafür da, um einzelne Objekte zu erzeugen. Die bekommen beim erstellen einnen Namen, sowie die Anzahl an vorhandenen Handelsguteren.
 Man kann die Anzahl der Handelsguter bearbeiten und sich zurückzugeben lassen. Der Name des Handelsguts ist auch wiedergebbar. 
 ```
 
