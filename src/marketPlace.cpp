@@ -13,13 +13,13 @@
 using namespace std;
 using namespace handelsplatz;
 
-
-void MarketPlace::print(){
-    for (auto [name, structur] : usersInformation){
+void MarketPlace::print()
+{
+    for (auto [name, structur] : usersInformation)
+    {
         std::cout << name << std::endl;
     }
 }
-
 
 MarketPlace::MarketPlace()
 {
@@ -331,5 +331,5 @@ nutzer MarketPlace::getNutzer(int id)
         if (userInfos.id == id)
             return userInfos.user;
 
-    return aktuellerNutzer;
+    return nutzer("NULL", "NULL", 0);
 }
