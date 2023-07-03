@@ -179,27 +179,26 @@ async def getPriceOfUser(handelsgut: str, verkaufer: str):
 
 @app.get("/getAllStaatOffers")
 async def getAllStaatOffers():
-
     global idOfUser, user
     if (idOfUser == 0):
-        return {"nachricht": "Bitte melde dich erst einmal an",
-                "status": False}
+        return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        return {"nachricht": h.getAllStaatOffers(),
-                "status": True}
+        result = h.getAllStaatOffers()  # Annahme: result enthält die Rückgabewerte aus C++
+        output_list = [result[i:i+2] for i in range(0, len(result), 2)]
+        return {"nachricht": output_list, "status": True}
+
 
 
 @app.get("/getAllNutzerOffers")
 async def getAllNutzerOffers():
-
     global idOfUser, user
     if (idOfUser == 0):
-        return {"nachricht": "Bitte melde dich erst einmal an",
-                "status": False}
-
+        return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        return {"nachricht": h.getAllNutzerOffers(),
-                "status": True}
+        result =  h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
+        output_list = [result[i:i+2] for i in range(0, len(result), 2)]
+        return {"nachricht": output_list, "status": True}
+
 
 
 @app.get("/getMyInventar")
