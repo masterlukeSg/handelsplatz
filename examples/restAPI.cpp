@@ -43,6 +43,8 @@ PYBIND11_MODULE(market, m)
         .def("addHandelsgut", &nutzer::addHandelsgut)
         .def("removeHandelsgut", &nutzer::removeHandelsgut)
         .def("getBenutzername", &nutzer::getBenutzername)
+        .def("getGuterVorratName", &nutzer::getGuterVorratName)
+        .def("getGuterVorratAnzahl", &nutzer::getGuterVorratAnzahl)
         .def("getPasswort", &nutzer::getPasswort);
 
     py::class_<::Handelsgueter>(m, "Handelsgueter")
