@@ -23,40 +23,35 @@ def start():
     global login
 
     m = TerminalMenu(["Login", "Registrieren", "Exit"], title="Hauptmenü")
-    auswahl = m.show()
 
-    if (auswahl == 0):
-
-        username = str(input("Bitt gib dein Username ein:"))
-        passwort = str(input("Bitt gib dein Passwort ein:"))
-
-        header = {"name": username, "passwort": passwort}
-
-        response = requests.get(f"{base_api_url}/login", headers=header).json()
-
-        while not response["status"]:
-            print(response["nachricht"])
+    while (login == False):
+        auswahl = m.show()
+        if (auswahl == 0):
             username = str(input("Bitt gib dein Username ein:"))
             passwort = str(input("Bitt gib dein Passwort ein:"))
 
             header = {"name": username, "passwort": passwort}
-
             response = requests.get(
                 f"{base_api_url}/login", headers=header).json()
-        login = True
 
-    elif (auswahl == 1):
-        username = str(input("Bitt gib dein Username ein:"))
-        passwort = str(input("Bitt gib dein Passwort ein:"))
+            while not response["status"]:
+                print(response["nachricht"])
+                exitFragezeochen = str(
+                    input("Willst aus Login zurück? [J/N]: "))
+                if (exitFragezeochen == "J"):
+                    break
 
-        header = {"name": username, "passwort": passwort}
+                username = str(input("Bitt gib dein Username ein:"))
+                passwort = str(input("Bitt gib dein Passwort ein:"))
 
-        response = requests.get(
-            f"{base_api_url}/register", headers=header).json()
+                header = {"name": username, "passwort": passwort}
+                response = requests.get(
+                    f"{base_api_url}/login", headers=header).json()
+                if (response["status"]):
+                    login = True
+                    break
 
-        while not response["status"]:
-
-            print(response["nachricht"])
+        elif (auswahl == 1):
             username = str(input("Bitt gib dein Username ein:"))
             passwort = str(input("Bitt gib dein Passwort ein:"))
 
@@ -64,12 +59,33 @@ def start():
 
             response = requests.get(
                 f"{base_api_url}/register", headers=header).json()
-        login = True
 
-    elif (auswahl == 2):
-        frage = input("willst du wirklich den Marktplatz verlassen?: [J/N]")
-        if (frage == "J"):
-            exit()
+            while not response["status"]:
+                print(response["nachricht"])
+                exitFragezeochen = str(
+                    input("Willst du aus Registrieren zurück? [J/N]: "))
+                if (exitFragezeochen == "J"):
+                    break
+
+                username = str(input("Bitt gib dein Username ein:"))
+                passwort = str(input("Bitt gib dein Passwort ein:"))
+
+                header = {"name": username, "passwort": passwort}
+
+                response = requests.get(
+                    f"{base_api_url}/register", headers=header).json()
+                if (response["status"]):
+                    login = True
+                    break
+
+        elif (auswahl == 2):
+            frage = input(
+                "willst du wirklich den Marktplatz verlassen?: [J/N]")
+            if (frage == "J"):
+                willExit()
+
+        break
+    handelsablauf()
 
 
 def willExit():
@@ -80,6 +96,15 @@ def willExit():
     return
 
 
+def nutzerKauf():
+    None
+    
+    
+def staatKauf():
+    None
+
+
+
 def kaufen():
     kaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
     auswahl = kaufen.show()
@@ -88,16 +113,23 @@ def kaufen():
         auswahl = kaufen.show()
     elif (auswahl == 2):
         return
+    elif (auswahl == 1):
+        nutzerKauf()
+    elif (auswahl == 0):
+        staatKauf()
 
 
-def handelsablaug():
+
+
+def handelsablauf():
 
     m = TerminalMenu(["Kaufen", "Verkaufen", "Exit"])
     auswahl = m.show()
     if (auswahl == 0):
         kaufen()
+
     auswahl = m.show()
-    
+
     if (auswahl == 1):
         verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
         auswahl = verkaufen.show()
@@ -106,5 +138,5 @@ def handelsablaug():
     if (auswahl == 2):
         print("Oke")
 
+
 start()
-handelsablaug()
