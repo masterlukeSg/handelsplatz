@@ -97,7 +97,28 @@ def willExit():
 
 
 def nutzerKauf():
-    None
+    response = requests.get(f"{base_api_url}/getAllNutzerOffers").json()
+    
+    print(response["information"])
+    
+    kaufen = input ("Willst du etwas kaufen? [J/N]: ")
+    
+    if (kaufen == "J"):
+        verkaufer = input("Von wem willst du etwas kaufen?: ")
+        handelsgut = input("Welches Handelsgut willst du kaufen?: ")
+        anzahl = int(input ("Wie viele willst du kaufen?: "))
+        
+        response = requests.get(f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
+        
+        while not response["status"]:
+            print(response["information"])
+            verkaufer = input("Von wem willst du etwas kaufen?: ")
+            handelsgut = input("Welches Handelsgut willst du kaufen?: ")
+            anzahl = int(input ("Wie viele willst du kaufen?: "))
+        
+            response = requests.get(f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
+    else:
+        return
     
 def staatKauf():
     response= requests.get("/getAllStaatOffers").json()
