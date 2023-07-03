@@ -76,18 +76,20 @@ nutzer MarketPlace::login(string userName, string userPassword)
 }
 
 bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
-{
+{   
     if (getNutzer(id).getBenutzername() == "NULL")
         return false;
+    std::cout << angebotVomStaat.size() << std::endl;
 
     // guckt, ob Angebot von Staat vorhanden ist
     for (auto [angebot, hUp] : angebotVomStaat)
     {
         if (angebot == handelsgut)
-        {
+        {   
+
             // guckt, ob genügend handelsgüter da sind
-            if (hUp.handelsgut.getAnzahl() < anzahl)
-                return false;
+            //if (hUp.handelsgut.getAnzahl() < anzahl)
+            //    return false;
 
             // guckt , ob der Käufer genug Geld hat
             if (getNutzer(id).getKontostand() < hUp.preis)
@@ -102,9 +104,9 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
             getNutzer(id).addHandelsgut(handelsgut, anzahl);
 
             // Anzahl des Handelsguts beim Staat aktualisieren
-            handelsgutUndPreis updatedHUp = hUp;
-            updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
-            angebotVomStaat[angebot] = updatedHUp;
+            //handelsgutUndPreis updatedHUp = hUp;
+            //updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
+            //angebotVomStaat[angebot] = updatedHUp;
 
             return true;
         }

@@ -24,7 +24,7 @@ user = None
 async def preisanpassung():
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
     if (h.preisanpassung()):
@@ -49,11 +49,11 @@ async def login(request: Request):
 
     if (h.login(name, passwort).getBenutzername() != "NULL"):
         user = h.login(name, passwort)
-        id = h.getID(name)
+        idOfUser = h.getID(name)
         return {"nachricht": f"Willkommen zurück {name}",
                 "status": True}
     else:
-        id = 0
+        idOfUser = 0
         return {"nachricht": "Dein Benutzername oder Passwort ist falsch. Versuche es erneut ",
                 "status": False}
 
@@ -68,11 +68,11 @@ async def register(request: Request):
 
     if (h.newUser(name, passwort)):
         user = h.login(name, passwort)
-        id = h.getID(name)
+        idOfUser = h.getID(name)
         return {"nachricht": f"Willkommen {name} auf unserem Handelsplatz.",
                 "status": True}
 
-    id = 0
+    idOfUser = 0
     return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
             "status": False}
 
@@ -82,11 +82,12 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int):
 
     global idOfUser, user
 
-    # id == 0: User ist nicht angemeldet
-    if (id == 0):
+    # idOfUser == 0: User ist nicht angemeldet
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
-
-    if (h.buyFromMarketPlace(handelsgut, anzahl, id)):
+    
+    kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
+    if (kauf):
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
                 "status": True}
     else:
@@ -98,10 +99,10 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int):
 async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int):
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.buyFromUser(handelsgut, verkaufer, anzahl, id)):
+    if (h.buyFromUser(handelsgut, verkaufer, anzahl, idOfUser)):
         return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} von {verkaufer} gekauft. Es wurde zu deinem Inventar hinzugefuegt", "status": True}
 
     else:
@@ -113,10 +114,10 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int):
 
     global idOfUser, user
 
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
 
-    if (h.sellToMarketPlace(handelsgut, anzahl, id)):
+    if (h.sellToMarketPlace(str(handelsgut), int(anzahl), int(idOfUser))):
         return {"nachricht": f"Dein Verkauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und von deinem Invetar entfernt.",
                 "status": True}
     else:
@@ -128,10 +129,10 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int):
 async def sellToUser(handelsgut: str, anzahl: int, preis: int, verkaufer: str):
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.sellToUser(handelsgut, preis, verkaufer, anzahl, id)):
+    if (h.sellToUser(handelsgut, preis, verkaufer, anzahl, idOfUser)):
         return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} an {verkaufer} verkauft. Es wurde aus deinem Inventar entfernt", "status": True}
 
     else:
@@ -142,11 +143,11 @@ async def sellToUser(handelsgut: str, anzahl: int, preis: int, verkaufer: str):
 async def getPriceOfMarketPlace(handelsgut: str):
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.getPriceOfMarketPlace(handelsgut, id)):
-        return {"nachricht": h.getPriceOfMarketPlace(handelsgut, id), "status": True}
+    if (h.getPriceOfMarketPlace(str(handelsgut), idOfUser)):
+        return {"nachricht": h.getPriceOfMarketPlace(handelsgut, idOfUser), "status": True}
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
@@ -156,11 +157,11 @@ async def getPriceOfMarketPlace(handelsgut: str):
 async def getPriceOfUser(handelsgut: str, verkaufer: str):
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.getPriceOfUser(handelsgut, verkaufer, id)):
-        return {"nachricht": h.getPriceOfUser(handelsgut, verkaufer, id), "status": True}
+    if (h.getPriceOfUser(handelsgut, verkaufer, idOfUser)):
+        return {"nachricht": h.getPriceOfUser(handelsgut, verkaufer, idOfUser), "status": True}
 
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
@@ -170,7 +171,7 @@ async def getPriceOfUser(handelsgut: str, verkaufer: str):
 async def getAllStaatOffers():
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
     else:
@@ -182,7 +183,7 @@ async def getAllStaatOffers():
 async def getAllNutzerOffers():
 
     global idOfUser, user
-    if (id == 0):
+    if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
 
