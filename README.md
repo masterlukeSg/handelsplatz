@@ -19,7 +19,7 @@ Die Klasse dient dazu den Benutzername, Kontostand und das Passwort zurückzugeb
 Der Kontostand kann angepasst werden, es kann überprüft werden ob der Nutzer bestimmte Handelsgüter besitzt und kann vorhandene Handelsgüter hinzufügen und entfernen
 ```
 
-## Handelsguter
+## Handelsgüter
 
 ```
 Die Klasse ist dafür da, um einzelne Objekte zu erzeugen. Die bekommen beim erstellen einnen Namen, sowie die Anzahl an vorhandenen Handelsguteren.
