@@ -8,13 +8,13 @@ using namespace handelsplatz;
 
 vector<string> nutzer::getGuterVorratName()
 {
-    std::cout << guetervorrat.size() << std::endl;
+    std::cout << "In GueterVorratName fkt:" << guetervorrat.size() << std::endl;
 
     vector<string> returnVector;
-    for (Handelsgueter s : guetervorrat)
+    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
     {
-        returnVector.push_back(s.getName());
-        std::cout << s.getName() << std::endl;
+        returnVector.push_back(nameVomHandelsgut);
+        std::cout << nameVomHandelsgut << std::endl;
     }
     return returnVector;
 }
@@ -23,10 +23,11 @@ vector<int> nutzer::getGuterVorratAnzahl()
 {
     std::cout << guetervorrat.size() << std::endl;
     vector<int> returnVector;
-    for (Handelsgueter s : guetervorrat)
+
+    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
     {
-        returnVector.push_back(s.getAnzahl());
-        std::cout << s.getAnzahl() << std::endl;
+        returnVector.push_back(handelsgut.getAnzahl());
+        std::cout << handelsgut.getAnzahl() << std::endl;
     }
 
     return returnVector;
@@ -56,8 +57,8 @@ std::string nutzer::getPasswort() const
 // sonst false
 bool nutzer::hatHandelsgut(string name)
 {
-    for (Handelsgueter s : guetervorrat)
-        if (s.getName() == name)
+    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
+        if (nameVomHandelsgut == name)
             return true;
 
     return false;
@@ -71,9 +72,9 @@ int nutzer::handelsgutAnzahl(string name)
     if (!hatHandelsgut(name) == true)
         return 0;
 
-    for (int i = 0; i <= guetervorrat.size(); i++)
-        if (guetervorrat[i].getName() == name)
-            return guetervorrat[i].getAnzahl();
+    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
+        if (nameVomHandelsgut == name)
+            return handelsgut.getAnzahl();
 
     return 0;
 }
@@ -81,20 +82,18 @@ int nutzer::handelsgutAnzahl(string name)
 // erst überprüfen, ob hatHandeslgut, dann anzahl erhöhen, sonst neu erstellen und guetervorrat adden
 void nutzer::addHandelsgut(string name, int anzahl)
 {
-
-    for (int i = 0; i < guetervorrat.size(); i++)
-        if (guetervorrat[i].getName() == name)
-            guetervorrat[i].setAnzahl(guetervorrat[i].getAnzahl() + anzahl);
-
     if (hatHandelsgut(name) == false)
     {
         std::cout << "Die size (in False): " << guetervorrat.size() << std::endl;
-       
         Handelsgueter h = Handelsgueter(name, anzahl);
-        guetervorrat.push_back(h);
-       
-        std::cout << "Die size nach (False): "<<guetervorrat.size() << std::endl;
+        guetervorrat[name] = (h);
     }
+
+    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
+        if (nameVomHandelsgut == name)
+            handelsgut.setAnzahl(handelsgut.getAnzahl() + anzahl);
+
+    std::cout << "Die size nach (False): " << guetervorrat.size() << std::endl;
 }
 
 // Überprüfen, gibt es Handelsgut überhaupt.
@@ -105,25 +104,24 @@ bool nutzer::removeHandelsgut(string name, int anzahl)
     if (!hatHandelsgut(name))
         return false;
 
-    for (int i = 0; i <= guetervorrat.size(); i++)
+    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
     {
-        if (guetervorrat[i].getName() == name)
+        if (nameVomHandelsgut == name)
         {
-            if (guetervorrat[i].getAnzahl() == anzahl)
+            if (handelsgut.getAnzahl() == anzahl)
             {
-                guetervorrat.erase(guetervorrat.begin() + i);
+                guetervorrat.erase(nameVomHandelsgut);
                 return true;
             }
 
-            guetervorrat[i].setAnzahl(guetervorrat[i].getAnzahl() - anzahl);
+            handelsgut.setAnzahl(handelsgut.getAnzahl() - anzahl);
             return true;
         }
     }
     return false;
 }
 
-/*vector<Handelsgueter> getHandelsgueter{
 
-    return vector<Handelsgueter> guetervorrat;
+map<string, Handelsgueter>nutzer::getGueterVorrat(){
+    return guetervorrat;
 }
-*/
