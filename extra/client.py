@@ -111,8 +111,10 @@ def willExit():
 
 def nutzerKauf():
     response = requests.get(f"{base_api_url}/getAllNutzerOffers").json()
-    for i in range(len(response["nachricht"])):
-        print(i)
+    print(response["nachricht"])
+    if (response["nachricht"] == []):
+        print("Leider gibt es aktuell keine Angebote von Nutzern")
+        return
 
     kaufen = input("Willst du etwas kaufen? [J/N]: ")
 
@@ -140,7 +142,7 @@ def staatKauf():
     response = requests.get(f"{base_api_url}/getAllStaatOffers").json()
     print(response["nachricht"])
 
-    kaufen = input("willst du etwas kaufen? [J/N]")
+    kaufen = input("willst du etwas kaufen? [J/N]: ")
 
     if (kaufen == "J"):
         handelsgut = input("Was willst du kaufen? :")
@@ -163,11 +165,61 @@ def staatKauf():
 
 
 def nutzerVerkauf():
-    None
+    print("In deinem Inventar befindet sich: ")
+    response = requests.get(f"{base_api_url}/getMyInventar").json()
+    
+    ### TODO: Invenat durch response bekommen
+    print(" ... ")
+    
+    if (response["nachricht"] != []):
+        item = str(input("Was willst du verkaufen?: "))
+        anzahl = int(input("Wie viel willst du verkaufen?: "))
+        preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+
+        response = requests.get(f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+    
+        while response["status"] == False:
+            print(response["nachricht"])
+            item = str(input("Was willst du verkaufen?: "))
+            anzahl = int(input("Wie viel willst du verkaufen?: "))
+            preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+        
+            response = requests.get(f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+    
+        print(response["nachricht"])
+         
+    else:
+        print("Leider hast du keine Handelsgüter zu verkaufen")
+        return
 
 
 def staatVerkauf():
-    None
+    print("In deinem Inventar befindet sich: ")
+    response = requests.get(f"{base_api_url}/getMyInventar").json()
+    
+    ### TODO: Invenat durch response bekommen
+    print(" ... ")
+    
+    if (response["nachricht"] != []):
+        item = str(input("Was willst du verkaufen?: "))
+        anzahl = int(input("Wie viel willst du verkaufen?: "))
+        
+        response = requests.get(f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+    
+        while response["status"] == False:
+            print(response["nachricht"])
+            item = str(input("Was willst du verkaufen?: "))
+            anzahl = int(input("Wie viel willst du verkaufen?: "))
+        
+            response = requests.get(f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+       
+       
+        print(response["nachricht"])
+         
+    else:
+        print("Leider hast du keine Handelsgüter zu verkaufen")
+        return
+            
 
 
 def kaufen():
