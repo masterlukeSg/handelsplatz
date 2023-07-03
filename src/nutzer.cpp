@@ -9,7 +9,6 @@ using namespace handelsplatz;
 vector<string> nutzer::getGuterVorratName()
 {
     std::cout << "In GueterVorratName fkt:" << guetervorrat.size() << std::endl;
-
     vector<string> returnVector;
     for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
     {

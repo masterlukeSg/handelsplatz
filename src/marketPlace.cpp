@@ -82,37 +82,47 @@ nutzer MarketPlace::login(string userName, string userPassword)
 
 bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
 {
+
     if (getNutzer(id).getBenutzername() == "NULL")
         return false;
 
     // guckt, ob Angebot von Staat vorhanden ist
-    for (const auto &[angebot, hUp] : angebotVomStaat)
+    for (auto &[angebot, hUp] : angebotVomStaat)
     {
-        if (angebot == handelsgut)
+        for (auto &[name, infos] : usersInformation)
         {
-
-            // guckt, ob genügend handelsgüter da sind
-            // if (hUp.handelsgut.getAnzahl() < anzahl)
-            //    return false;
-
-            // guckt , ob der Käufer genug Geld hat
-            if (getNutzer(id).getKontostand() < hUp.preis)
+            if (name != getNutzer(id).getBenutzername())
                 return false;
 
-            // Betrag vom Konto des Käufers abziehen
-            int kontostand = getNutzer(id).getKontostand();
-            kontostand = kontostand - hUp.preis;
-            getNutzer(id).setKontostand(kontostand);
+            if (angebot == handelsgut)
+            {
 
-            // Käufer erhält das Handelsgut
-            getNutzer(id).addHandelsgut(handelsgut, anzahl);
+                // guckt, ob genügend handelsgüter da sind
+                // if (hUp.handelsgut.getAnzahl() < anzahl)
+                //    return false;
 
-            // Anzahl des Handelsguts beim Staat aktualisieren
-            // handelsgutUndPreis updatedHUp = hUp;
-            // updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
-            // angebotVomStaat[angebot] = updatedHUp;
+                // guckt , ob der Käufer genug Geld hat
+                if (getNutzer(id).getKontostand() < hUp.preis)
+                    return false;
 
-            return true;
+                // Betrag vom Konto des Käufers abziehen
+
+                int kontostand = getNutzer(id).getKontostand();
+                kontostand = kontostand - hUp.preis;
+
+                infos.user.setKontostand(kontostand);
+                infos.user.addHandelsgut(handelsgut, anzahl);
+
+                usersInformation[infos.user.getBenutzername()] = infos;
+
+                // Käufer erhält das Handelsgut
+
+                // Anzahl des Handelsguts beim Staat aktualisieren
+                // handelsgutUndPreis updatedHUp = hUp;
+                // updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
+                // angebotVomStaat[angebot] = updatedHUp;
+                return true;
+            }
         }
     }
 
@@ -155,10 +165,10 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
                     // Käufer wird dem Preis vom Konto abgezogen
                     int kontostand = getNutzer(id).getKontostand();
                     kontostand = kontostand - preis;
-                    getNutzer(id).setKontostand(kontostand);
+                    alleInfos.user.setKontostand(kontostand);
 
                     // Käufer bekommt das Handelsgut zugeschrieben
-                    getNutzer(id).addHandelsgut(handelsgut, anzahl);
+                    alleInfos.user.addHandelsgut(handelsgut, anzahl);
 
                     // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
                     // da alles aufgekauft wurde
@@ -168,19 +178,33 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
                         alleInfos.preis.erase(alleInfos.preis.begin() + i);
                         alleInfos.angebote.erase(alleInfos.angebote.begin() + i);
                     }
+
                     // wenn nur ein Teil der Handelsgueter gekauft werden, wird die anzahl angepasst
                     else
                         alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
+
+                    alleInfos.user.setKontostand(kontostand);
+                    alleInfos.user.addHandelsgut(handelsgut, anzahl);
+
+                    angeboteVonNutzern[verKauferNutzer] = alleInfos;
                 }
 
     // Verkäufer bekommt Erlös gut geschrieben
-    int kontostand = n.getKontostand();
-    n.setKontostand(kontostand + preis);
+    for (auto [name, userInfo] : usersInformation)
+    {
+        if (name == getNutzer(id).getBenutzername())
+        {
+            int kontostand = n.getKontostand();
+            userInfo.user.setKontostand(kontostand + preis);
 
-    // Verkäufer bekommt Handelsgut abgezogen
-    getNutzer(id).removeHandelsgut(handelsgut, anzahl);
+            // Verkäufer bekommt Handelsgut abgezogen
+            userInfo.user.removeHandelsgut(handelsgut, anzahl);
+            usersInformation[name] = userInfo;
+            return true;
+        }
+    }
 
-    return true;
+    return false;
 }
 
 bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)

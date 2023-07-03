@@ -87,6 +87,7 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     
     kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
+    print(h.getNutzer(idOfUser).getBenutzername())
     if (kauf):
 
         print(user.getGuterVorratName())
