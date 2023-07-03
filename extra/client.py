@@ -99,10 +99,16 @@ def willExit():
 def nutzerKauf():
     None
     
-    
 def staatKauf():
     None
 
+
+
+def nutzerVerkauf():
+    None
+
+def staatVerkauf():
+    None
 
 
 def kaufen():
@@ -129,8 +135,24 @@ def kaufen():
 def verkaufen():
     verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
     auswahl = verkaufen.show()
+    
+    ### EXIT: willExit fkt aufrufen
     if (auswahl == 3):
         willExit()
+    auswahl = verkaufen.show()
+    
+    
+    ### ZURÜCK: returnt
+    if (auswahl == 2):
+        return
+    
+    ### NUTZER: nutzerVerkauf fkt wird aufgerufen
+    if (auswahl == 1):
+        nutzerVerkauf()
+        
+    ### STAAT: staatVerkauf fkt wird aufgerufen
+    if (auswahl == 0):
+        staatVerkauf()
 
 
 def handelsablauf():
@@ -146,6 +168,7 @@ def handelsablauf():
     ### VERKAUFEN: verkaufen fkt wird aufgerufen
     if (auswahl == 1):
       verkaufen()
+    
     ### EXIT: willExit fkt wird aufgerufen
     if (auswahl == 2):
         willExit()
