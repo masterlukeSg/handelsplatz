@@ -83,16 +83,18 @@ void nutzer::addHandelsgut(string name, int anzahl)
 {
     if (hatHandelsgut(name) == false)
     {
-        std::cout << "Die size (in False): " << guetervorrat.size() << std::endl;
         Handelsgueter h = Handelsgueter(name, anzahl);
-        guetervorrat[name] = {h};
+        guetervorrat[name] = h;
     }
-
-    for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
-        if (nameVomHandelsgut == name)
-            handelsgut.setAnzahl(handelsgut.getAnzahl() + anzahl);
-
-    std::cout << "Die size nach (False): " << guetervorrat.size() << std::endl;
+    else
+    {
+        for (auto [nameVomHandelsgut, handelsgut] : guetervorrat)
+            if (nameVomHandelsgut == name)
+            {
+                handelsgut.setAnzahl(handelsgut.getAnzahl() + anzahl);
+                guetervorrat[name] = handelsgut;
+            }
+    }
 }
 
 // Überprüfen, gibt es Handelsgut überhaupt.
@@ -114,13 +116,14 @@ bool nutzer::removeHandelsgut(string name, int anzahl)
             }
 
             handelsgut.setAnzahl(handelsgut.getAnzahl() - anzahl);
+            guetervorrat[name] = handelsgut;
             return true;
         }
     }
     return false;
 }
 
-
-map<string, Handelsgueter>nutzer::getGueterVorrat(){
+map<string, Handelsgueter> nutzer::getGueterVorrat()
+{
     return guetervorrat;
 }
