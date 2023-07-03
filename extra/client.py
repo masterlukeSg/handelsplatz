@@ -171,7 +171,9 @@ def nutzerVerkauf():
     response = requests.get(f"{base_api_url}/getMyInventar").json()
 
     # TODO: Invenat durch response bekommen
-    print(" ... ")
+    
+
+    print(response["nachricht"])
 
     if (response["nachricht"] != []):
         item = str(input("Was willst du verkaufen?: "))
@@ -202,7 +204,8 @@ def staatVerkauf():
     response = requests.get(f"{base_api_url}/getMyInventar").json()
 
     # TODO: Invenat durch response bekommen
-    print(" ... ")
+   
+    print(response["nachricht"])
 
     if (response["nachricht"] != []):
         item = str(input("Was willst du verkaufen?: "))
