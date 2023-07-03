@@ -213,23 +213,31 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
         return false;
 
     // durch Iterration durch die Angebote vom Staat
-    for (const auto &[name, handelsgutUndPreis] : angebotVomStaat)
+    for (auto [name, handelsgutUndPreis] : angebotVomStaat)
     {
-        // wenn das zuverkaufenden Handelsgut vorhanden ist
-        if (name == handelsgut)
+        for (auto [nameVomVerkaufer, infos] : usersInformation)
         {
-            // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
-            if (getNutzer(id).handelsgutAnzahl(handelsgut) < anzahl)
-                return false;
+            if (nameVomVerkaufer == getNutzer(id).getBenutzername())
+            {
+                // wenn das zuverkaufenden Handelsgut vorhanden ist
+                if (name == handelsgut)
+                {
+                    // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
+                    if (getNutzer(id).handelsgutAnzahl(handelsgut) < anzahl)
+                        return false;
 
-            // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
-            int erloes = anzahl * handelsgutUndPreis.preis;
-            int kontostand = getNutzer(id).getKontostand();
-            getNutzer(id).setKontostand(kontostand + erloes);
+                    // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
+                    int erloes = anzahl * handelsgutUndPreis.preis;
+                    int kontostand = getNutzer(id).getKontostand();
+                    infos.user.setKontostand(kontostand + erloes);
 
-            // Entfertn die Vorräte vom Verkäufer
-            getNutzer(id).removeHandelsgut(handelsgut, anzahl);
-            return true;
+                    // Entfertn die Vorräte vom Verkäufer
+                    infos.user.removeHandelsgut(handelsgut, anzahl);
+                    usersInformation[nameVomVerkaufer] = infos;
+
+                    return true;
+                }
+            }
         }
     }
     return false;
@@ -239,9 +247,9 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
 {
     if (getNutzer(id).getBenutzername() == "NULL")
         return false;
+
     // überprüft ob nutzer schon ein angebot hat
     for (auto [nutzerName, alleInfos] : angeboteVonNutzern)
-
     {
         if (nutzerName == getNutzer(id).getBenutzername())
         {
@@ -252,6 +260,8 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
                     // Anzahl und Preis aktualisieren
                     alleInfos.anzahl[i] = anzahl;
                     alleInfos.preis[i] = preis;
+                    angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
+
                     return true;
                 }
             }
@@ -260,6 +270,8 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
             alleInfos.angebote.push_back(zuverkaufendesProdukt);
             alleInfos.preis.push_back(preis);
             alleInfos.anzahl.push_back(anzahl);
+
+            angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
 
             return true;
         }
