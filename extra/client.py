@@ -279,23 +279,25 @@ def verkaufen():
 
 
 def account():
+
+    # printet mein Kontostand aus
+    response = requests.get(f"{base_api_url}/getMyBalance").json()
+    kontostand = response["nachricht"]
+    print(f"Du hast noch {kontostand}$")
+
+    # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
     response = requests.get(f"{base_api_url}/getMyInventar").json()
-
-    print("In deinem Inventar befindet sich aktuell: ")
     myInventar = response["nachricht"]
+    print("In deinem Inventar befindet sich aktuell: ")
 
+    # bekommt die Anzahl aller Elemente in meinem Inventar
     response = requests.get(f"{base_api_url}/getMyInventarAnzahl").json()
     myInventarAnzahl = (response["nachricht"])
 
-    # TODO: Hier muss was angepasst werden!
+    # printet die Elemente und die dazugehörige Anzahl davon
     for i in range(0, len(myInventar)):
         print("Du hast " +
               str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
-
-    response = requests.get(f"{base_api_url}/getMyBalance").json()
-    kontostand = response["nachricht"]
-
-    print(f"Du hast noch {kontostand}$ übrig")
 
     m2 = TerminalMenu(["Zurück", "Exit"], title="Account")
     while (True):
