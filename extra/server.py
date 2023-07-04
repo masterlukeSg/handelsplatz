@@ -17,8 +17,8 @@ h = MarketPlace()
 
 
 def preisanpassung():
-    print("aufgerufen")
     h.preisanpassung()
+    return
 
 
 # t = Timer(20.0, preisanpassung)
@@ -100,6 +100,7 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
     kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
     if (kauf):
+        preisanpassung()
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
                 "status": True}
     else:
