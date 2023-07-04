@@ -4,6 +4,10 @@
 
 #include <string>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <pybind11/functional.h>
+#include <pybind11/complex.h>
+#include <pybind11/chrono.h>
 
 namespace py = pybind11;
 using namespace handelsplatz;
@@ -25,7 +29,10 @@ PYBIND11_MODULE(market, m)
         .def("getPriceOfUser", &MarketPlace::getPriceOfUser)
         .def("preisanpassung", &MarketPlace::preisanpassung)
         .def("login", &MarketPlace::login)
-        .def ("getID", &MarketPlace::getID)
+        .def("printAllYourItemsAnzahl", &MarketPlace::printAllYourItemsAnzahl)
+        .def("getKontostand", &MarketPlace::getKontostand)
+        .def("printAllYourItems", &MarketPlace::printAllYourItems)
+        .def("getID", &MarketPlace::getID)
         .def("getNutzer", &MarketPlace::getNutzer)
         .def("newUser", &MarketPlace::newUser);
 
@@ -38,6 +45,8 @@ PYBIND11_MODULE(market, m)
         .def("addHandelsgut", &nutzer::addHandelsgut)
         .def("removeHandelsgut", &nutzer::removeHandelsgut)
         .def("getBenutzername", &nutzer::getBenutzername)
+        .def("getGuterVorratName", &nutzer::getGuterVorratName)
+        .def("getGuterVorratAnzahl", &nutzer::getGuterVorratAnzahl)
         .def("getPasswort", &nutzer::getPasswort);
 
     py::class_<::Handelsgueter>(m, "Handelsgueter")

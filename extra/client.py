@@ -16,59 +16,69 @@ base_api_url = "http://127.0.0.1:8000"
 login = False
 
 handelsplatz = MarketPlace()
-###
 
 
 def start():
     global login
+    if (login == True):
+        handelsablauf()
 
     m = TerminalMenu(["Login", "Registrieren", "Exit"], title="Hauptmenü")
+    auswahl = m.show()
 
-    while (login == False):
-        auswahl = m.show()
-        if (auswahl == 0):
-            username = str(input("Bitte gib dein Username ein:"))
-            passwort = str(input("Bitte gib dein Passwort ein:"))
+    # LOGIN
+    if (auswahl == 0):
+        username = str(input("Bitt gib dein Username ein:"))
+        passwort = str(input("Bitt gib dein Passwort ein:"))
 
-            header = {"name": username, "passwort": passwort}
-            response = requests.get(
-                f"{base_api_url}/login", headers=header).json()
+        header = {"name": username, "passwort": passwort}
+        response = requests.get(
+            f"{base_api_url}/login", headers=header).json()
 
-            while not response["status"]:
-                print(response["nachricht"])
-                exitFragezeochen = str(
-                    input("Willst aus Login zurück? [J/N]: "))
-                if (exitFragezeochen == "J"):
-                    break
+        if response["status"] == False:
+            print(response["nachricht"])
+            exitFragezeochen = str(
+                input("Willst aus Login zurück? [J/N]: "))
 
-                username = str(input("Bitte gib dein Username ein:"))
-                passwort = str(input("Bitte gib dein Passwort ein:"))
+            if (exitFragezeochen == "J"):
+                start()
+
+            else:
+                username = str(input("Bitt gib dein Username ein:"))
+                passwort = str(input("Bitt gib dein Passwort ein:"))
 
                 header = {"name": username, "passwort": passwort}
                 response = requests.get(
                     f"{base_api_url}/login", headers=header).json()
                 if (response["status"]):
                     login = True
-                    break
+                    start()
+                else:
+                    start()
+        else:
+            handelsablauf()
 
-        elif (auswahl == 1):
-            username = str(input("Bitte gib dein Username ein:"))
-            passwort = str(input("Bitte gib dein Passwort ein:"))
+    # REGISTRIEREN
+    if (auswahl == 1):
+        username = str(input("Bitt gib dein Username ein:"))
+        passwort = str(input("Bitt gib dein Passwort ein:"))
 
-            header = {"name": username, "passwort": passwort}
+        header = {"name": username, "passwort": passwort}
 
-            response = requests.get(
-                f"{base_api_url}/register", headers=header).json()
+        response = requests.get(
+            f"{base_api_url}/register", headers=header).json()
 
-            while not response["status"]:
-                print(response["nachricht"])
-                exitFragezeochen = str(
-                    input("Willst du aus Registrieren zurück? [J/N]: "))
-                if (exitFragezeochen == "J"):
-                    break
+        if response["status"] == False:
+            print(response["nachricht"])
+            exitFragezeochen = str(
+                input("Willst du aus Registrieren zurück? [J/N]: "))
 
-                username = str(input("Bitte gib dein Username ein:"))
-                passwort = str(input("Bitte gib dein Passwort ein:"))
+            if (exitFragezeochen == "J"):
+                start()
+
+            else:
+                username = str(input("Bitt gib dein Username ein:"))
+                passwort = str(input("Bitt gib dein Passwort ein:"))
 
                 header = {"name": username, "passwort": passwort}
 
@@ -76,20 +86,23 @@ def start():
                     f"{base_api_url}/register", headers=header).json()
                 if (response["status"]):
                     login = True
-                    break
+                    start()
+                else:
+                    start()
+        else:
+            handelsablauf()
 
-        elif (auswahl == 2):
-            frage = input(
-                "willst du wirklich den Marktplatz verlassen?: [J/N]")
-            if (frage == "J"):
-                willExit()
-
-        break
-    handelsablauf()
+    if (auswahl == 2):
+        frage = input(
+            "willst du wirklich den Marktplatz verlassen?: [J/N]")
+        if (frage == "J"):
+            willExit()
+        else:
+            start()
 
 
 def willExit():
-    m = TerminalMenu(["Beenden", "Zurück"])
+    m = TerminalMenu(["Beenden", "Zurück"], title="Exit Menü")
     auswahl = m.show()
     if (auswahl == 0):
         exit()
@@ -98,117 +111,227 @@ def willExit():
 
 def nutzerKauf():
     response = requests.get(f"{base_api_url}/getAllNutzerOffers").json()
-    
-    print(response["information"])
-    
-    kaufen = input ("Willst du etwas kaufen? [J/N]: ")
-    
+
+    print(response["nachricht"])
+
+    if (len(response["nachricht"]) == 0):
+        print("Leider gibt es aktuell keine Angebote von Nutzern")
+        return
+
+    kaufen = input("Willst du etwas kaufen? [J/N]: ")
+
     if (kaufen == "J"):
         verkaufer = input("Von wem willst du etwas kaufen?: ")
         handelsgut = input("Welches Handelsgut willst du kaufen?: ")
-        anzahl = int(input ("Wie viele willst du kaufen?: "))
-        
-        response = requests.get(f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
-        
+        anzahl = int(input("Wie viele willst du kaufen?: "))
+
+        response = requests.get(
+            f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
+
         while not response["status"]:
-            print(response["information"])
+            print(response["nachricht"])
             verkaufer = input("Von wem willst du etwas kaufen?: ")
             handelsgut = input("Welches Handelsgut willst du kaufen?: ")
-            anzahl = int(input ("Wie viele willst du kaufen?: "))
-        
-            response = requests.get(f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
+            anzahl = int(input("Wie viele willst du kaufen?: "))
+
+            response = requests.get(
+                f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
     else:
         return
-    
+
+
 def staatKauf():
-    response= requests.get("/getAllStaatOffers").json()
-    print(response["information"])
-    kaufen= input("willst du etwas kaufen? [J/N]")
-    if (kaufen== "J"):
-        handelsgut= input("Was willst du kaufen? :")
-        anzahl= int(input("Wie viele willst du kaufen:"))
+    response = requests.get(f"{base_api_url}/getAllStaatOffers").json()
+    for f in response["nachricht"]:
+        print(f)
 
-        response= requests.get("/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+    kaufen = input("willst du etwas kaufen? [J/N]: ")
 
-        while not response["status"]
-        print(response["information"])
-        handelsgut= input("Was willst du kaufen? :")
-        anzahl= int(input("Wie viele willst du kaufen:"))
+    if (kaufen == "J"):
+        handelsgut = input("Was willst du kaufen? :")
+        anzahl = int(input("Wie viele willst du kaufen:"))
 
-        response= requests.get("/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+        response = requests.get(
+            f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
 
+        while not response["status"]:
+            print(response["nachricht"])
+            handelsgut = input("Was willst du kaufen? :")
+            anzahl = int(input("Wie viele willst du kaufen:"))
 
+            response = requests.get(
+                f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
 
+        print(response["nachricht"])
+        return
+
+    else:
+        return
 
 
 def nutzerVerkauf():
-    None
+    print("In deinem Inventar befindet sich: ")
+    response = requests.get(f"{base_api_url}/getMyInventar").json()
+
+    print(response["nachricht"])
+    print(len(response["nachricht"]))
+
+    if (len(response["nachricht"]) > 0):
+        item = str(input("Was willst du verkaufen?: "))
+        anzahl = int(input("Wie viel willst du verkaufen?: "))
+        preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+
+        # TODO: Hier gibt es einen Fehler
+
+        response = requests.get(
+            f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+        print(response["nachricht"])
+
+        while not response["status"]:
+            print(response["nachricht"])
+            item = str(input("Was willst du verkaufen?: "))
+            anzahl = int(input("Wie viel willst du verkaufen?: "))
+            preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+
+            response = requests.get(
+                f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+
+        print(response["nachricht"])
+
+    else:
+        print("Leider hast du keine Handelsgüter zu verkaufen")
+        return
+
 
 def staatVerkauf():
-    None
+    print("In deinem Inventar befindet sich: ")
+    response = requests.get(f"{base_api_url}/getMyInventar").json()
+
+    print(response["nachricht"])
+
+    if (len(response["nachricht"]) > 0):
+        item = str(input("Was willst du verkaufen?: "))
+        anzahl = int(input("Wie viel willst du verkaufen?: "))
+
+        response = requests.get(
+            f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+
+        while response["status"] == False:
+            print(response["nachricht"])
+            item = str(input("Was willst du verkaufen?: "))
+            anzahl = int(input("Wie viel willst du verkaufen?: "))
+
+            response = requests.get(
+                f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+
+        print(response["nachricht"])
+
+    else:
+        print("Leider hast du keine Handelsgüter zu verkaufen")
+        return
 
 
 def kaufen():
-    kaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
-    auswahl = kaufen.show()
-    
-    ### EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
-    if (auswahl == 3):
-        willExit()
+    kaufen = TerminalMenu(
+        ["Staat", "Nutzer", "Zurück", "Exit"], title="Kauf Menü")
+
+    while (True):
         auswahl = kaufen.show()
-    
-    ### ZURÜCK: returnt 
-    elif (auswahl == 2):
-        return
-    
-    ### NUTZER: nutzerKauf wird aufgerufen
-    elif (auswahl == 1):
-        nutzerKauf()
-    
-    ### STAAT: staatKauf wird aufgerufen
-    elif (auswahl == 0):
-        staatKauf()
+
+        # EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
+        if (auswahl == 3):
+            willExit()
+
+        # ZURÜCK: returnt
+        if (auswahl == 2):
+            return
+
+        # NUTZER: nutzerKauf wird aufgerufen
+        if (auswahl == 1):
+            nutzerKauf()
+
+        # STAAT: staatKauf wird aufgerufen
+        if (auswahl == 0):
+            staatKauf()
+
 
 def verkaufen():
-    verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
-    auswahl = verkaufen.show()
-    
-    ### EXIT: willExit fkt aufrufen
-    if (auswahl == 3):
-        willExit()
-    auswahl = verkaufen.show()
-    
-    
-    ### ZURÜCK: returnt
-    if (auswahl == 2):
-        return
-    
-    ### NUTZER: nutzerVerkauf fkt wird aufgerufen
-    if (auswahl == 1):
-        nutzerVerkauf()
-        
-    ### STAAT: staatVerkauf fkt wird aufgerufen
-    if (auswahl == 0):
-        staatVerkauf()
+    verkaufen = TerminalMenu(
+        ["Staat", "Nutzer", "Zurück", "Exit"], title="Verkauf Menü")
+    while (True):
+        auswahl = verkaufen.show()
+
+        # EXIT: willExit fkt aufrufen
+        if (auswahl == 3):
+            willExit()
+        auswahl = verkaufen.show()
+
+        # ZURÜCK: returnt
+        if (auswahl == 2):
+            return
+
+        # NUTZER: nutzerVerkauf fkt wird aufgerufen
+        if (auswahl == 1):
+            nutzerVerkauf()
+
+        # STAAT: staatVerkauf fkt wird aufgerufen
+        if (auswahl == 0):
+            staatVerkauf()
+
+
+def account():
+    response = requests.get(f"{base_api_url}/getMyInventar").json()
+
+    print("In deinem Inventar befindet sich aktuell: ")
+    myInventar = response["nachricht"]
+
+    response = requests.get(f"{base_api_url}/getMyInventarAnzahl").json()
+    myInventarAnzahl = (response["nachricht"])
+
+    # TODO: Hier muss was angepasst werden!
+    for i in range(0, len(myInventar)):
+        print("Du hast " + str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
+
+    response = requests.get(f"{base_api_url}/getMyBalance").json()
+    kontostand = response["nachricht"]
+
+    print(f"Du hast noch {kontostand}$ übrig")
+
+    m2 = TerminalMenu(["Zurück", "Exit"], title="Account")
+    while (True):
+        auswahl = m2.show()
+
+        # ZURÜCK: returnt zur aufruf Fkt
+        if (auswahl == 0):
+            return
+
+        # EXIT: willExit fkt wird aufgerufen
+        elif (auswahl == 1):
+            willExit()
 
 
 def handelsablauf():
 
-    m = TerminalMenu(["Kaufen", "Verkaufen", "Exit"])
-    auswahl = m.show()
-    
-    ### KAUFEN: Kaufen fkt wird aufgerufen
-    if (auswahl == 0):
-        kaufen()
-    auswahl = m.show()
+    m2 = TerminalMenu(["Kaufen", "Verkaufen", "Account", "Exit"], title="Menü")
 
-    ### VERKAUFEN: verkaufen fkt wird aufgerufen
-    if (auswahl == 1):
-      verkaufen()
-    
-    ### EXIT: willExit fkt wird aufgerufen
-    if (auswahl == 2):
-        willExit()
+    while (True):
+        auswahl = m2.show()
+
+        # KAUFEN: Kaufen fkt wird aufgerufen
+        if (auswahl == 0):
+            kaufen()
+
+        # VERKAUFEN: verkaufen fkt wird aufgerufen
+        if (auswahl == 1):
+            verkaufen()
+
+        # ACCOUNT: ruft acc fkt auf
+        if (auswahl == 2):
+            account()
+
+        # EXIT: willExit fkt wird aufgerufen
+        if (auswahl == 3):
+            willExit()
 
 
 start()

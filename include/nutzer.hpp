@@ -12,7 +12,9 @@ namespace handelsplatz
 
   private:
     int kontostand;
-    vector<Handelsgueter> guetervorrat;
+
+    map<string, Handelsgueter> guetervorrat;
+    // vector<Handelsgueter> guetervorrat;
     std::string benutzername;
     std::string passwort;
 
@@ -21,6 +23,11 @@ namespace handelsplatz
     nutzer(){};
 
     int getKontostand() const;
+
+    vector<string> getGuterVorratName();
+    vector<int> getGuterVorratAnzahl();
+
+    map<string, Handelsgueter> getGueterVorrat();
 
     void setKontostand(int neu);
 
