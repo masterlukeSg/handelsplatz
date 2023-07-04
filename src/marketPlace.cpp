@@ -203,7 +203,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
                                 alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
 
                             // Verkäufer Kontostand ändern
-                            int kontostand = alleInfos.user.getKontostand();
+                            kontostand = alleInfos.user.getKontostand();
                             alleInfos.user.setKontostand(kontostand + preis * anzahl);
 
                             // Verkäufer bekommt Handelsgut abgezogen
