@@ -111,8 +111,30 @@ def willExit():
 
 def nutzerKauf():
     response = requests.get(f"{base_api_url}/getAllNutzerOffers").json()
-
     print(response["nachricht"])
+
+    i = 0
+    text = ""
+    for p in response["nachricht"]:
+        i += i
+        # Nutzer
+        if (i == 1):
+            text = text + f"Der Nutzer {p} verkauft "
+
+        # Handelsgut
+        elif (i == 2):
+            text = text + f"{p} "
+
+        # Anzahl
+        elif (i == 3):
+            text == text + f" {p}x"
+
+        # Preis
+        elif (i == 4):
+            text = text + f" für {p} $"
+            print(text)
+            text = ""
+            i = 0
 
     if (len(response["nachricht"]) == 0):
         print("Leider gibt es aktuell keine Angebote von Nutzern")
@@ -126,7 +148,7 @@ def nutzerKauf():
         anzahl = int(input("Wie viele willst du kaufen?: "))
 
         response = requests.get(
-            f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
+            f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}").json()
 
         while not response["status"]:
             print(response["nachricht"])
@@ -135,7 +157,10 @@ def nutzerKauf():
             anzahl = int(input("Wie viele willst du kaufen?: "))
 
             response = requests.get(
-                f"{base_api_url}/buyFromUser/{handelsgut}{verkaufer}{anzahl}").json()
+                f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}").json()
+
+        print(response["nachricht"])
+
     else:
         return
 
@@ -170,37 +195,40 @@ def staatKauf():
 
 
 def nutzerVerkauf():
-    print("In deinem Inventar befindet sich: ")
+    # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
     response = requests.get(f"{base_api_url}/getMyInventar").json()
+    myInventar = response["nachricht"]
+    print("In deinem Inventar befindet sich aktuell: ")
 
+    # bekommt die Anzahl aller Elemente in meinem Inventar
+    response = requests.get(f"{base_api_url}/getMyInventarAnzahl").json()
+    myInventarAnzahl = (response["nachricht"])
+
+    # printet die Elemente und die dazugehörige Anzahl davon
+    for i in range(0, len(myInventar)):
+        print("Du hast " +
+              str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
+
+    item = str(input("Was willst du verkaufen?: "))
+    anzahl = int(input("Wie viel willst du verkaufen?: "))
+    preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+
+    # TODO: Hier gibt es einen Fehler
+
+    response = requests.get(
+        f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
     print(response["nachricht"])
-    print(len(response["nachricht"]))
 
-    if (len(response["nachricht"]) > 0):
+    while not response["status"]:
+        print(response["nachricht"])
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
-        # TODO: Hier gibt es einen Fehler
-
         response = requests.get(
             f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
-        print(response["nachricht"])
 
-        while not response["status"]:
-            print(response["nachricht"])
-            item = str(input("Was willst du verkaufen?: "))
-            anzahl = int(input("Wie viel willst du verkaufen?: "))
-            preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
-
-            response = requests.get(
-                f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
-
-        print(response["nachricht"])
-
-    else:
-        print("Leider hast du keine Handelsgüter zu verkaufen")
-        return
+    print(response["nachricht"])
 
 
 def staatVerkauf():

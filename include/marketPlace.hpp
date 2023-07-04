@@ -108,7 +108,7 @@ namespace handelsplatz
          * @return true
          * @return false
          */
-        bool selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis, int id);
+        bool selltoUser(string zuverkaufendesProdukt, int anzahl, int preis, int id);
 
         int getID(string name);
 

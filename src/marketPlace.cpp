@@ -148,6 +148,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
         return false;
 
     int preis = 0;
+    bool verkäuferBool = false;
 
     // iterriert durch angebote von Nutzern map
     for (auto [verKauferNutzer, alleInfos] : angeboteVonNutzern)
@@ -202,20 +203,30 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
                             else
                                 alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
 
-                            // Verkäufer Kontostand ändern
-                            kontostand = alleInfos.user.getKontostand();
-                            alleInfos.user.setKontostand(kontostand + preis * anzahl);
-
-                            // Verkäufer bekommt Handelsgut abgezogen
-                            alleInfos.user.removeHandelsgut(handelsgut, anzahl);
-
-                            // Verkäufer Information wird gespeichert
-                            angeboteVonNutzern[verKauferNutzer] = alleInfos;
-
-                            return true;
+                            verkäuferBool = true;
                         }
                     }
                 }
+            }
+        }
+    }
+
+    if (verkäuferBool == true)
+    {
+        for (auto [käufer, userInfo] : usersInformation)
+        {
+            if (käufer == verkaufer)
+            {
+                // Verkäufer Kontostand ändern
+                int kontostand = userInfo.user.getKontostand();
+                userInfo.user.setKontostand(kontostand + preis * anzahl);
+
+                // Verkäufer bekommt Handelsgut abgezogen
+                userInfo.user.removeHandelsgut(handelsgut, anzahl);
+
+                // Verkäufer Information wird gespeichert
+                usersInformation[käufer] = userInfo;
+                return true;
             }
         }
     }
@@ -271,7 +282,7 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
                             }
                         }
                     }
-                    // Falls der Nutzer kein Angebot in angebote von Nutzer hat oder 
+                    // Falls der Nutzer kein Angebot in angebote von Nutzer hat oder
                     // die Anzahl von Handelsgüter kleiner ist, als die Handeslgüter in meinem eigenen Inventar:
                     // dann kann true returnt werden
                     return true;
@@ -282,7 +293,7 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
     return false;
 }
 
-bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, int preis, int id)
+bool MarketPlace::selltoUser(string zuverkaufendesProdukt, int anzahl, int preis, int id)
 {
     if (getNutzer(id).getBenutzername() == "NULL")
         return false;
@@ -296,7 +307,7 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
             {
                 for (int i = 0; i < alleInfos.angebote.size(); i++)
                 {
-                    if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt.getName())
+                    if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt)
                     {
                         // Wenn anzahl == 0, dann angebot löschen und returnen
                         if (anzahl == 0)
@@ -314,7 +325,9 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
                 }
 
                 // wenn kein Angebot vorhanden, neues Angebot erstellen
-                alleInfos.angebote.push_back(zuverkaufendesProdukt);
+                Handelsgueter h = Handelsgueter(zuverkaufendesProdukt, anzahl);
+
+                alleInfos.angebote.push_back(h);
                 alleInfos.preis.push_back(preis);
                 alleInfos.anzahl.push_back(anzahl);
 
@@ -324,7 +337,8 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
         }
     }
 
-    aI.angebote.push_back(zuverkaufendesProdukt);
+    Handelsgueter h2 = Handelsgueter(zuverkaufendesProdukt, anzahl);
+    aI.angebote.push_back(h2);
     aI.preis.push_back(preis);
     aI.anzahl.push_back(anzahl);
     angeboteVonNutzern[getNutzer(id).getBenutzername()] = aI;
@@ -352,13 +366,13 @@ vector<string> MarketPlace::getAllNutzerOffers()
     vector<string> returnVecotr;
     for (const auto &[nutzerName, alleInfos] : angeboteVonNutzern)
     {
-        returnVecotr.push_back("NEWUSER");
+        // returnVecotr.push_back("NEWUSER");
         returnVecotr.push_back(nutzerName);
         for (int i = 0; i < alleInfos.angebote.size(); i++)
         {
             returnVecotr.push_back(alleInfos.angebote[i].getName());
-            returnVecotr.push_back(to_string(alleInfos.preis[i]));
             returnVecotr.push_back(to_string(alleInfos.anzahl[i]));
+            returnVecotr.push_back(to_string(alleInfos.preis[i]));
         }
     }
 

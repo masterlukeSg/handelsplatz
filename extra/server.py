@@ -112,7 +112,8 @@ async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.buyFromUser(handelsgut, verkaufer, anzahl, idOfUser)):
+    kauf = h.buyFromUser(handelsgut, verkaufer, anzahl, idOfUser)
+    if (kauf):
         return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} von {verkaufer} gekauft. Es wurde zu deinem Inventar hinzugefuegt", "status": True}
 
     else:
@@ -135,14 +136,14 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int):
                 "status": False}
 
 
-@app.get("/sellToUser/{handelsgut}/{anzahl}/{preis}")
+@app.get("/sellToUsers/{handelsgut}/{anzahl}/{preis}")
 async def sellToUser(handelsgut: str, anzahl: int, preis: int):
 
     global idOfUser, user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    kauf = h.sellToUser(handelsgut, anzahl, preis, idOfUser)
+    kauf = h.selltoUser(handelsgut, anzahl, preis, idOfUser)
     if (kauf):
         return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} an als Angebot aufgegeben. Es wurde aus deinem Inventar entfernt",
                 "status": True}
@@ -199,9 +200,9 @@ async def getAllNutzerOffers():
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
         result = h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
-        output_list = [result[i:i+2] for i in range(0, len(result), 2)]
+        #output_list = [result[i:i+2] for i in range(0, len(result), 2)]
 
-        return {"nachricht": output_list, "status": True}
+        return {"nachricht": result, "status": True}
 
 
 @app.get("/getMyInventar")
