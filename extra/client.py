@@ -145,7 +145,6 @@ def staatKauf():
     for f in response["nachricht"]:
         print(f)
 
-
     kaufen = input("willst du etwas kaufen? [J/N]: ")
 
     if (kaufen == "J"):
@@ -176,14 +175,14 @@ def nutzerVerkauf():
 
     print(response["nachricht"])
     print(len(response["nachricht"]))
-    
+
     if (len(response["nachricht"]) > 0):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
-        ### TODO: Hier gibt es einen Fehler
-        
+        # TODO: Hier gibt es einen Fehler
+
         response = requests.get(
             f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
         print(response["nachricht"])
@@ -238,7 +237,7 @@ def kaufen():
 
     while (True):
         auswahl = kaufen.show()
-        
+
         # EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
         if (auswahl == 3):
             willExit()
@@ -284,7 +283,14 @@ def account():
     response = requests.get(f"{base_api_url}/getMyInventar").json()
 
     print("In deinem Inventar befindet sich aktuell: ")
-    print(response["nachricht"])
+    myInventar = response["nachricht"]
+
+    response = requests.get(f"{base_api_url}/getMyInventarAnzahl").json()
+    myInventarAnzahl = (response["nachricht"])
+
+    # TODO: Hier muss was angepasst werden!
+    for i in range(0, len(myInventar)):
+        print("Du hast " + str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
 
     response = requests.get(f"{base_api_url}/getMyBalance").json()
     kontostand = response["nachricht"]
@@ -295,11 +301,10 @@ def account():
     while (True):
         auswahl = m2.show()
 
-        
         # ZURÜCK: returnt zur aufruf Fkt
         if (auswahl == 0):
             return
-        
+
         # EXIT: willExit fkt wird aufgerufen
         elif (auswahl == 1):
             willExit()
@@ -315,12 +320,12 @@ def handelsablauf():
         # KAUFEN: Kaufen fkt wird aufgerufen
         if (auswahl == 0):
             kaufen()
-            
+
         # VERKAUFEN: verkaufen fkt wird aufgerufen
         if (auswahl == 1):
             verkaufen()
-        
-        # ACCOUNT: ruft acc fkt auf 
+
+        # ACCOUNT: ruft acc fkt auf
         if (auswahl == 2):
             account()
 

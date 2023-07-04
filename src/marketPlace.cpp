@@ -121,19 +121,12 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
             if (name != getNutzer(id).getBenutzername())
                 return false;
 
-            if (angebot == handelsgut)
+            else if (angebot == handelsgut)
             {
-
-                // guckt, ob genügend handelsgüter da sind
-                // if (hUp.handelsgut.getAnzahl() < anzahl)
-                //    return false;
-
-                // guckt , ob der Käufer genug Geld hat
-                if (getNutzer(id).getKontostand() < hUp.preis)
+                if (infos.user.getKontostand() < hUp.preis)
                     return false;
 
                 // Betrag vom Konto des Käufers abziehen
-
                 int kontostand = getNutzer(id).getKontostand();
                 kontostand = kontostand - (hUp.preis * anzahl);
 
@@ -141,13 +134,6 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
                 infos.user.addHandelsgut(handelsgut, anzahl);
 
                 usersInformation[infos.user.getBenutzername()] = infos;
-
-                // Käufer erhält das Handelsgut
-
-                // Anzahl des Handelsguts beim Staat aktualisieren
-                // handelsgutUndPreis updatedHUp = hUp;
-                // updatedHUp.handelsgut.setAnzahl(updatedHUp.handelsgut.getAnzahl() - anzahl);
-                // angebotVomStaat[angebot] = updatedHUp;
                 return true;
             }
         }
@@ -161,76 +147,78 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
     if (getNutzer(id).getBenutzername() == "NULL")
         return false;
 
-    nutzer n;
     int preis = 0;
 
     // iterriert durch angebote von Nutzern map
     for (auto [verKauferNutzer, alleInfos] : angeboteVonNutzern)
-
-        // wenn der verkäufer, dem übergbenen verkäufer übereinstimmt
-        if (verKauferNutzer == verkaufer)
-
-            // iterriert durch den struct alle Infos (vector: preis, anzahl, Handelsgueter)
-            for (int i = 0; i < alleInfos.angebote.size(); i++)
-
-                // wenn das Handelsgut dem zukaufenden Handelsgut übereinstimmt
-                if (alleInfos.angebote[i].getName() == handelsgut)
-                {
-                    // wenn zu viele Handelsgüter gekauft werden sollen, return
-                    if (alleInfos.anzahl[i] < anzahl)
-                        return false;
-
-                    // wenn der Käufer zu wenig Geld hat, um den Preis für das Handelsgut zu bezahlen, return
-                    if (getNutzer(id).getKontostand() < alleInfos.preis[i])
-                        return false;
-
-                    // Preis und verkäufer (nutzer) zwischen speichern, um const zu umgehen
-                    preis = alleInfos.preis[i];
-
-                    n = alleInfos.user;
-
-                    // Käufer wird dem Preis vom Konto abgezogen
-                    int kontostand = getNutzer(id).getKontostand();
-                    kontostand = kontostand - preis;
-                    alleInfos.user.setKontostand(kontostand);
-
-                    // Käufer bekommt das Handelsgut zugeschrieben
-                    alleInfos.user.addHandelsgut(handelsgut, anzahl);
-
-                    // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
-                    // da alles aufgekauft wurde
-                    if (alleInfos.anzahl[i] - anzahl == 0)
-                    {
-                        alleInfos.anzahl.erase(alleInfos.anzahl.begin() + i);
-                        alleInfos.preis.erase(alleInfos.preis.begin() + i);
-                        alleInfos.angebote.erase(alleInfos.angebote.begin() + i);
-                    }
-
-                    // wenn nur ein Teil der Handelsgueter gekauft werden, wird die anzahl angepasst
-                    else
-                        alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
-
-                    alleInfos.user.setKontostand(kontostand);
-                    alleInfos.user.addHandelsgut(handelsgut, anzahl);
-
-                    angeboteVonNutzern[verKauferNutzer] = alleInfos;
-                }
-
-    // Verkäufer bekommt Erlös gut geschrieben
-    for (auto [name, userInfo] : usersInformation)
     {
-        if (name == getNutzer(id).getBenutzername())
+        for (auto [käufer, userInfo] : usersInformation)
         {
-            int kontostand = n.getKontostand();
-            userInfo.user.setKontostand(kontostand + preis);
+            // Wenn Käufer übereinstimmt und wenn Käufer übereinstimmt
+            if (verKauferNutzer == verkaufer && käufer == getNutzer(id).getBenutzername())
+            {
+                for (int i = 0; i < alleInfos.angebote.size(); i++)
+                {
+                    if (alleInfos.angebote[i].getName() == handelsgut)
+                    {
+                        if (käufer == getNutzer(id).getBenutzername())
+                        {
+                            // wenn zu viele Handelsgüter gekauft werden sollen, return
+                            if (alleInfos.anzahl[i] < anzahl)
+                                return false;
 
-            // Verkäufer bekommt Handelsgut abgezogen
-            userInfo.user.removeHandelsgut(handelsgut, anzahl);
-            usersInformation[name] = userInfo;
-            return true;
+                            // wenn der Käufer zu wenig Geld hat, um den Preis für das Handelsgut zu bezahlen, return
+                            else if (userInfo.user.getKontostand() < alleInfos.preis[i] * anzahl)
+                                return false;
+
+                            /* KÄUFER aktionen */
+
+                            // Preis zwischen speichern
+                            preis = alleInfos.preis[i];
+
+                            // Käufer wird dem Preis vom Konto abgezogen
+                            int kontostand = userInfo.user.getKontostand();
+                            kontostand = kontostand - preis * anzahl;
+                            userInfo.user.setKontostand(kontostand);
+
+                            // Käufer bekommt das Handelsgut zugeschrieben
+                            userInfo.user.addHandelsgut(handelsgut, anzahl);
+
+                            // Käufer Information wird gespeichert
+                            usersInformation[käufer] = userInfo;
+
+                            /* VERKÄUFER akitoen*/
+
+                            // anzahl,preis und handelsgut werden aus den Vecotren an der richtigen stelle gelöscht,
+                            // da alles aufgekauft wurde
+                            if (alleInfos.anzahl[i] - anzahl == 0)
+                            {
+                                alleInfos.anzahl.erase(alleInfos.anzahl.begin() + i);
+                                alleInfos.preis.erase(alleInfos.preis.begin() + i);
+                                alleInfos.angebote.erase(alleInfos.angebote.begin() + i);
+                            }
+
+                            // wenn nur ein Teil der Handelsgueter gekauft werden, wird die anzahl angepasst
+                            else
+                                alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
+
+                            // Verkäufer Kontostand ändern
+                            int kontostand = alleInfos.user.getKontostand();
+                            alleInfos.user.setKontostand(kontostand + preis * anzahl);
+
+                            // Verkäufer bekommt Handelsgut abgezogen
+                            alleInfos.user.removeHandelsgut(handelsgut, anzahl);
+
+                            // Verkäufer Information wird gespeichert
+                            angeboteVonNutzern[verKauferNutzer] = alleInfos;
+
+                            return true;
+                        }
+                    }
+                }
+            }
         }
     }
-
     return false;
 }
 
@@ -240,26 +228,28 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
         return false;
 
     // durch Iterration durch die Angebote vom Staat
-    for (auto [name, handelsgutUndPreis] : angebotVomStaat)
+    for (auto [nameDesHandelsgut, handelsgutUndPreis] : angebotVomStaat)
     {
         for (auto [nameVomVerkaufer, infos] : usersInformation)
         {
             if (nameVomVerkaufer == getNutzer(id).getBenutzername())
             {
                 // wenn das zuverkaufenden Handelsgut vorhanden ist
-                if (name == handelsgut)
+                if (nameDesHandelsgut == handelsgut)
                 {
                     // Wenn Verkäufer mehr verkaufen will, als vorhanden return false
-                    if (getNutzer(id).handelsgutAnzahl(handelsgut) < anzahl)
+                    if (infos.user.handelsgutAnzahl(handelsgut) < anzahl)
                         return false;
 
                     // Errechnet den Erlös und fügt ihn dem Verkäuferkonto zu
                     int erloes = anzahl * handelsgutUndPreis.preis;
-                    int kontostand = getNutzer(id).getKontostand();
+                    int kontostand = infos.user.getKontostand();
                     infos.user.setKontostand(kontostand + erloes);
 
                     // Entfertn die Vorräte vom Verkäufer
                     infos.user.removeHandelsgut(handelsgut, anzahl);
+
+                    // Speichert die veränderungen
                     usersInformation[nameVomVerkaufer] = infos;
 
                     return true;
@@ -307,7 +297,9 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
     aI.angebote.push_back(zuverkaufendesProdukt);
     aI.preis.push_back(preis);
     aI.anzahl.push_back(anzahl);
-    angeboteVonNutzern.insert({getNutzer(id).getBenutzername(), aI});
+    angeboteVonNutzern[getNutzer(id).getBenutzername()] = aI;
+    
+    // angeboteVonNutzern.insert({getNutzer(id).getBenutzername(), aI});
     return true;
 }
 

@@ -222,7 +222,7 @@ async def getMyInventar():
         return {"nachricht": "Bitte melde dich erstmal an", "status": False}
 
     else:
-        return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
+        return {"nachricht": h.printAllYourItemsAnzahl(idOfUser), "status": True}
 
 
 
