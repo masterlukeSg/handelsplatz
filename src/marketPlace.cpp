@@ -246,6 +246,9 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
                     int kontostand = infos.user.getKontostand();
                     infos.user.setKontostand(kontostand + erloes);
 
+
+                    // TODO: Angebot im Map Nutzerverkauf anpassen!!!
+
                     // Entfertn die Vorräte vom Verkäufer
                     infos.user.removeHandelsgut(handelsgut, anzahl);
 
@@ -268,29 +271,31 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
     // überprüft ob nutzer schon ein angebot hat
     for (auto [nutzerName, alleInfos] : angeboteVonNutzern)
     {
-        if (nutzerName == getNutzer(id).getBenutzername())
+        for (auto [name, usersInfos] : usersInformation)
         {
-            for (int i = 0; i < alleInfos.angebote.size(); i++)
+            if (nutzerName == getNutzer(id).getBenutzername())
             {
-                if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt.getName())
+                for (int i = 0; i < alleInfos.angebote.size(); i++)
                 {
-                    // Anzahl und Preis aktualisieren
-                    alleInfos.anzahl[i] = anzahl;
-                    alleInfos.preis[i] = preis;
-                    angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
+                    if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt.getName())
+                    {
+                        // Anzahl und Preis aktualisieren
+                        alleInfos.anzahl[i] = anzahl;
+                        alleInfos.preis[i] = preis;
+                        angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
 
-                    return true;
+                        return true;
+                    }
                 }
+
+                // wenn kein Angebot vorhanden, neues Angebot erstellen
+                alleInfos.angebote.push_back(zuverkaufendesProdukt);
+                alleInfos.preis.push_back(preis);
+                alleInfos.anzahl.push_back(anzahl);
+
+                angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
+                return true;
             }
-
-            // wenn kein Angebot vorhanden,Neues Angebot erstellen
-            alleInfos.angebote.push_back(zuverkaufendesProdukt);
-            alleInfos.preis.push_back(preis);
-            alleInfos.anzahl.push_back(anzahl);
-
-            angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
-
-            return true;
         }
     }
 
@@ -298,7 +303,7 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
     aI.preis.push_back(preis);
     aI.anzahl.push_back(anzahl);
     angeboteVonNutzern[getNutzer(id).getBenutzername()] = aI;
-    
+
     // angeboteVonNutzern.insert({getNutzer(id).getBenutzername(), aI});
     return true;
 }
