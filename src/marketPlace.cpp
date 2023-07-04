@@ -123,7 +123,7 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
 
             else if (angebot == handelsgut)
             {
-                if (infos.user.getKontostand() < hUp.preis)
+                if (infos.user.getKontostand() < hUp.preis * anzahl)
                     return false;
 
                 // Betrag vom Konto des Käufers abziehen

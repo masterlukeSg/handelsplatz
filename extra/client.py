@@ -264,7 +264,6 @@ def verkaufen():
         # EXIT: willExit fkt aufrufen
         if (auswahl == 3):
             willExit()
-        auswahl = verkaufen.show()
 
         # ZURÜCK: returnt
         if (auswahl == 2):
@@ -290,7 +289,8 @@ def account():
 
     # TODO: Hier muss was angepasst werden!
     for i in range(0, len(myInventar)):
-        print("Du hast " + str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
+        print("Du hast " +
+              str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
 
     response = requests.get(f"{base_api_url}/getMyBalance").json()
     kontostand = response["nachricht"]
