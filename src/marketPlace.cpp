@@ -246,15 +246,34 @@ bool MarketPlace::sellToMarketPlace(string handelsgut, int anzahl, int id)
                     int kontostand = infos.user.getKontostand();
                     infos.user.setKontostand(kontostand + erloes);
 
-
-                    // TODO: Angebot im Map Nutzerverkauf anpassen!!!
-
                     // Entfertn die Vorräte vom Verkäufer
                     infos.user.removeHandelsgut(handelsgut, anzahl);
 
                     // Speichert die veränderungen
                     usersInformation[nameVomVerkaufer] = infos;
 
+                    // NutzerAngebot muss noch angepasst werden
+                    for (auto [nameDesVerkaufers, alleInfos] : angeboteVonNutzern)
+                    {
+                        if (nameDesVerkaufers == getNutzer(id).getBenutzername())
+                        {
+                            for (int i = 0; i < alleInfos.angebote.size(); i++)
+                            {
+                                if (alleInfos.angebote[i].getName() == handelsgut)
+                                {
+                                    // Wenn die Anzahl vom angebotVonNutzer höher ist, als die Anzahl im eigenen Inventar muss das Angebot gelöscht werden
+                                    if (alleInfos.anzahl[i] > infos.user.handelsgutAnzahl(handelsgut))
+                                    {
+                                        angeboteVonNutzern.erase(nameDesVerkaufers);
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Falls der Nutzer kein Angebot in angebote von Nutzer hat oder 
+                    // die Anzahl von Handelsgüter kleiner ist, als die Handeslgüter in meinem eigenen Inventar:
+                    // dann kann true returnt werden
                     return true;
                 }
             }
@@ -279,6 +298,12 @@ bool MarketPlace::selltoUser(Handelsgueter zuverkaufendesProdukt, int anzahl, in
                 {
                     if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt.getName())
                     {
+                        // Wenn anzahl == 0, dann angebot löschen und returnen
+                        if (anzahl == 0)
+                        {
+                            angeboteVonNutzern.erase(nutzerName);
+                            return true;
+                        }
                         // Anzahl und Preis aktualisieren
                         alleInfos.anzahl[i] = anzahl;
                         alleInfos.preis[i] = preis;
