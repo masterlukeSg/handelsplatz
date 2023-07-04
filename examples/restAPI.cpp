@@ -9,7 +9,6 @@
 #include <pybind11/complex.h>
 #include <pybind11/chrono.h>
 
-
 namespace py = pybind11;
 using namespace handelsplatz;
 
@@ -30,9 +29,10 @@ PYBIND11_MODULE(market, m)
         .def("getPriceOfUser", &MarketPlace::getPriceOfUser)
         .def("preisanpassung", &MarketPlace::preisanpassung)
         .def("login", &MarketPlace::login)
-        .def ("getKontostand", &MarketPlace::getKontostand)
-        .def ("printAllYourItems", &MarketPlace::printAllYourItems)
-        .def ("getID", &MarketPlace::getID)
+        .def("printAllYourItemsAnzahl", &MarketPlace::printAllYourItemsAnzahl)
+        .def("getKontostand", &MarketPlace::getKontostand)
+        .def("printAllYourItems", &MarketPlace::printAllYourItems)
+        .def("getID", &MarketPlace::getID)
         .def("getNutzer", &MarketPlace::getNutzer)
         .def("newUser", &MarketPlace::newUser);
 

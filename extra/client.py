@@ -182,8 +182,8 @@ def nutzerVerkauf():
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
-        # {handelsgut}/{verkaufer}/{anzahl}/{preis}
-        # /sellToUser/{handelsgut}/{anzahl}/{preis}
+        ### TODO: Hier gibt es einen Fehler
+        
         response = requests.get(
             f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
         print(response["nachricht"])
@@ -238,6 +238,7 @@ def kaufen():
 
     while (True):
         auswahl = kaufen.show()
+        
         # EXIT: ruft willExit() auf, falls zurückkommt TerminalMenu wird nochmal angezeigt
         if (auswahl == 3):
             willExit()
@@ -294,8 +295,12 @@ def account():
     while (True):
         auswahl = m2.show()
 
+        
+        # ZURÜCK: returnt zur aufruf Fkt
         if (auswahl == 0):
             return
+        
+        # EXIT: willExit fkt wird aufgerufen
         elif (auswahl == 1):
             willExit()
 
@@ -310,11 +315,12 @@ def handelsablauf():
         # KAUFEN: Kaufen fkt wird aufgerufen
         if (auswahl == 0):
             kaufen()
-        auswahl = m2.show()
-
+            
         # VERKAUFEN: verkaufen fkt wird aufgerufen
         if (auswahl == 1):
             verkaufen()
+        
+        # ACCOUNT: ruft acc fkt auf 
         if (auswahl == 2):
             account()
 

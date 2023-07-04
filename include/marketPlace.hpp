@@ -61,6 +61,7 @@ namespace handelsplatz
     public:
 
         vector<string> printAllYourItems(int id);
+        vector<int> printAllYourItemsAnzahl(int id);
         int getKontostand(int id);
         
 

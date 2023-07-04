@@ -36,6 +36,18 @@ vector<string> MarketPlace::printAllYourItems(int id)
     return d;
 }
 
+vector<int> MarketPlace::printAllYourItemsAnzahl(int id)
+{
+
+    for (auto [name, structur] : usersInformation)
+        if (name == getNutzer(id).getBenutzername())
+            return structur.user.getGuterVorratAnzahl();
+
+    vector<int> d = {0};
+
+    return d;
+}
+
 MarketPlace::MarketPlace()
 {
 
@@ -123,7 +135,7 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
                 // Betrag vom Konto des Käufers abziehen
 
                 int kontostand = getNutzer(id).getKontostand();
-                kontostand = kontostand - hUp.preis;
+                kontostand = kontostand - (hUp.preis * anzahl);
 
                 infos.user.setKontostand(kontostand);
                 infos.user.addHandelsgut(handelsgut, anzahl);
@@ -370,7 +382,7 @@ void MarketPlace::preisanpassung()
         double tend = 0.3 * (rand() % 100);
         int y = rand() % max;
 
-        preisUndNutzer.preis = startpreis + (1.0 + tend * zeit + 0.8 * sqrt(zeit) * y);
+        preisUndNutzer.preis = startpreis + (1.0 + tend * zeit + 0.5 * sqrt(zeit) * y);
         angebotVomStaat[name] = preisUndNutzer;
     }
 }

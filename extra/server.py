@@ -214,6 +214,17 @@ async def getMyInventar():
     else:
         return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
 
+@app.get("/getMyInventarAnzahl")
+async def getMyInventar():
+
+    global idOfUser, user
+    if (idOfUser == 0):
+        return {"nachricht": "Bitte melde dich erstmal an", "status": False}
+
+    else:
+        return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
+
+
 
 @app.get("/getMyBalance")
 async def getMyBalance():
