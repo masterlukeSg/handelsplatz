@@ -142,7 +142,9 @@ def nutzerKauf():
 
 def staatKauf():
     response = requests.get(f"{base_api_url}/getAllStaatOffers").json()
-    print(response["nachricht"])
+    for f in response["nachricht"]:
+        print(f)
+
 
     kaufen = input("willst du etwas kaufen? [J/N]: ")
 
@@ -173,6 +175,8 @@ def nutzerVerkauf():
     response = requests.get(f"{base_api_url}/getMyInventar").json()
 
     print(response["nachricht"])
+    print(len(response["nachricht"]))
+    
     if (len(response["nachricht"]) > 0):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
@@ -278,7 +282,7 @@ def verkaufen():
 def account():
     response = requests.get(f"{base_api_url}/getMyInventar").json()
 
-    print("In deinem Inventar befindet sich: ")
+    print("In deinem Inventar befindet sich aktuell: ")
     print(response["nachricht"])
 
     response = requests.get(f"{base_api_url}/getMyBalance").json()

@@ -188,8 +188,8 @@ async def getAllStaatOffers():
     else:
         result = h.getAllStaatOffers()  # Annahme: result enthält die Rückgabewerte aus C++
         output_list = [result[i:i+2] for i in range(0, len(result), 2)]
+        
         return {"nachricht": output_list, "status": True}
-
 
 
 @app.get("/getAllNutzerOffers")
@@ -198,10 +198,10 @@ async def getAllNutzerOffers():
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        result =  h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
+        result = h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
         output_list = [result[i:i+2] for i in range(0, len(result), 2)]
-        return {"nachricht": output_list, "status": True}
 
+        return {"nachricht": output_list, "status": True}
 
 
 @app.get("/getMyInventar")
@@ -218,10 +218,10 @@ async def getMyInventar():
 @app.get("/getMyBalance")
 async def getMyBalance():
     global idOfUser, user
-    
+
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erstmal an", "status": False}
-    
+
     return {"nachricht": h.getKontostand(idOfUser),
             "status": True}
 
