@@ -128,8 +128,11 @@ bool MarketPlace::buyFromMarketPlace(string handelsgut, int anzahl, int id)
 
                 // Betrag vom Konto des Käufers abziehen
                 int kontostand = getNutzer(id).getKontostand();
+                std::cout << " Alter Konotstand:" << kontostand << std::endl;
+                std::cout << "Rechnung: " << kontostand - (hUp.preis * anzahl) << std::endl;
                 kontostand = kontostand - (hUp.preis * anzahl);
 
+                std::cout << "Wenn man vom Handelsplatz kauft neuer Kontostand: " << kontostand << std::endl;
                 infos.user.setKontostand(kontostand);
                 infos.user.addHandelsgut(handelsgut, anzahl);
 
@@ -179,9 +182,10 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
 
                             // Käufer wird dem Preis vom Konto abgezogen
                             int kontostand = userInfo.user.getKontostand();
-                            kontostand = kontostand - preis * anzahl;
-                            userInfo.user.setKontostand(kontostand);
 
+                            kontostand = kontostand - preis * anzahl;
+                            std::cout << "Haben käufer Kontostand bearbeitet: " << kontostand << std::endl;
+                            userInfo.user.setKontostand(kontostand);
                             // Käufer bekommt das Handelsgut zugeschrieben
                             userInfo.user.addHandelsgut(handelsgut, anzahl);
 
@@ -203,6 +207,7 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
                             else
                                 alleInfos.anzahl[i] = alleInfos.anzahl[i] - anzahl;
 
+                            angeboteVonNutzern[verKauferNutzer] = alleInfos;
                             verkäuferBool = true;
                         }
                     }
@@ -220,12 +225,13 @@ bool MarketPlace::buyFromUser(string handelsgut, string verkaufer, int anzahl, i
                 // Verkäufer Kontostand ändern
                 int kontostand = userInfo.user.getKontostand();
                 userInfo.user.setKontostand(kontostand + preis * anzahl);
-
+                std::cout << "Haben Verkäufer Kontostand bearbeitet: " << kontostand + preis * anzahl << std::endl;
+                
                 // Verkäufer bekommt Handelsgut abgezogen
                 userInfo.user.removeHandelsgut(handelsgut, anzahl);
 
                 // Verkäufer Information wird gespeichert
-                usersInformation[käufer] = userInfo;
+                usersInformation[verkaufer] = userInfo;
                 return true;
             }
         }

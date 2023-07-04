@@ -17,9 +17,13 @@ login = False
 
 handelsplatz = MarketPlace()
 
+idOfUser = 0
+
 
 def start():
-    global login
+
+    global login, idOfUser
+
     if (login == True):
         handelsablauf()
 
@@ -51,11 +55,14 @@ def start():
                 response = requests.get(
                     f"{base_api_url}/login", headers=header).json()
                 if (response["status"]):
+                    idOfUser = response["idOfUser"]
                     login = True
+
                     start()
                 else:
                     start()
         else:
+            idOfUser = response["idOfUser"]
             handelsablauf()
 
     # REGISTRIEREN
@@ -85,11 +92,13 @@ def start():
                 response = requests.get(
                     f"{base_api_url}/register", headers=header).json()
                 if (response["status"]):
+                    idOfUser = response["idOfUser"]
                     login = True
                     start()
                 else:
                     start()
         else:
+            idOfUser = response["idOfUser"]
             handelsablauf()
 
     if (auswahl == 2):
@@ -110,7 +119,7 @@ def willExit():
 
 
 def nutzerKauf():
-    response = requests.get(f"{base_api_url}/getAllNutzerOffers").json()
+    response = requests.get(f"{base_api_url}/getAllNutzerOffers/{idOfUser}").json()
     print(response["nachricht"])
 
     i = 0
@@ -148,7 +157,7 @@ def nutzerKauf():
         anzahl = int(input("Wie viele willst du kaufen?: "))
 
         response = requests.get(
-            f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}").json()
+            f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}/{idOfUser}").json()
 
         while not response["status"]:
             print(response["nachricht"])
@@ -157,7 +166,7 @@ def nutzerKauf():
             anzahl = int(input("Wie viele willst du kaufen?: "))
 
             response = requests.get(
-                f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}").json()
+                f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}/{idOfUser}").json()
 
         print(response["nachricht"])
 
@@ -166,7 +175,7 @@ def nutzerKauf():
 
 
 def staatKauf():
-    response = requests.get(f"{base_api_url}/getAllStaatOffers").json()
+    response = requests.get(f"{base_api_url}/getAllStaatOffers/{idOfUser}").json()
     for f in response["nachricht"]:
         print(f)
 
@@ -177,7 +186,7 @@ def staatKauf():
         anzahl = int(input("Wie viele willst du kaufen:"))
 
         response = requests.get(
-            f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+            f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}").json()
 
         while not response["status"]:
             print(response["nachricht"])
@@ -185,7 +194,7 @@ def staatKauf():
             anzahl = int(input("Wie viele willst du kaufen:"))
 
             response = requests.get(
-                f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}").json()
+                f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}").json()
 
         print(response["nachricht"])
         return
@@ -196,12 +205,12 @@ def staatKauf():
 
 def nutzerVerkauf():
     # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
-    response = requests.get(f"{base_api_url}/getMyInventar").json()
+    response = requests.get(f"{base_api_url}/getMyInventar/{idOfUser}").json()
     myInventar = response["nachricht"]
     print("In deinem Inventar befindet sich aktuell: ")
 
     # bekommt die Anzahl aller Elemente in meinem Inventar
-    response = requests.get(f"{base_api_url}/getMyInventarAnzahl").json()
+    response = requests.get(f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
     myInventarAnzahl = (response["nachricht"])
 
     # printet die Elemente und die dazugehörige Anzahl davon
@@ -216,7 +225,7 @@ def nutzerVerkauf():
     # TODO: Hier gibt es einen Fehler
 
     response = requests.get(
-        f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+        f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
     print(response["nachricht"])
 
     while not response["status"]:
@@ -226,14 +235,14 @@ def nutzerVerkauf():
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
         response = requests.get(
-            f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+            f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
 
     print(response["nachricht"])
 
 
 def staatVerkauf():
     print("In deinem Inventar befindet sich: ")
-    response = requests.get(f"{base_api_url}/getMyInventar").json()
+    response = requests.get(f"{base_api_url}/getMyInventar/{idOfUser}").json()
 
     print(response["nachricht"])
 
@@ -242,7 +251,7 @@ def staatVerkauf():
         anzahl = int(input("Wie viel willst du verkaufen?: "))
 
         response = requests.get(
-            f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+            f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}/{idOfUser}").json()
 
         while response["status"] == False:
             print(response["nachricht"])
@@ -250,7 +259,7 @@ def staatVerkauf():
             anzahl = int(input("Wie viel willst du verkaufen?: "))
 
             response = requests.get(
-                f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}").json()
+                f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}/{idOfUser}").json()
 
         print(response["nachricht"])
 
@@ -309,17 +318,17 @@ def verkaufen():
 def account():
 
     # printet mein Kontostand aus
-    response = requests.get(f"{base_api_url}/getMyBalance").json()
+    response = requests.get(f"{base_api_url}/getMyBalance/{idOfUser}").json()
     kontostand = response["nachricht"]
     print(f"Du hast noch {kontostand}$")
 
     # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
-    response = requests.get(f"{base_api_url}/getMyInventar").json()
+    response = requests.get(f"{base_api_url}/getMyInventar/{idOfUser}").json()
     myInventar = response["nachricht"]
     print("In deinem Inventar befindet sich aktuell: ")
 
     # bekommt die Anzahl aller Elemente in meinem Inventar
-    response = requests.get(f"{base_api_url}/getMyInventarAnzahl").json()
+    response = requests.get(f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
     myInventarAnzahl = (response["nachricht"])
 
     # printet die Elemente und die dazugehörige Anzahl davon

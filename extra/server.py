@@ -21,8 +21,8 @@ def preisanpassung():
     h.preisanpassung()
 
 
-t = Timer(20.0, preisanpassung)
-t.start()
+# t = Timer(20.0, preisanpassung)
+# t.start()
 
 # TODO: preisanpassungs fkt aufrufen
 
@@ -61,7 +61,8 @@ async def login(request: Request):
         user = h.login(name, passwort)
         idOfUser = h.getID(name)
         return {"nachricht": f"Willkommen zurück {name}",
-                "status": True}
+                "status": True,
+                "idOfUser": idOfUser}
     else:
         idOfUser = 0
         return {"nachricht": "Dein Benutzername oder Passwort ist falsch. Versuche es erneut ",
@@ -80,17 +81,18 @@ async def register(request: Request):
         user = h.login(name, passwort)
         idOfUser = h.getID(name)
         return {"nachricht": f"Willkommen {name} auf unserem Handelsplatz.",
-                "status": True}
+                "status": True,
+                "idOfUser": idOfUser}
 
     idOfUser = 0
     return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
             "status": False}
 
 
-@app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}")
-async def buyFromMarketPlace(handelsgut: str, anzahl: int):
+@app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}")
+async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
-    global idOfUser, user
+    global user
 
     # idOfUser == 0: User ist nicht angemeldet
     if (idOfUser == 0):
@@ -105,10 +107,10 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int):
                 "status": False}
 
 
-@app.get("/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}")
-async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int):
+@app.get("/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}/{idOfUser}")
+async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int, idOfUser: int):
 
-    global idOfUser, user
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
@@ -120,10 +122,10 @@ async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int):
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ", "status": False}
 
 
-@app.get("/sellToMarketPlace/{handelsgut}/{anzahl}")
-async def sellToMarketPlace(handelsgut: str, anzahl: int):
+@app.get("/sellToMarketPlace/{handelsgut}/{anzahl}/{idOfUser}")
+async def sellToMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
-    global idOfUser, user
+    global user
 
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
@@ -136,10 +138,10 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int):
                 "status": False}
 
 
-@app.get("/sellToUsers/{handelsgut}/{anzahl}/{preis}")
-async def sellToUser(handelsgut: str, anzahl: int, preis: int):
+@app.get("/sellToUsers/{handelsgut}/{anzahl}/{preis}/{idOfUser}")
+async def sellToUser(handelsgut: str, anzahl: int, preis: int, idOfUser: int):
 
-    global idOfUser, user
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
@@ -153,10 +155,10 @@ async def sellToUser(handelsgut: str, anzahl: int, preis: int):
                 "status": False}
 
 
-@app.get("/getPriceOfMarketPlace/{handelsgut}/")
-async def getPriceOfMarketPlace(handelsgut: str):
+@app.get("/getPriceOfMarketPlace/{handelsgut}/{idOfUser}")
+async def getPriceOfMarketPlace(handelsgut: str, idOfUser: int):
 
-    global idOfUser, user
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
@@ -167,10 +169,10 @@ async def getPriceOfMarketPlace(handelsgut: str):
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
 
 
-@app.get("/getPriceOfUser/{handelsgut}/{verkaufer}")
-async def getPriceOfUser(handelsgut: str, verkaufer: str):
+@app.get("/getPriceOfUser/{handelsgut}/{verkaufer}/{idOfUser}")
+async def getPriceOfUser(handelsgut: str, verkaufer: str, idOfUser: int):
 
-    global idOfUser, user
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
@@ -181,44 +183,46 @@ async def getPriceOfUser(handelsgut: str, verkaufer: str):
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
 
 
-@app.get("/getAllStaatOffers")
-async def getAllStaatOffers():
-    global idOfUser, user
+@app.get("/getAllStaatOffers/{idOfUser}")
+async def getAllStaatOffers(idOfUser: int):
+
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
         result = h.getAllStaatOffers()  # Annahme: result enthält die Rückgabewerte aus C++
         output_list = [result[i:i+2] for i in range(0, len(result), 2)]
-        
+
         return {"nachricht": output_list, "status": True}
 
 
-@app.get("/getAllNutzerOffers")
-async def getAllNutzerOffers():
-    global idOfUser, user
+@app.get("/getAllNutzerOffers/{idOfUser}")
+async def getAllNutzerOffers(idOfUser: int):
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
         result = h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
-        #output_list = [result[i:i+2] for i in range(0, len(result), 2)]
+        # output_list = [result[i:i+2] for i in range(0, len(result), 2)]
 
         return {"nachricht": result, "status": True}
 
 
-@app.get("/getMyInventar")
-async def getMyInventar():
+@app.get("/getMyInventar/{idOfUser}")
+async def getMyInventar(idOfUser: int):
 
-    global idOfUser, user
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erstmal an", "status": False}
 
     else:
         return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
 
-@app.get("/getMyInventarAnzahl")
-async def getMyInventar():
 
-    global idOfUser, user
+@app.get("/getMyInventarAnzahl/{idOfUser}")
+async def getMyInventar(idOfUser: int):
+
+    global user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erstmal an", "status": False}
 
@@ -226,10 +230,9 @@ async def getMyInventar():
         return {"nachricht": h.printAllYourItemsAnzahl(idOfUser), "status": True}
 
 
-
-@app.get("/getMyBalance")
-async def getMyBalance():
-    global idOfUser, user
+@app.get("/getMyBalance/{idOfUser}")
+async def getMyBalance(idOfUser: int):
+    global user
 
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erstmal an", "status": False}

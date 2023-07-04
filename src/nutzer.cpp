@@ -116,6 +116,8 @@ bool nutzer::removeHandelsgut(string name, int anzahl)
             }
 
             handelsgut.setAnzahl(handelsgut.getAnzahl() - anzahl);
+            std::cout << "Remove Handelsgut fkt sollte anzahl reduzieren: " << handelsgut.getAnzahl() - anzahl << std::endl;
+
             guetervorrat[name] = handelsgut;
             return true;
         }
