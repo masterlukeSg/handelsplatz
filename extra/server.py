@@ -135,18 +135,21 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int):
                 "status": False}
 
 
-@app.get("/sellToUser/{handelsgut}/{verkaufer}/{anzahl}/{preis}")
-async def sellToUser(handelsgut: str, anzahl: int, preis: int, verkaufer: str):
+@app.get("/sellToUser/{handelsgut}/{anzahl}/{preis}")
+async def sellToUser(handelsgut: str, anzahl: int, preis: int):
 
     global idOfUser, user
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an",
                 "status": False}
-    if (h.sellToUser(handelsgut, preis, verkaufer, anzahl, idOfUser)):
-        return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} an {verkaufer} verkauft. Es wurde aus deinem Inventar entfernt", "status": True}
+    kauf = h.sellToUser(handelsgut, anzahl, preis, idOfUser)
+    if (kauf):
+        return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} an als Angebot aufgegeben. Es wurde aus deinem Inventar entfernt",
+                "status": True}
 
     else:
-        return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ", "status": False}
+        return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ",
+                "status": False}
 
 
 @app.get("/getPriceOfMarketPlace/{handelsgut}/")
@@ -211,6 +214,18 @@ async def getMyInventar():
 
     else:
         return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
+
+
+@app.get("/getMyBalance")
+async def getMyBalance():
+    global idOfUser, user
+    
+    if (idOfUser == 0):
+        return {"nachricht": "Bitte melde dich erstmal an", "status": False}
+    
+    return {"nachricht": h.getKontostand(idOfUser),
+            "status": True}
+
 
 if __name__ == "__main__":
     this_python_file = os.path.basename(__file__)[:-3]

@@ -13,6 +13,14 @@
 using namespace std;
 using namespace handelsplatz;
 
+int MarketPlace::getKontostand(int id)
+{
+    for (auto [name, structur] : usersInformation)
+        if (name == getNutzer(id).getBenutzername())
+            return structur.user.getKontostand();
+    return 0;
+}
+
 vector<string> MarketPlace::printAllYourItems(int id)
 {
 

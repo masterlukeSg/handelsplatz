@@ -102,7 +102,7 @@ def start():
 
 
 def willExit():
-    m = TerminalMenu(["Beenden", "Zurück"])
+    m = TerminalMenu(["Beenden", "Zurück"], title="Exit Menü")
     auswahl = m.show()
     if (auswahl == 0):
         exit()
@@ -171,17 +171,20 @@ def staatKauf():
 def nutzerVerkauf():
     print("In deinem Inventar befindet sich: ")
     response = requests.get(f"{base_api_url}/getMyInventar").json()
-    
-    print(response["nachricht"])    
+
+    print(response["nachricht"])
     if (len(response["nachricht"]) > 0):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
+        # {handelsgut}/{verkaufer}/{anzahl}/{preis}
+        # /sellToUser/{handelsgut}/{anzahl}/{preis}
         response = requests.get(
             f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}").json()
+        print(response["nachricht"])
 
-        while response["status"] == False:
+        while not response["status"]:
             print(response["nachricht"])
             item = str(input("Was willst du verkaufen?: "))
             anzahl = int(input("Wie viel willst du verkaufen?: "))
@@ -201,8 +204,6 @@ def staatVerkauf():
     print("In deinem Inventar befindet sich: ")
     response = requests.get(f"{base_api_url}/getMyInventar").json()
 
-    # TODO: Invenat durch response bekommen
-   
     print(response["nachricht"])
 
     if (len(response["nachricht"]) > 0):
@@ -228,7 +229,8 @@ def staatVerkauf():
 
 
 def kaufen():
-    kaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
+    kaufen = TerminalMenu(
+        ["Staat", "Nutzer", "Zurück", "Exit"], title="Kauf Menü")
 
     while (True):
         auswahl = kaufen.show()
@@ -250,7 +252,8 @@ def kaufen():
 
 
 def verkaufen():
-    verkaufen = TerminalMenu(["Staat", "Nutzer", "Zurück", "Exit"])
+    verkaufen = TerminalMenu(
+        ["Staat", "Nutzer", "Zurück", "Exit"], title="Verkauf Menü")
     while (True):
         auswahl = verkaufen.show()
 
@@ -272,10 +275,31 @@ def verkaufen():
             staatVerkauf()
 
 
+def account():
+    response = requests.get(f"{base_api_url}/getMyInventar").json()
+
+    print("In deinem Inventar befindet sich: ")
+    print(response["nachricht"])
+
+    response = requests.get(f"{base_api_url}/getMyBalance").json()
+    kontostand = response["nachricht"]
+
+    print(f"Du hast noch {kontostand}$ übrig")
+
+    m2 = TerminalMenu(["Zurück", "Exit"], title="Account")
+    while (True):
+        auswahl = m2.show()
+
+        if (auswahl == 0):
+            return
+        elif (auswahl == 1):
+            willExit()
+
+
 def handelsablauf():
 
-    m2 = TerminalMenu(["Kaufen", "Verkaufen", "Exit"])
-    
+    m2 = TerminalMenu(["Kaufen", "Verkaufen", "Account", "Exit"], title="Menü")
+
     while (True):
         auswahl = m2.show()
 
@@ -287,9 +311,11 @@ def handelsablauf():
         # VERKAUFEN: verkaufen fkt wird aufgerufen
         if (auswahl == 1):
             verkaufen()
+        if (auswahl == 2):
+            account()
 
         # EXIT: willExit fkt wird aufgerufen
-        if (auswahl == 2):
+        if (auswahl == 3):
             willExit()
 
 
