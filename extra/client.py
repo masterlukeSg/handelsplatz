@@ -27,8 +27,8 @@ def start():
     while (login == False):
         auswahl = m.show()
         if (auswahl == 0):
-            username = str(input("Bitt gib dein Username ein:"))
-            passwort = str(input("Bitt gib dein Passwort ein:"))
+            username = str(input("Bitte gib dein Username ein:"))
+            passwort = str(input("Bitte gib dein Passwort ein:"))
 
             header = {"name": username, "passwort": passwort}
             response = requests.get(
@@ -41,8 +41,8 @@ def start():
                 if (exitFragezeochen == "J"):
                     break
 
-                username = str(input("Bitt gib dein Username ein:"))
-                passwort = str(input("Bitt gib dein Passwort ein:"))
+                username = str(input("Bitte gib dein Username ein:"))
+                passwort = str(input("Bitte gib dein Passwort ein:"))
 
                 header = {"name": username, "passwort": passwort}
                 response = requests.get(
@@ -52,8 +52,8 @@ def start():
                     break
 
         elif (auswahl == 1):
-            username = str(input("Bitt gib dein Username ein:"))
-            passwort = str(input("Bitt gib dein Passwort ein:"))
+            username = str(input("Bitte gib dein Username ein:"))
+            passwort = str(input("Bitte gib dein Passwort ein:"))
 
             header = {"name": username, "passwort": passwort}
 
@@ -67,8 +67,8 @@ def start():
                 if (exitFragezeochen == "J"):
                     break
 
-                username = str(input("Bitt gib dein Username ein:"))
-                passwort = str(input("Bitt gib dein Passwort ein:"))
+                username = str(input("Bitte gib dein Username ein:"))
+                passwort = str(input("Bitte gib dein Passwort ein:"))
 
                 header = {"name": username, "passwort": passwort}
 
