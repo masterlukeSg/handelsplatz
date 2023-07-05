@@ -18,3 +18,13 @@ TEST(Handelsgueter, getName)
     EXPECT_EQ(expectedName, actualName);
 }
 
+TEST(Handelsgueter, getAnzahl)
+{
+   Handelsgueter handelsgut = Handelsgueter("kamera",8);
+    // Set test data for the 'anzahl' member variable of 'handelsgut'
+    int expectedAnzahl = 8;
+    int actualAnzahl = handelsgut.getAnzahl();
+
+    EXPECT_EQ(expectedAnzahl, actualAnzahl);
+}
+
