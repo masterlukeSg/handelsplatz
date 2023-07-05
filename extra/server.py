@@ -19,12 +19,13 @@ h = MarketPlace()
 idOfUser = 0
 user = None
 
-
+#gibt die nachricht "log dich ein" auf der Homepage aus
 @app.get("/")
 async def homePage():
     return {"nachricht": "Bitte log dich ein"}
 
-
+# Die Funktion login ueberprueft ob dein name und passwort mit denen man sich anmeldet gueltig ist
+#wenn das der Fall ist, wird der benutzer und die zugehoerige ID gespeichert
 @app.get("/login")
 async def login(request: Request):
 
@@ -39,12 +40,14 @@ async def login(request: Request):
         return {"nachricht": f"Willkommen zurück {name}",
                 "status": True,
                 "idOfUser": idOfUser}
+    #War die anmeldung nicht gueltig wird ausgegeben, dass das Passwort bzw. Benutzername falsch ist
     else:
         idOfUser = 0
         return {"nachricht": "Dein Benutzername oder Passwort ist falsch. Versuche es erneut ",
                 "status": False}
 
-
+#Die Funktion erstellt einen neuen user auf dem Marketplace mit eingegebenen Namen und Passwort und zugehoeriger ID
+#ist die ID gleich null wird eine fehlermeldung ausgegeben
 @app.get("/register")
 async def register(request: Request):
 
@@ -65,6 +68,8 @@ async def register(request: Request):
             "status": False}
 
 
+#Die funktion prueft erst einmal ob der User angemeldet ist, wenn dass der Fall ist kann der Kauf von 
+#dem angegebenen Gut und der gewuenschten Anzahl durchgefuehrt werden, zudem wird der preis auch angepasst
 @app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}")
 async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
@@ -83,7 +88,8 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
         return {"nachricht": "Leider ist etwas schief gelaufen. Überprüfe das ob du das Handelsgut richtig geschrieben hast und ob du genug Geld auf deinem Konto hast",
                 "status": False}
 
-
+# Die Funktion ueberpruft ob man angemeldet ist, wenn dass der Fall ist, kann der Kauf vom gewuenschten
+# HAndelsgut, der Anzahl von einem verkaufer durchgefuehrt werden
 @app.get("/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}/{idOfUser}")
 async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int, idOfUser: int):
 
@@ -98,7 +104,8 @@ async def buyFromUser(handelsgut: str, verkaufer: str, anzahl: int, idOfUser: in
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ", "status": False}
 
-
+#uberprueft ob user angemeldet ist, wenn ja, dann wird das gewuenschte gut und die Anzahl auf dem 
+#Marketplace verkauft
 @app.get("/sellToMarketPlace/{handelsgut}/{anzahl}/{idOfUser}")
 async def sellToMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
@@ -114,7 +121,8 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
         return {"nachricht": "Leider ist etwas schief gelaufen. Überprüfe das ob du das Handelsgut richtig geschrieben hast und ob du genug Geld auf deinem Konto hast",
                 "status": False}
 
-
+#uberprueft ob user angemeldet ist, wenn ja, dann wird das gewuenschte gut und die Anzahl an den 
+# gewuenschten verkaufer verkauft
 @app.get("/sellToUsers/{handelsgut}/{anzahl}/{preis}/{idOfUser}")
 async def sellToUser(handelsgut: str, anzahl: int, preis: int, idOfUser: int):
 
@@ -132,7 +140,8 @@ async def sellToUser(handelsgut: str, anzahl: int, preis: int, idOfUser: int):
         return {"nachricht": "Leider ist etwas schief gegangen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ",
                 "status": False}
 
-
+#uberprueft ob user angemelet, wenn ja, dann ruft er die Methode getPriceofMarketplace auf mit dem
+#ubergebenen Handelsgut und gibt dann den Preis aus
 @app.get("/getPriceOfMarketPlace/{handelsgut}/{idOfUser}")
 async def getPriceOfMarketPlace(handelsgut: str, idOfUser: int):
 
@@ -146,7 +155,8 @@ async def getPriceOfMarketPlace(handelsgut: str, idOfUser: int):
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
 
-
+#uberprueft ob user angemelet, wenn ja, dann ruft er die Methode getPriceofUser auf mit dem
+#ubergebenen Handelsgut und gibt dann den Preis aus
 @app.get("/getPriceOfUser/{handelsgut}/{verkaufer}/{idOfUser}")
 async def getPriceOfUser(handelsgut: str, verkaufer: str, idOfUser: int):
 
@@ -160,6 +170,11 @@ async def getPriceOfUser(handelsgut: str, verkaufer: str, idOfUser: int):
     else:
         return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe den Namen des Handelsguts ", "status": False}
 
+#guckt ob user angemelet, wenn ja ruft er die methode getAllstastoffers auf, die Rückgabewerte aus einer C++-Komponente liefert. 
+#Das Ergebnis wird in der Variablen "result" gespeichert.
+#Anschließend wird die Liste "result" in Teil-Listen mit jeweils zwei Elementen aufgeteilt 
+#und in der Variablen "output_list" gespeichert. 
+#Dies geschieht mit Hilfe einer List Comprehension und der Range-Funktion.
 
 @app.get("/getAllStaatOffers/{idOfUser}")
 async def getAllStaatOffers(idOfUser: int):
@@ -173,7 +188,8 @@ async def getAllStaatOffers(idOfUser: int):
 
         return {"nachricht": output_list, "status": True}
 
-
+#guckt ob user angemeldet, wenn ja wird die Methode getAllNutzerOffers aufgerufen und die offers von den 
+#nutzern werden ausgegeben
 @app.get("/getAllNutzerOffers/{idOfUser}")
 async def getAllNutzerOffers(idOfUser: int):
     global user
@@ -183,7 +199,7 @@ async def getAllNutzerOffers(idOfUser: int):
         result = h.getAllNutzerOffers()
         return {"nachricht": result, "status": True}
 
-
+#gibt alle Guter aus die ein nutzer mit der zugehorigen Id besitzt
 @app.get("/getMyInventar/{idOfUser}")
 async def getMyInventar(idOfUser: int):
 
@@ -194,7 +210,7 @@ async def getMyInventar(idOfUser: int):
     else:
         return {"nachricht": h.printAllYourItems(idOfUser), "status": True}
 
-
+#gibt die anzahl der gueter aus die ein Nutzer mit der zugehoerigen Id besitzt
 @app.get("/getMyInventarAnzahl/{idOfUser}")
 async def getMyInventar(idOfUser: int):
 
@@ -205,7 +221,7 @@ async def getMyInventar(idOfUser: int):
     else:
         return {"nachricht": h.printAllYourItemsAnzahl(idOfUser), "status": True}
 
-
+#gibt den Kontostand vom NNutzer aus
 @app.get("/getMyBalance/{idOfUser}")
 async def getMyBalance(idOfUser: int):
     global user
@@ -216,7 +232,7 @@ async def getMyBalance(idOfUser: int):
     return {"nachricht": h.getKontostand(idOfUser),
             "status": True}
 
-
+#gibt die eigenen Angebote vom Nutzer aus
 @app.get("/getMyOwnOffers/{idOfUser}")
 async def getMyOwnOffers(idOfUser: int):
     global user
