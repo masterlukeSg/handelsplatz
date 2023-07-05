@@ -24,5 +24,18 @@ TEST(nutzer, getGuterVorratAnzahl){
     std::vector<int> expectedAmounts = {1, 2, 3};
     std::vector<int> actualAmounts = user.getGuterVorratAnzahl();
 
-    EXPECT_EQ(expectedAmounts, actualAmounts); << "Sie haben diese Anzahl von Guetern nicht";
+    EXPECT_EQ(expectedAmounts, actualAmounts) << "Sie haben diese Anzahl von Guetern nicht";
+}
+
+TEST(nutzer, setKontostand)
+{
+    nutzer user;
+    user.setKontostand(1000);
+    user.setKontostand(50);
+    user.setKontostand(25)
+
+    int expectedKontostand = 25;
+    int actualKontostand = user.getKontostand();
+
+    EXPECT_EQ(expectedKontostand, actualKontostand) << "false"; 
 }
