@@ -13,37 +13,28 @@ using namespace std;
 
 int main()
 {
+    MarketPlace p = MarketPlace();
+    p.newUser("Lukas", "12345");
+    p.newUser("Imene", "12345");
+    p.newUser("Aicha", "1234");
 
-    MarketPlace marketplace;
+    int lukasID = p.getID("Lukas");
+    int imeneID = p.getID("Imene");
+    int aichaD = p.getID("Aicha");
 
-    marketplace.newUser("imene", "blubblub");
-    int lol = marketplace.getID("imene");
+    p.buyFromMarketPlace("Puma", 3, lukasID);
+    p.buyFromMarketPlace("VodkaE", 2, imeneID);
+    p.buyFromMarketPlace("Kamera", 1, aichaD);
 
-    // Handelsgueter wolle= Handelsgueter("wolle", 3 );
+    p.selltoUser("Aktien", 3, 10, lukasID);
+    p.selltoUser("VodkaE", 2, 20, imeneID);
+    p.selltoUser("Kamera", 1, 40, aichaD);
 
-    marketplace.getNutzer(lol).addHandelsgut("wolle", 3);
+    std::cout << "\nJetzte beide drinnen: \n"
+              << std::endl;
 
-    for (auto [name, handelsgut] : marketplace.getNutzer(lol).getGueterVorrat())
+    for (string f : p.getAllNutzerOffers())
     {
-
-        std::cout << name << std::endl;
+        std::cout << f << std::endl;
     }
-
-    marketplace.buyFromMarketPlace("Wolle", 2, lol);
-
-    for (auto [name, structur] : marketplace.getNutzer(lol).getGueterVorrat())
-        std::cout << name << std::endl;
-
-    std::cout << marketplace.getNutzer(lol).getKontostand() << std::endl;
-
-    vector<string> neuervektor = marketplace.getNutzer(lol).getGuterVorratName();
-
-    std::cout << "in der main: " << neuervektor.size() << std::endl;
-
-    for (string s : neuervektor)
-    {
-        cout << s << endl;
-        cout << "bin drinnen" << endl;
-    }
-
 }
