@@ -85,3 +85,14 @@ TEST(nutzer, hatHandelsgut)
    EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut ist nicht in dem Inventar vorhanden";
 }
 
+TEST(nutzer, handelsgutAnzahl)
+{
+    nutzer user;
+    // Add test data to the 'guetervorrat' member variable of 'user'
+    void addHandelsgut("sparschwein",5);
+    int expectedResult = 5;
+    int actualResult = user.handelsgutAnzahl("sparschwein");
+
+    EXPECT_EQ(expectedResult, actualResult)<<"Sie haben nicht so viele von dem ganannten Gut";
+}
+
