@@ -124,7 +124,8 @@ def willExit():
 def nutzerKauf():
     response = requests.get(
         f"{base_api_url}/getAllNutzerOffers/{idOfUser}").json()
-    print(response["nachricht"])
+    for p in range(len(response["nachricht"])):
+        print(response["nachricht"][p])
 
     if (len(response["nachricht"]) == 0):
         print("Leider gibt es aktuell keine Angebote von Nutzern")
@@ -201,7 +202,7 @@ def nutzerVerkauf():
         i = 0
         for p in range(len(myOffers)):
             print(myOffers[p])
-            i=i+1
+            i = i+1
             if (i == 3):
                 print("\n")
                 i = 0

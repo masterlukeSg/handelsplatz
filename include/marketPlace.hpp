@@ -57,13 +57,37 @@ namespace handelsplatz
          */
         map<string, alleInfos> angeboteVonNutzern;
 
-        // TODO: void preisAnpassung();
     public:
+        /**
+         * @brief Man bekommt alle Items wieder
+         *
+         * @param id
+         * @return vector<string>
+         */
         vector<string> printAllYourItems(int id);
-        
+
+        /**
+         * @brief Man bekommt die Anzahl seiner Items zurück
+         *
+         * @param id
+         * @return vector<int>
+         */
         vector<int> printAllYourItemsAnzahl(int id);
-        
+
+        /**
+         * @brief Get the My Own Offers as vector
+         *
+         * @param id
+         * @return std::vector<string>
+         */
         std::vector<string> getMyOwnOffers(int id);
+
+        /**
+         * @brief Get the Kontostand vom Nutzer
+         *
+         * @param id
+         * @return int
+         */
         int getKontostand(int id);
 
         MarketPlace();
@@ -98,7 +122,6 @@ namespace handelsplatz
          */
         bool sellToMarketPlace(string Handelsgut, int anzahl, int id);
 
-        // Imene
         /**
          * @brief Angebot kommt in map: "angeboteVonNutzern" rein
          * Überprüfen, hat der Nutzer schon ein Angebot, mit solchen Gütern -> map: "angeboteVonNutzern" aktualisieren (erhöhren, verringern), um Anzahl oder Preis
@@ -111,6 +134,12 @@ namespace handelsplatz
          */
         bool selltoUser(string zuverkaufendesProdukt, int anzahl, int preis, int id);
 
+        /**
+         * @brief bekommt Id vom Nutzer wieder
+         *
+         * @param name
+         * @return int
+         */
         int getID(string name);
 
         /**
@@ -133,17 +162,46 @@ namespace handelsplatz
          */
         int getPriceOfMarketPlace(string handelsgut);
 
-        // Imene
+        /**
+         * @brief Get the Price Of Handelsguter object
+         *
+         * @param Handelsgut
+         * @param verkaufer
+         * @return int
+         */
         int getPriceOfUser(string Handelsgut, string verkaufer);
 
-        // Imene
-        // angebotVomStaat müssen die Werte angepasst werden, durch Formel
+        /**
+         * @brief Passt Preise des Staates an
+         *
+         */
         void preisanpassung();
 
+        /**
+         * @brief Login user
+         *
+         * @param name
+         * @param password
+         * @return nutzer
+         */
         nutzer login(string name, string password);
 
+        /**
+         * @brief Get the Nutzer object durch ID
+         *
+         * @param id
+         * @return nutzer
+         */
         nutzer getNutzer(int id);
 
+        /**
+         * @brief Neuer nutzer wird erstellt
+         *
+         * @param name
+         * @param password
+         * @return true
+         * @return false
+         */
         bool newUser(string name, string password);
     };
 

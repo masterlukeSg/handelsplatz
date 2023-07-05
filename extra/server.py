@@ -16,32 +16,8 @@ app = FastAPI()
 h = MarketPlace()
 
 
-def preisanpassung():
-    h.preisanpassung()
-    return
-
-
-# t = Timer(20.0, preisanpassung)
-# t.start()
-
-# TODO: preisanpassungs fkt aufrufen
-
 idOfUser = 0
 user = None
-
-
-@app.get("/preisanpassung/")
-async def preisanpassung():
-
-    global idOfUser, user
-    if (idOfUser == 0):
-        return {"nachricht": "Bitte melde dich erst einmal an",
-                "status": False}
-    if (h.preisanpassung()):
-        return {"nachricht": f"Der Preis von allen Produkten wurde angepasst", "status": True}
-
-    else:
-        return {"nachricht": "Leider ist etwas schief geagngen.Uberpruefen sie ob der Name vom Handelsgut richtig geschrieben ist ", "status": False}
 
 
 @app.get("/")
@@ -100,7 +76,7 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
     kauf = h.buyFromMarketPlace(handelsgut, anzahl, idOfUser)
     if (kauf):
-        preisanpassung()
+        h.preisanpassung()
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
                 "status": True}
     else:
