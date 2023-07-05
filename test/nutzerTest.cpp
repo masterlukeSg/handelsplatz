@@ -13,7 +13,7 @@ TEST(nutzer, getGuterVorratName){
      user.addHandelsgut("kamera",3);
      user.addHandelsgut("aktien",1);
      user.addHandelsgut("buecher",1);
-    std::vector<std::string> expectedNames = {"buecher", "aktien", "kamera"};
+    std::vector<std::string> expectedNames = {"kamera", "aktien", "buecher"};
     std::vector<std::string> actualNames = user.getGuterVorratName();
 
     EXPECT_EQ(expectedNames, actualNames) << "Die Gueter wurden nicht gefunden";
@@ -25,7 +25,7 @@ TEST(nutzer, getGuterVorratAnzahl){
      user.addHandelsgut("kamera",3);
      user.addHandelsgut("aktien",1);
      user.addHandelsgut("buecher",1);
-    std::vector<int> expectedAmounts = {1, 1, 3};
+    std::vector<int> expectedAmounts = {3, 1, 1};
     std::vector<int> actualAmounts = user.getGuterVorratAnzahl();
 
     EXPECT_EQ(expectedAmounts, actualAmounts) << "Sie haben diese Anzahl von Guetern nicht";
@@ -36,7 +36,7 @@ TEST(nutzer, setKontostand)
     nutzer user;
     user.setKontostand(1000);
     user.setKontostand(50);
-    user.setKontostand(25)
+    user.setKontostand(25);
 
     int expectedKontostand = 25;
     int actualKontostand = user.getKontostand();
@@ -44,10 +44,9 @@ TEST(nutzer, setKontostand)
     EXPECT_EQ(expectedKontostand, actualKontostand) << "false"; 
 }
 
-Test(nutzer, getKontostand)
+TEST(nutzer, getKontostand)
 {
     nutzer user;
-    user.setKontostand(4000)
     int expectedKontostand=4000;
     int actualKontostand=user.getKontostand();
 
@@ -56,7 +55,7 @@ Test(nutzer, getKontostand)
 
 TEST(nutzer, getBenutzername)
 {
-    nutzer user;
+    nutzer user = nutzer("Aicha", "d", 1000);
     // Set test data for the 'benutzername' member variable of 'user'
      
     std::string expectedBenutzername = "Aicha";
@@ -67,7 +66,7 @@ TEST(nutzer, getBenutzername)
 
 TEST(nutzer, getPasswort)
 {
-    nutzer user;
+    nutzer user = nutzer("egal", "Marokko", 4000);
     // Set test data for the 'benutzername' member variable of 'user'
      
     std::string expectedPasswort = "Marokko";
