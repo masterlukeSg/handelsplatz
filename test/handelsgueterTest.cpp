@@ -15,7 +15,7 @@ TEST(Handelsgueter, getName)
     std::string expectedName = "kamera";
     std::string actualName = handelsgut.getName();
 
-    EXPECT_EQ(expectedName, actualName);
+    EXPECT_EQ(expectedName, actualName)<<"Der Name existiert nicht";
 }
 
 TEST(Handelsgueter, getAnzahl)
@@ -25,6 +25,18 @@ TEST(Handelsgueter, getAnzahl)
     int expectedAnzahl = 8;
     int actualAnzahl = handelsgut.getAnzahl();
 
-    EXPECT_EQ(expectedAnzahl, actualAnzahl);
+    EXPECT_EQ(expectedAnzahl, actualAnzahl) <<"false";
 }
 
+TEST(Handelsgueter, setAnzahl)
+{
+    Handelsgueter handelsgut;
+    handelsgut.setAnzahl(5);
+    handelsgut.setAnzahl(1);
+    handelsgut.setAnzahl(10);
+
+    int expectedAnzahl = 10;
+    int actualAnzahl = handelsgut.getAnzahl();
+
+    EXPECT_EQ(expectedAnzahl, actualAnzahl)<<"false";
+}
