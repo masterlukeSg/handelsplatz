@@ -26,7 +26,6 @@ def preisanpassung():
 
 # TODO: preisanpassungs fkt aufrufen
 
-idOfUser = 0
 user = None
 
 
@@ -83,10 +82,10 @@ async def register(request: Request):
         return {"nachricht": f"Willkommen {name} auf unserem Handelsplatz.",
                 "status": True,
                 "idOfUser": idOfUser}
-
-    idOfUser = 0
-    return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
-            "status": False}
+    else:
+        idOfUser = 0
+        return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
+                "status": False}
 
 
 @app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}")
@@ -100,7 +99,6 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
     kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
     if (kauf):
-        preisanpassung()
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
                 "status": True}
     else:
@@ -130,8 +128,8 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
-
-    if (h.sellToMarketPlace(str(handelsgut), int(anzahl), int(idOfUser))):
+    kauf = h.sellToMarketPlace(str(handelsgut), int(anzahl), int(idOfUser))
+    if (kauf):
         return {"nachricht": f"Dein Verkauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und von deinem Invetar entfernt.",
                 "status": True}
     else:
@@ -191,7 +189,7 @@ async def getAllStaatOffers(idOfUser: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        result = h.getAllStaatOffers()  # Annahme: result enthält die Rückgabewerte aus C++
+        result = h.getAllStaatOffers()
         output_list = [result[i:i+2] for i in range(0, len(result), 2)]
 
         return {"nachricht": output_list, "status": True}
@@ -203,8 +201,9 @@ async def getAllNutzerOffers(idOfUser: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        result = h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
-        # output_list = [result[i:i+2] for i in range(0, len(result), 2)]
+        h.getAngebote(idOfUser)
+        result = h.getAllNutzerOffers()
+        print(result)
 
         return {"nachricht": result, "status": True}
 

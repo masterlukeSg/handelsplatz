@@ -119,31 +119,11 @@ def willExit():
 
 
 def nutzerKauf():
-    response = requests.get(f"{base_api_url}/getAllNutzerOffers/{idOfUser}").json()
+    response = requests.get(
+        f"{base_api_url}/getAllNutzerOffers/{idOfUser}").json()
     print(response["nachricht"])
 
-    i = 0
-    text = ""
-    for p in response["nachricht"]:
-        i += i
-        # Nutzer
-        if (i == 1):
-            text = text + f"Der Nutzer {p} verkauft "
 
-        # Handelsgut
-        elif (i == 2):
-            text = text + f"{p} "
-
-        # Anzahl
-        elif (i == 3):
-            text == text + f" {p}x"
-
-        # Preis
-        elif (i == 4):
-            text = text + f" für {p} $"
-            print(text)
-            text = ""
-            i = 0
 
     if (len(response["nachricht"]) == 0):
         print("Leider gibt es aktuell keine Angebote von Nutzern")
@@ -151,7 +131,7 @@ def nutzerKauf():
 
     kaufen = input("Willst du etwas kaufen? [J/N]: ")
 
-    if (kaufen == "J"):
+    while (kaufen == "J"):
         verkaufer = input("Von wem willst du etwas kaufen?: ")
         handelsgut = input("Welches Handelsgut willst du kaufen?: ")
         anzahl = int(input("Wie viele willst du kaufen?: "))
@@ -167,15 +147,20 @@ def nutzerKauf():
 
             response = requests.get(
                 f"{base_api_url}/buyFromUser/{handelsgut}/{verkaufer}/{anzahl}/{idOfUser}").json()
-
+            if (response["status"]):
+                print(response["nachricht"])
+                return
+    
         print(response["nachricht"])
+        return
 
     else:
         return
 
 
 def staatKauf():
-    response = requests.get(f"{base_api_url}/getAllStaatOffers/{idOfUser}").json()
+    response = requests.get(
+        f"{base_api_url}/getAllStaatOffers/{idOfUser}").json()
     for f in response["nachricht"]:
         print(f)
 
@@ -195,6 +180,9 @@ def staatKauf():
 
             response = requests.get(
                 f"{base_api_url}/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}").json()
+            if (response["status"]):
+                print(response["nachricht"])
+                return
 
         print(response["nachricht"])
         return
@@ -210,7 +198,8 @@ def nutzerVerkauf():
     print("In deinem Inventar befindet sich aktuell: ")
 
     # bekommt die Anzahl aller Elemente in meinem Inventar
-    response = requests.get(f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
+    response = requests.get(
+        f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
     myInventarAnzahl = (response["nachricht"])
 
     # printet die Elemente und die dazugehörige Anzahl davon
@@ -222,11 +211,9 @@ def nutzerVerkauf():
     anzahl = int(input("Wie viel willst du verkaufen?: "))
     preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
-    # TODO: Hier gibt es einen Fehler
 
     response = requests.get(
         f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
-    print(response["nachricht"])
 
     while not response["status"]:
         print(response["nachricht"])
@@ -236,8 +223,12 @@ def nutzerVerkauf():
 
         response = requests.get(
             f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
+        if (response["status"]):
+            print(response["nachricht"])
+            return
 
     print(response["nachricht"])
+    return
 
 
 def staatVerkauf():
@@ -262,6 +253,7 @@ def staatVerkauf():
                 f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}/{idOfUser}").json()
 
         print(response["nachricht"])
+        return
 
     else:
         print("Leider hast du keine Handelsgüter zu verkaufen")
@@ -328,7 +320,8 @@ def account():
     print("In deinem Inventar befindet sich aktuell: ")
 
     # bekommt die Anzahl aller Elemente in meinem Inventar
-    response = requests.get(f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
+    response = requests.get(
+        f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
     myInventarAnzahl = (response["nachricht"])
 
     # printet die Elemente und die dazugehörige Anzahl davon

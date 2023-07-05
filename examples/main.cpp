@@ -12,38 +12,28 @@ using namespace std;
 // cmake -S . -B build && cmake --build build && cmake  --install build
 
 int main()
-{
+{   
+    MarketPlace p = MarketPlace();
+    p.newUser("Lukas", "12345");
+    p.newUser("Imene", "12345");
 
-    MarketPlace marketplace;
+    int lukasID = p.getID("Lukas");
 
-    marketplace.newUser("imene", "blubblub");
-    int lol = marketplace.getID("imene");
+    int imeneID = p.getID("Imene");
 
-    // Handelsgueter wolle= Handelsgueter("wolle", 3 );
+    p.buyFromMarketPlace("Aktien", 10, lukasID);
+    p.buyFromMarketPlace("Buecher", 9, imeneID);
+    
 
-    marketplace.getNutzer(lol).addHandelsgut("wolle", 3);
+    p.selltoUser("Aktien", 3, 10, lukasID);
+    std::cout << "Nur Aktien sollte drinnen sein \n" << std::endl;
+    p.getAllNutzerOffers();
+    p.selltoUser("Buecher", 5,20,imeneID);
 
-    for (auto [name, handelsgut] : marketplace.getNutzer(lol).getGueterVorrat())
+    std::cout << "\nJetzte beide drinnen: \n" << std::endl;
+  
+    for (string f : p.getAllNutzerOffers())
     {
-
-        std::cout << name << std::endl;
+        std::cout << f << std::endl;
     }
-
-    marketplace.buyFromMarketPlace("Wolle", 2, lol);
-
-    for (auto [name, structur] : marketplace.getNutzer(lol).getGueterVorrat())
-        std::cout << name << std::endl;
-
-    std::cout << marketplace.getNutzer(lol).getKontostand() << std::endl;
-
-    vector<string> neuervektor = marketplace.getNutzer(lol).getGuterVorratName();
-
-    std::cout << "in der main: " << neuervektor.size() << std::endl;
-
-    for (string s : neuervektor)
-    {
-        cout << s << endl;
-        cout << "bin drinnen" << endl;
-    }
-
 }
