@@ -16,3 +16,13 @@ TEST(nutzer, getGuterVorratName){
 
     EXPECT_EQ(expectedNames, actualNames) << "Die Gueter wurden nicht gefunden";
 }
+
+TEST(nutzer, getGuterVorratAnzahl){
+    nutzer user;
+    // Add test data to the 'guetervorrat' member variable of 'user'
+
+    std::vector<int> expectedAmounts = {1, 2, 3};
+    std::vector<int> actualAmounts = user.getGuterVorratAnzahl();
+
+    EXPECT_EQ(expectedAmounts, actualAmounts); << "Sie haben diese Anzahl von Guetern nicht";
+}
