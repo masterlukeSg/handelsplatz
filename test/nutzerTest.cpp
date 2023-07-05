@@ -39,3 +39,14 @@ TEST(nutzer, setKontostand)
 
     EXPECT_EQ(expectedKontostand, actualKontostand) << "false"; 
 }
+
+TEST(nutzer, getBenutzername)
+{
+    nutzer user;
+    // Set test data for the 'benutzername' member variable of 'user'
+
+    std::string expectedBenutzername = "testuser";
+    std::string actualBenutzername = user.getBenutzername();
+
+    ASSERT_EQ(expectedBenutzername, actualBenutzername) <<"Der Benutzername existiert nicht";
+}
