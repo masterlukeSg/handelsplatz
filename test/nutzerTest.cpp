@@ -96,3 +96,13 @@ TEST(nutzer, handelsgutAnzahl)
     EXPECT_EQ(expectedResult, actualResult)<<"Sie haben nicht so viele von dem ganannten Gut";
 }
 
+TEST(nutzer, addHandelsgut)
+{
+    nutzer user;
+    // Add test data to the 'guetervorrat' member variable of 'user'
+    void addHandelsgut("wolle",4);
+    bool expectedResult = true;
+    bool actualResult = user.hatHandelsgut("wolle");
+
+   EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut wurde nicht hinzugefuegt";
+}
