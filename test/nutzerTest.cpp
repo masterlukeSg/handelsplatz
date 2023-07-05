@@ -106,3 +106,15 @@ TEST(nutzer, addHandelsgut)
 
    EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut wurde nicht hinzugefuegt";
 }
+
+TEST(nutzer, removeHandelsgut)
+{
+    nutzer user;
+    // Add test data to the 'guetervorrat' member variable of 'user'
+    void addHandelsgut("Auto",5);
+    bool expectedResult = true;
+    bool actualResult = user.removeHandelsgut("Auto", 5);
+
+    // Check if the item was successfully removed from the 'guetervorrat' member variable of 'user'
+    EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut konnte nicht entfernt werden, da es nicht existiert";
+}
