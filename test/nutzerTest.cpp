@@ -110,7 +110,7 @@ TEST(nutzer, addHandelsgut)
 TEST(nutzer, removeHandelsgut)
 {
     nutzer user;
-    // Add test data to the 'guetervorrat' member variable of 'user'
+    // Add test data to the 'guetervorrat' member variable of 'user
     void addHandelsgut("Auto",5);
     bool expectedResult = true;
     bool actualResult = user.removeHandelsgut("Auto", 5);
