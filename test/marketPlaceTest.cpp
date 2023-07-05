@@ -106,3 +106,46 @@ TEST(MarketPlace, buyFromUser)
 
     EXPECT_EQ(p.buyFromUser("Puma", "Lukas", 3, lukasId),true) << "Du kannst das Handelsgut nicht an Nutzer verkaufen";
 }
+
+TEST(MarketPlace, getKontostand)
+{
+    MarketPlace p = MarketPlace();
+    p.newUser("imene", "istcool");
+    nutzer imene= p.login("imene","istcool");
+    int imeneId = p.getID("imene");
+
+    p.buyFromMarketPlace("Wolle", 10, imeneId);
+
+    EXPECT_EQ(p.getKontostand(imeneId),990);
+
+
+}
+
+TEST(MarketPlace, getPriceOfMarketPlace)
+{
+    MarketPlace p = MarketPlace();
+
+    EXPECT_EQ(p.getPriceOfMarketPlace("Puma"), 75);
+}
+
+
+TEST(MarketPlace,getPriceOfUser)
+{
+    MarketPlace p = MarketPlace();
+    p.newUser("imene", "istcool");
+    nutzer imene= p.login("imene","istcool");
+    int imeneId = p.getID("imene");
+
+
+
+    p.buyFromMarketPlace("Wolle", 10, imeneId);
+    p.selltoUser("Wolle",2, 10,imeneId);
+
+
+   
+
+
+
+    EXPECT_EQ(p.getPriceOfUser("Wolle", "imene"), 10);
+
+}
