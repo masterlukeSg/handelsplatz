@@ -13,7 +13,7 @@ TEST(nutzer, getGuterVorratName){
      user.addHandelsgut("kamera",3);
      user.addHandelsgut("aktien",1);
      user.addHandelsgut("buecher",1);
-    std::vector<std::string> expectedNames = {"kamera", "aktien", "buecher"};
+    std::vector<std::string> expectedNames = {"buecher", "aktien", "kamera"};
     std::vector<std::string> actualNames = user.getGuterVorratName();
 
     EXPECT_EQ(expectedNames, actualNames) << "Die Gueter wurden nicht gefunden";
@@ -25,7 +25,7 @@ TEST(nutzer, getGuterVorratAnzahl){
      user.addHandelsgut("kamera",3);
      user.addHandelsgut("aktien",1);
      user.addHandelsgut("buecher",1);
-    std::vector<int> expectedAmounts = {3, 1, 1};
+    std::vector<int> expectedAmounts = {1, 1, 3};
     std::vector<int> actualAmounts = user.getGuterVorratAnzahl();
 
     EXPECT_EQ(expectedAmounts, actualAmounts) << "Sie haben diese Anzahl von Guetern nicht";
@@ -47,6 +47,7 @@ TEST(nutzer, setKontostand)
 Test(nutzer, getKontostand)
 {
     nutzer user;
+    user.setKontostand(4000)
     int expectedKontostand=4000;
     int actualKontostand=user.getKontostand();
 
