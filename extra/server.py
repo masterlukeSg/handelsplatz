@@ -98,7 +98,7 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
 
-    kauf = h.buyFromMarketPlace((handelsgut), (anzahl), (idOfUser))
+    kauf = h.buyFromMarketPlace(handelsgut, anzahl, idOfUser)
     if (kauf):
         preisanpassung()
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
