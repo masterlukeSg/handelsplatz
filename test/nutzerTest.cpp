@@ -40,13 +40,43 @@ TEST(nutzer, setKontostand)
     EXPECT_EQ(expectedKontostand, actualKontostand) << "false"; 
 }
 
+Test(nutzer, getKontostand){
+    nutzer user;
+    int expectedKontostand=4000;
+    int actualKontostand=user.getKontostand();
+
+    EXPECT_EQ(expectedKontostand, actualKontostand) << "false";
+}
+
 TEST(nutzer, getBenutzername)
 {
     nutzer user;
     // Set test data for the 'benutzername' member variable of 'user'
-
-    std::string expectedBenutzername = "testuser";
+     
+    std::string expectedBenutzername = "Aicha";
     std::string actualBenutzername = user.getBenutzername();
 
-    ASSERT_EQ(expectedBenutzername, actualBenutzername) <<"Der Benutzername existiert nicht";
+    EXPECT_EQ(expectedBenutzername, actualBenutzername) <<"Der Benutzername existiert nicht";
+}
+
+TEST(nutzer, getPasswort)
+{
+    nutzer user;
+    // Set test data for the 'benutzername' member variable of 'user'
+     
+    std::string expectedPasswort = "Marokko";
+    std::string actualPasswort = user.getPasswort();
+
+    EXPECT_EQ(expectedPasswort, actualPasswort) <<"Das Passwort ist falsch";
+}
+
+TEST(nutzer, hatHandelsgut)
+{
+    nutzer user;
+    // Add test data to the 'guetervorrat' member variable of 'user'
+    void addHandelsgut("wolle",4);
+    bool expectedResult = addHandelsgut("wolle",4);
+    bool actualResult = user.hatHandelsgut("name");
+
+   EXPECT_EQ(expectedResult, actualResult)<<;
 }
