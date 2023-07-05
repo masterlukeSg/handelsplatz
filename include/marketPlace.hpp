@@ -63,7 +63,7 @@ namespace handelsplatz
         
         vector<int> printAllYourItemsAnzahl(int id);
         
-        void getAngebote(int id);
+        std::vector<string> getMyOwnOffers(int id);
         int getKontostand(int id);
 
         MarketPlace();

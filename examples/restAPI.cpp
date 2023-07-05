@@ -34,7 +34,7 @@ PYBIND11_MODULE(market, m)
         .def("printAllYourItems", &MarketPlace::printAllYourItems)
         .def("getID", &MarketPlace::getID)
         .def("getNutzer", &MarketPlace::getNutzer)
-        .def ("getAngebote", &MarketPlace::getAngebote)
+        .def ("getMyOwnOffers", &MarketPlace::getMyOwnOffers)
         .def("newUser", &MarketPlace::newUser);
 
     py::class_<::nutzer>(m, "nutzer")
