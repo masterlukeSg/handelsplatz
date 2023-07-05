@@ -21,23 +21,24 @@ int MarketPlace::getKontostand(int id)
     return 0;
 }
 
-void MarketPlace::getAngebote(int id)
+std::vector<string> MarketPlace::getMyOwnOffers(int id)
 {
-
+    std::vector<string> rueckgabe;
     for (auto [verkäuferName, alleInfos] : angeboteVonNutzern)
     {
         if (verkäuferName == getNutzer(id).getBenutzername())
         {
-            for (Handelsgueter s : alleInfos.angebote)
-                std::cout << "Name: " << s.getName() << std::endl;
+            for (int i = 0; i < alleInfos.angebote.size(); i++)
+            {
+                rueckgabe.push_back("Name: " + alleInfos.angebote[i].getName());
 
-            for (int i : alleInfos.preis)
-                std::cout << "Preis: " << i << std::endl;
+                rueckgabe.push_back("Preis: " + std::to_string(alleInfos.preis[i]));
 
-            for (int d : alleInfos.anzahl)
-                std::cout << "Anzahl: " << d << std::endl;
+                rueckgabe.push_back("Anzahl: " + std::to_string(alleInfos.anzahl[i]));
+            }
         }
     }
+    return rueckgabe;
 }
 
 vector<string> MarketPlace::printAllYourItems(int id)

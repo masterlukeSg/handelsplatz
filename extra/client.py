@@ -1,3 +1,6 @@
+# uvicorn server:app --reload --port 8000
+# cmake -S . -B build && cmake --build build && cmake  --install build
+
 
 import market
 from market import MarketPlace
@@ -190,15 +193,29 @@ def staatKauf():
 
 
 def nutzerVerkauf():
+
+    response = requests.get(f"{base_api_url}/getMyOwnOffers/{idOfUser}").json()
+    myOffers = response["nachricht"]
+    if (len(response["nachricht"]) > 0):
+        print("Du hast aktuell diese Angebote veröffentlicht: ")
+        i = 0
+        for p in range(len(myOffers)):
+            print(myOffers[p])
+            i=i+1
+            if (i == 3):
+                print("\n")
+                i = 0
+
     # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
     response = requests.get(f"{base_api_url}/getMyInventar/{idOfUser}").json()
     myInventar = response["nachricht"]
-    print("In deinem Inventar befindet sich aktuell: ")
 
     # bekommt die Anzahl aller Elemente in meinem Inventar
     response = requests.get(
         f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
     myInventarAnzahl = (response["nachricht"])
+
+    print("In deinem Inventar befindet sich aktuell: ")
 
     # printet die Elemente und die dazugehörige Anzahl davon
     for i in range(0, len(myInventar)):

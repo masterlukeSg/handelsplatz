@@ -139,6 +139,7 @@ async def sellToUser(handelsgut: str, anzahl: int, preis: int, idOfUser: int):
                 "status": False}
     kauf = h.selltoUser(handelsgut, anzahl, preis, idOfUser)
     if (kauf):
+
         return {"nachricht": f"Du hast erfolgreich {anzahl}x {handelsgut} an als Angebot aufgegeben. Es wurde aus deinem Inventar entfernt",
                 "status": True}
 
@@ -194,10 +195,7 @@ async def getAllNutzerOffers(idOfUser: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        h.getAngebote(idOfUser)
         result = h.getAllNutzerOffers()
-        print(result)
-
         return {"nachricht": result, "status": True}
 
 
@@ -231,6 +229,17 @@ async def getMyBalance(idOfUser: int):
         return {"nachricht": "Bitte melde dich erstmal an", "status": False}
 
     return {"nachricht": h.getKontostand(idOfUser),
+            "status": True}
+
+
+@app.get("/getMyOwnOffers/{idOfUser}")
+async def getMyOwnOffers(idOfUser: int):
+    global user
+
+    if (idOfUser == 0):
+        return {"nachricht": "Bitte melde dich erstmal an", "status": False}
+   
+    return {"nachricht": h.getMyOwnOffers(idOfUser),
             "status": True}
 
 
