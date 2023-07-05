@@ -322,47 +322,71 @@ bool MarketPlace::selltoUser(string zuverkaufendesProdukt, int anzahl, int preis
     // überprüft ob nutzer schon ein angebot hat
     for (auto [nutzerName, alleInfos] : angeboteVonNutzern)
     {
-        if (nutzerName == getNutzer(id).getBenutzername())
+        for (auto [ichSelber, infos] : usersInformation)
         {
-            for (int i = 0; i < alleInfos.angebote.size(); i++)
+            if (ichSelber == getNutzer(id).getBenutzername())
             {
-                if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt)
+                if (nutzerName == getNutzer(id).getBenutzername())
                 {
-                    // Wenn anzahl == 0, dann angebot löschen und returnen
-                    if (anzahl == 0)
+                    for (int i = 0; i < alleInfos.angebote.size(); i++)
                     {
-                        angeboteVonNutzern.erase(nutzerName);
-                        return true;
-                    }
-                    // Anzahl und Preis aktualisieren
+                        if (alleInfos.angebote[i].getName() == zuverkaufendesProdukt)
+                        {
 
-                    alleInfos.anzahl[i] = anzahl;
-                    alleInfos.preis[i] = preis;
-                    angeboteVonNutzern[nutzerName] = alleInfos;
+                            std::cout << "wie viel hat der nutzer davon" << infos.user.handelsgutAnzahl(zuverkaufendesProdukt) << std::endl;
+
+                            // Wenn anzahl == 0, dann angebot löschen und returnen
+                            if (anzahl == 0)
+                            {
+                                angeboteVonNutzern.erase(nutzerName);
+                                return true;
+                            }
+                            else if (infos.user.handelsgutAnzahl(zuverkaufendesProdukt) < anzahl)
+                                return false;
+
+                            // Anzahl und Preis aktualisieren
+
+                            alleInfos.anzahl[i] = anzahl;
+                            alleInfos.preis[i] = preis;
+                            angeboteVonNutzern[nutzerName] = alleInfos;
+                            return true;
+                        }
+                    }
+                    if (infos.user.handelsgutAnzahl(zuverkaufendesProdukt) < anzahl)
+                        return false;
+
+                    // wenn  kein Angebot vorhanden, neues Angebot erstellen
+                    Handelsgueter h = Handelsgueter(zuverkaufendesProdukt, anzahl);
+
+                    alleInfos.angebote.push_back(h);
+                    alleInfos.preis.push_back(preis);
+                    alleInfos.anzahl.push_back(anzahl);
+
+                    angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
                     return true;
                 }
             }
+        }
+    }
 
-            // wenn kein Angebot vorhanden, neues Angebot erstellen
-            Handelsgueter h = Handelsgueter(zuverkaufendesProdukt, anzahl);
+    for (auto [ichSelber, infos] : usersInformation)
+    {
+        if (ichSelber == getNutzer(id).getBenutzername())
+        {
+            if (infos.user.handelsgutAnzahl(zuverkaufendesProdukt) < anzahl)
+                return false;
 
-            alleInfos.angebote.push_back(h);
-            alleInfos.preis.push_back(preis);
-            alleInfos.anzahl.push_back(anzahl);
+            struct alleInfos d;
+            Handelsgueter h2 = Handelsgueter(zuverkaufendesProdukt, anzahl);
 
-            angeboteVonNutzern[getNutzer(id).getBenutzername()] = alleInfos;
+            d.angebote.push_back(h2);
+            d.preis.push_back(preis);
+            d.anzahl.push_back(anzahl);
+
+            angeboteVonNutzern[getNutzer(id).getBenutzername()] = d;
             return true;
         }
     }
-    struct alleInfos d;
-    Handelsgueter h2 = Handelsgueter(zuverkaufendesProdukt, anzahl);
-
-    d.angebote.push_back(h2);
-    d.preis.push_back(preis);
-    d.anzahl.push_back(anzahl);
-
-    angeboteVonNutzern[getNutzer(id).getBenutzername()] = d;
-    return true;
 }
 
 vector<string> MarketPlace::getAllStaatOffers()
