@@ -10,10 +10,10 @@ using namespace handelsplatz;
 TEST(nutzer, getGuterVorratName){
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-     void addHandelsgut("wolle",3);
-     void addHandelsgut("auto",1);
-     void addHandelsgut("stift",1);
-    std::vector<std::string> expectedNames = {"wolle", "auto", "stift"};
+     user.addHandelsgut("kamera",3);
+     user.addHandelsgut("aktien",1);
+     user.addHandelsgut("buecher",1);
+    std::vector<std::string> expectedNames = {"kamera", "aktien", "buecher"};
     std::vector<std::string> actualNames = user.getGuterVorratName();
 
     EXPECT_EQ(expectedNames, actualNames) << "Die Gueter wurden nicht gefunden";
@@ -22,9 +22,9 @@ TEST(nutzer, getGuterVorratName){
 TEST(nutzer, getGuterVorratAnzahl){
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-     void addHandelsgut("wolle",3);
-     void addHandelsgut("auto",1);
-     void addHandelsgut("stift",1);
+     user.addHandelsgut("kamera",3);
+     user.addHandelsgut("aktien",1);
+     user.addHandelsgut("buecher",1);
     std::vector<int> expectedAmounts = {3, 1, 1};
     std::vector<int> actualAmounts = user.getGuterVorratAnzahl();
 
@@ -44,7 +44,8 @@ TEST(nutzer, setKontostand)
     EXPECT_EQ(expectedKontostand, actualKontostand) << "false"; 
 }
 
-Test(nutzer, getKontostand){
+Test(nutzer, getKontostand)
+{
     nutzer user;
     int expectedKontostand=4000;
     int actualKontostand=user.getKontostand();
@@ -78,9 +79,9 @@ TEST(nutzer, hatHandelsgut)
 {
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-    void addHandelsgut("wolle",4);
+    user.addHandelsgut("Kamera",4);
     bool expectedResult = true;
-    bool actualResult = user.hatHandelsgut("wolle");
+    bool actualResult = user.hatHandelsgut("Kamera");
 
    EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut ist nicht in dem Inventar vorhanden";
 }
@@ -89,9 +90,9 @@ TEST(nutzer, handelsgutAnzahl)
 {
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-    void addHandelsgut("sparschwein",5);
+    user.addHandelsgut("Kamera",5);
     int expectedResult = 5;
-    int actualResult = user.handelsgutAnzahl("sparschwein");
+    int actualResult = user.handelsgutAnzahl("Kamera");
 
     EXPECT_EQ(expectedResult, actualResult)<<"Sie haben nicht so viele von dem ganannten Gut";
 }
@@ -100,9 +101,9 @@ TEST(nutzer, addHandelsgut)
 {
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-    void addHandelsgut("wolle",4);
+    user.addHandelsgut("Kamera",4);
     bool expectedResult = true;
-    bool actualResult = user.hatHandelsgut("wolle");
+    bool actualResult = user.hatHandelsgut("Kamera");
 
    EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut wurde nicht hinzugefuegt";
 }
@@ -111,9 +112,9 @@ TEST(nutzer, removeHandelsgut)
 {
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user
-    void addHandelsgut("Auto",5);
+    user.addHandelsgut("Kamera",5);
     bool expectedResult = true;
-    bool actualResult = user.removeHandelsgut("Auto", 5);
+    bool actualResult = user.removeHandelsgut("Kamera", 5);
 
     // Check if the item was successfully removed from the 'guetervorrat' member variable of 'user'
     EXPECT_EQ(expectedResult, actualResult)<<"Das Handelsgut konnte nicht entfernt werden, da es nicht existiert";
