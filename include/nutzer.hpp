@@ -7,41 +7,103 @@
 using namespace std;
 namespace handelsplatz
 {
-  class nutzer
-  {
+    class nutzer
+    {
 
-  private:
-    int kontostand;
+    private:
+        int kontostand;
 
-    map<string, Handelsgueter> guetervorrat;
-    // vector<Handelsgueter> guetervorrat;
-    std::string benutzername;
-    std::string passwort;
+        map<string, Handelsgueter> guetervorrat;
 
-  public:
-    nutzer(std::string benutzername_, std::string passwort_, int kontostand_) : benutzername(benutzername_), passwort(passwort_), kontostand(kontostand_){};
-    nutzer(){};
+        std::string benutzername;
+        std::string passwort;
 
-    int getKontostand() const;
+    public:
+        nutzer(std::string benutzername_, std::string passwort_, int kontostand_) : benutzername(benutzername_), passwort(passwort_), kontostand(kontostand_){};
+        nutzer(){};
 
-    vector<string> getGuterVorratName();
-    vector<int> getGuterVorratAnzahl();
+        /**
+         * @brief Get the Kontostand
+         *
+         * @return int
+         */
+        int getKontostand() const;
 
-    map<string, Handelsgueter> getGueterVorrat();
+        /**
+         * @brief Get the Guter Vorrat Name
+         *
+         * @return vector<string>
+         */
+        vector<string> getGuterVorratName();
 
-    void setKontostand(int neu);
+        /**
+         * @brief Get the Guter Vorrat Anzahl
+         *
+         * @return vector<int>
+         */
+        vector<int> getGuterVorratAnzahl();
 
-    bool hatHandelsgut(string name);
+        /**
+         * @brief Get the Gueter Vorrat object
+         *
+         * @return map<string, Handelsgueter>
+         */
+        map<string, Handelsgueter> getGueterVorrat();
 
-    int handelsgutAnzahl(string name);
+        /**
+         * @brief Set the Kontostand
+         *
+         * @param neu
+         */
+        void setKontostand(int neu);
+        /**
+         * @brief Hat ein Nutzer das Handelsgut
+         *
+         * @param name
+         * @return true
+         * @return false
+         */
+        bool hatHandelsgut(string name);
 
-    void addHandelsgut(string name, int anzahl);
+        /**
+         * @brief Wie viele Handelsgüter hat der Nutzer von dem übergbenen Handelsgut
+         *
+         * @param name
+         * @return int
+         */
+        int handelsgutAnzahl(string name);
 
-    bool removeHandelsgut(string name, int anzahl);
+        /**
+         * @brief Fügt Handelsgut hinzu
+         *
+         * @param name
+         * @param anzahl
+         */
+        void addHandelsgut(string name, int anzahl);
 
-    std::string getBenutzername() const;
+        /**
+         * @brief Entfernt Handelsgut vom Nutzer
+         *
+         * @param name
+         * @param anzahl
+         * @return true
+         * @return false
+         */
+        bool removeHandelsgut(string name, int anzahl);
 
-    std::string getPasswort() const;
-  };
+        /**
+         * @brief Get the Benutzername object
+         *
+         * @return std::string
+         */
+        std::string getBenutzername() const;
+
+        /**
+         * @brief Get the Passwort
+         *
+         * @return std::string
+         */
+        std::string getPasswort() const;
+    };
 
 }
