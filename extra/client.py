@@ -221,28 +221,35 @@ def nutzerVerkauf():
     for i in range(0, len(myInventar)):
         print("Du hast " +
               str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
+        
+    verkaufen= input("Willst du etwas verkaufen? [J/N]:")
 
-    item = str(input("Was willst du verkaufen?: "))
-    anzahl = int(input("Wie viel willst du verkaufen?: "))
-    preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+    while(verkaufen == "J"):
 
-    response = requests.get(
-        f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
-
-    while not response["status"]:
-        print(response["nachricht"])
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
         preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
         response = requests.get(
             f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
-        if (response["status"]):
-            print(response["nachricht"])
-            return
 
-    print(response["nachricht"])
-    return
+        while not response["status"]:
+            print(response["nachricht"])
+            item = str(input("Was willst du verkaufen?: "))
+            anzahl = int(input("Wie viel willst du verkaufen?: "))
+            preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
+
+            response = requests.get(
+                f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
+            if (response["status"]):
+                print(response["nachricht"])
+                return
+
+        print(response["nachricht"])
+        return
+    
+    else:
+        return
 
 
 def staatVerkauf():
@@ -261,26 +268,32 @@ def staatVerkauf():
         print("Du hast " +
               str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
 
-    if (len(myInventarAnzahl) > 0):
-        item = str(input("Was willst du verkaufen?: "))
-        anzahl = int(input("Wie viel willst du verkaufen?: "))
+    verkaufen= input("Willst du etwas verkaufen? [J/N]:")
 
-        response = requests.get(
-            f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}/{idOfUser}").json()
+    while( verkaufen == "J"):
 
-        while response["status"] == False:
-            print(response["nachricht"])
+        if (len(myInventarAnzahl) > 0):
             item = str(input("Was willst du verkaufen?: "))
             anzahl = int(input("Wie viel willst du verkaufen?: "))
 
             response = requests.get(
                 f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}/{idOfUser}").json()
 
-        print(response["nachricht"])
-        return
+            while response["status"] == False:
+                print(response["nachricht"])
+                item = str(input("Was willst du verkaufen?: "))
+                anzahl = int(input("Wie viel willst du verkaufen?: "))
 
+                response = requests.get(
+                    f"{base_api_url}/sellToMarketPlace/{item}/{anzahl}/{idOfUser}").json()
+
+            print(response["nachricht"])
+            return
+
+        else:
+            print("Leider hast du keine Handelsgüter zu verkaufen")
+            return
     else:
-        print("Leider hast du keine Handelsgüter zu verkaufen")
         return
 
 
