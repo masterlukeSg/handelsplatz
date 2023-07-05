@@ -10,9 +10,9 @@ using namespace handelsplatz;
 TEST(nutzer, getGuterVorratName){
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-     void addHandelsgut("wolle",3);
-     void addHandelsgut("auto",1);
-     void addHandelsgut("stift",1);
+    void addHandelsgut("Kamera",3);
+    void addHandelsgut("Puma",1);
+    void addHandelsgut("VodkaE",1);
     std::vector<std::string> expectedNames = {"wolle", "auto", "stift"};
     std::vector<std::string> actualNames = user.getGuterVorratName();
 
@@ -22,9 +22,9 @@ TEST(nutzer, getGuterVorratName){
 TEST(nutzer, getGuterVorratAnzahl){
     nutzer user;
     // Add test data to the 'guetervorrat' member variable of 'user'
-     void addHandelsgut("wolle",3);
-     void addHandelsgut("auto",1);
-     void addHandelsgut("stift",1);
+    void addHandelsgut("wolle",3);
+    void addHandelsgut("auto",1);
+    void addHandelsgut("stift",1);
     std::vector<int> expectedAmounts = {3, 1, 1};
     std::vector<int> actualAmounts = user.getGuterVorratAnzahl();
 
