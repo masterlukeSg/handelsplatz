@@ -7,8 +7,7 @@ from market import MarketPlace
 from typing import Union
 import os
 import random
-from threading import Thread
-import time
+from threading import Timer
 import uvicorn
 from fastapi import FastAPI, Request
 
@@ -17,6 +16,17 @@ app = FastAPI()
 h = MarketPlace()
 
 
+def preisanpassung():
+    h.preisanpassung()
+    return
+
+
+# t = Timer(20.0, preisanpassung)
+# t.start()
+
+# TODO: preisanpassungs fkt aufrufen
+
+idOfUser = 0
 user = None
 
 
@@ -73,10 +83,10 @@ async def register(request: Request):
         return {"nachricht": f"Willkommen {name} auf unserem Handelsplatz.",
                 "status": True,
                 "idOfUser": idOfUser}
-    else:
-        idOfUser = 0
-        return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
-                "status": False}
+
+    idOfUser = 0
+    return {"nachricht": "Leider hat das erstellen eines neuen Nutzers nicht geklappt. Versuche es erneut",
+            "status": False}
 
 
 @app.get("/buyFromMarketPlace/{handelsgut}/{anzahl}/{idOfUser}")
@@ -90,8 +100,7 @@ async def buyFromMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
     kauf = h.buyFromMarketPlace(handelsgut, anzahl, idOfUser)
     if (kauf):
-        # Nach dem Kauf wird der Preis angepasst
-        h.preisanpassung()
+        preisanpassung()
         return {"nachricht": f"Dein Kauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und zu deinem Invetar hinzugefuegt.",
                 "status": True}
     else:
@@ -121,8 +130,8 @@ async def sellToMarketPlace(handelsgut: str, anzahl: int, idOfUser: int):
 
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
-    kauf = h.sellToMarketPlace(str(handelsgut), int(anzahl), int(idOfUser))
-    if (kauf):
+
+    if (h.sellToMarketPlace(str(handelsgut), int(anzahl), int(idOfUser))):
         return {"nachricht": f"Dein Verkauf von {anzahl}x {handelsgut} wurde erfolgreich abgeschloßen und von deinem Invetar entfernt.",
                 "status": True}
     else:
@@ -143,7 +152,7 @@ async def sellToUser(handelsgut: str, anzahl: int, preis: int, idOfUser: int):
                 "status": True}
 
     else:
-        return {"nachricht": "Leider ist etwas schief geagngen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ",
+        return {"nachricht": "Leider ist etwas schief gegangen. Bitte überprüfe: deinen Kontostand, sowie den Namen des Handelsguts und des Verkäufers ",
                 "status": False}
 
 
@@ -182,7 +191,7 @@ async def getAllStaatOffers(idOfUser: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        result = h.getAllStaatOffers()
+        result = h.getAllStaatOffers()  # Annahme: result enthält die Rückgabewerte aus C++
         output_list = [result[i:i+2] for i in range(0, len(result), 2)]
 
         return {"nachricht": output_list, "status": True}
@@ -194,9 +203,8 @@ async def getAllNutzerOffers(idOfUser: int):
     if (idOfUser == 0):
         return {"nachricht": "Bitte melde dich erst einmal an", "status": False}
     else:
-        h.getAngebote(idOfUser)
-        result = h.getAllNutzerOffers()
-        print(result)
+        result = h.getAllNutzerOffers()  # Annahme: result enthält die Rückgabewerte aus C++
+        # output_list = [result[i:i+2] for i in range(0, len(result), 2)]
 
         return {"nachricht": result, "status": True}
 
