@@ -71,8 +71,8 @@ MarketPlace::MarketPlace()
 {
 
     // the constructor provides our trade goods that we want to sell
-    vector<string> nameDerverkaufendeProdukte = {"Koelsch", "Helles", "Kamera", "Aktien", "Film", "Spiele", "Buecher", "Maus", "ColorTheme", "Wolle"};
-    vector<int> wertDerverkaufendeProdukte = {3, 2, 30, 75, 13, 28, 16, 35, 5, 2};
+    vector<string> nameDerverkaufendeProdukte = {"Koelsch", "Helles", "Kamera", "Puma", "Film", "Spiele", "Buecher", "VodkaE", "KastenBier", "Wolle"};
+    vector<int> wertDerverkaufendeProdukte = {3, 2, 30, 75, 13, 28, 8, 5, 20, 1};
 
     // the for loop creates the given goods in the vertor as instances
     // of the class Handelsgueter

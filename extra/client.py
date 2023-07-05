@@ -123,8 +123,6 @@ def nutzerKauf():
         f"{base_api_url}/getAllNutzerOffers/{idOfUser}").json()
     print(response["nachricht"])
 
-
-
     if (len(response["nachricht"]) == 0):
         print("Leider gibt es aktuell keine Angebote von Nutzern")
         return
@@ -150,7 +148,7 @@ def nutzerKauf():
             if (response["status"]):
                 print(response["nachricht"])
                 return
-    
+
         print(response["nachricht"])
         return
 
@@ -211,7 +209,6 @@ def nutzerVerkauf():
     anzahl = int(input("Wie viel willst du verkaufen?: "))
     preis = int(input("Wie viel verlangst du pro Handelsgut?: "))
 
-
     response = requests.get(
         f"{base_api_url}/sellToUsers/{item}/{anzahl}/{preis}/{idOfUser}").json()
 
@@ -232,12 +229,22 @@ def nutzerVerkauf():
 
 
 def staatVerkauf():
-    print("In deinem Inventar befindet sich: ")
+   # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
     response = requests.get(f"{base_api_url}/getMyInventar/{idOfUser}").json()
+    myInventar = response["nachricht"]
+    print("In deinem Inventar befindet sich aktuell: ")
 
-    print(response["nachricht"])
+    # bekommt die Anzahl aller Elemente in meinem Inventar
+    response = requests.get(
+        f"{base_api_url}/getMyInventarAnzahl/{idOfUser}").json()
+    myInventarAnzahl = (response["nachricht"])
 
-    if (len(response["nachricht"]) > 0):
+    # printet die Elemente und die dazugehörige Anzahl davon
+    for i in range(0, len(myInventar)):
+        print("Du hast " +
+              str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
+
+    if (len(myInventarAnzahl) > 0):
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
 
