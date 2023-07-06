@@ -32,7 +32,7 @@ std::vector<string> MarketPlace::getMyOwnOffers(int id)
             {
                 rueckgabe.push_back("Name: " + alleInfos.angebote[i].getName());
 
-                rueckgabe.push_back("Preis: " + std::to_string(alleInfos.preis[i]));
+                rueckgabe.push_back("Preis pro Handelsgut: " + std::to_string(alleInfos.preis[i]));
 
                 rueckgabe.push_back("Anzahl: " + std::to_string(alleInfos.anzahl[i]));
             }
@@ -413,7 +413,7 @@ vector<string> MarketPlace::getAllNutzerOffers()
 
         for (int i = 0; i < alleInfos.angebote.size(); i++)
         {
-            returnVecotr.push_back(to_string(alleInfos.anzahl[i]) + "x " + alleInfos.angebote[i].getName() + " für: " + to_string(alleInfos.preis[i]));
+            returnVecotr.push_back(to_string(alleInfos.anzahl[i]) + "x " + alleInfos.angebote[i].getName() + " für: " + to_string(alleInfos.preis[i]) + " pro Handeslgut");
         }
         returnVecotr.push_back("\n");
     }
