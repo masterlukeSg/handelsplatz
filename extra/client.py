@@ -204,7 +204,7 @@ def nutzerVerkauf():
             print(myOffers[p])
             i = i+1
             if (i == 3):
-                print("\n")
+                print("")
                 i = 0
 
     # bekommt alle Elemente aus dem Inventar und speichert es in myInventar
