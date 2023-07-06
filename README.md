@@ -33,6 +33,15 @@ Die Klasse ist das Herzstück für unser Handelsplatz. Die Klasse bietet alle Fu
 Durch die login und register Funktionen hat jeder Nutzre sein eigenes Konto und kann nur auf sein Account zugreifen.
 ```
 
+## Server
+```
+Server implementiert den Marketplace und lässt den Client Kaufen, Verkaufen (vom Staat und von anderen Nutzern). Der Nutzer kann sich dort Anmelden oder Registrieren und seinen Account anzeigen lassen, wo die gekauften Elemente drinnen stehen, sowie der aktuelle Kontostand
+```
+
+## Client
+```
+Client greift auf den Server zu und übergibt dem Server die "Wünsche" der Nutzers, wie zb. etwas zu kaufen, zu verkaufen etc.
+```
 
 ## Start Projekt
 
