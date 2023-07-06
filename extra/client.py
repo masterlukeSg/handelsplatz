@@ -124,7 +124,7 @@ def willExit():
 def nutzerKauf():
     response = requests.get(
         f"{base_api_url}/getAllNutzerOffers/{idOfUser}").json()
-    for p in range(len(response["nachricht"])):
+    for p in range (len(response["nachricht"])):
         print(response["nachricht"][p])
 
     if (len(response["nachricht"]) == 0):
@@ -222,10 +222,10 @@ def nutzerVerkauf():
     for i in range(0, len(myInventar)):
         print("Du hast " +
               str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
-        
-    verkaufen= input("Willst du etwas verkaufen? [J/N]:")
 
-    while(verkaufen == "J"):
+    verkaufen = input("Willst du etwas verkaufen? [J/N]:")
+
+    while (verkaufen == "J"):
 
         item = str(input("Was willst du verkaufen?: "))
         anzahl = int(input("Wie viel willst du verkaufen?: "))
@@ -248,7 +248,7 @@ def nutzerVerkauf():
 
         print(response["nachricht"])
         return
-    
+
     else:
         return
 
@@ -269,9 +269,9 @@ def staatVerkauf():
         print("Du hast " +
               str(myInventarAnzahl[i]) + "x : " + str(myInventar[i]))
 
-    verkaufen= input("Willst du etwas verkaufen? [J/N]:")
+    verkaufen = input("Willst du etwas verkaufen? [J/N]:")
 
-    while( verkaufen == "J"):
+    while (verkaufen == "J"):
 
         if (len(myInventarAnzahl) > 0):
             item = str(input("Was willst du verkaufen?: "))

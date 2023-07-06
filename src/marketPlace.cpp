@@ -387,6 +387,7 @@ bool MarketPlace::selltoUser(string zuverkaufendesProdukt, int anzahl, int preis
             return true;
         }
     }
+    return false;
 }
 
 vector<string> MarketPlace::getAllStaatOffers()
@@ -408,15 +409,13 @@ vector<string> MarketPlace::getAllNutzerOffers()
     vector<string> returnVecotr;
     for (auto [nutzerName, alleInfos] : angeboteVonNutzern)
     {
-        returnVecotr.push_back(nutzerName);
+        returnVecotr.push_back(nutzerName + " verkauft:");
 
         for (int i = 0; i < alleInfos.angebote.size(); i++)
         {
-            returnVecotr.push_back(alleInfos.angebote[i].getName());
-            returnVecotr.push_back(to_string(alleInfos.anzahl[i]));
-            returnVecotr.push_back(to_string(alleInfos.preis[i]));
-            returnVecotr.push_back("\n");
+            returnVecotr.push_back(to_string(alleInfos.anzahl[i]) + "x " + alleInfos.angebote[i].getName() + " für: " + to_string(alleInfos.preis[i]));
         }
+        returnVecotr.push_back("\n");
     }
 
     return returnVecotr;
